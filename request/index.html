@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -184,6 +183,14 @@
       color:#111827;
     }
 
+    /* NEW: explicit grey button for "Requested" (disabled) */
+    .btn-grey{
+      background:#9ca3af;
+      cursor:not-allowed;
+      filter:none;
+      color:#ffffff;
+    }
+
     .badge{
       display:inline-block;
       padding: 3px 10px;
@@ -196,6 +203,8 @@
     }
     .badge-coming{ background:#fde7c2; color:#8a4b00; }
     .badge-onplex{ background:#cfead1; color:#14532d; }
+    /* NEW: requested badge */
+    .badge-requested{ background:#e5e7eb; color:#374151; }
 
     /* submitted view */
     .submitted-container{
@@ -271,7 +280,12 @@
   <script>
     const TMDB_API_KEY = "5bbfc2b05c0d49eea2032b35324ebc81";
     let plexTitles = [];
+
+    // Sheet status sets:
+    // - comingSoonKeys: in sheet + bucket == COMING_SOON
+    // - requestedKeys: in sheet + bucket != COMING_SOON
     let comingSoonKeys = new Set();
+    let requestedKeys = new Set();
 
     const COMING_SOON_CSV =
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vTtK9WGWZSlSJi58mOOBA01RBJ3OKeXeY9VyT4nnWFAKNL8C6SeoD8nz_srBPHupiqFr3_0Na53Y4Za/pub?gid=1263928559&single=true&output=csv";
@@ -281,12 +295,24 @@
       .then(d => plexTitles = d.map(i => `${i.title.toLowerCase()} (${i.year})`))
       .catch(() => { /* ignore */ });
 
+    // Load sheet and split IDs by bucket
     fetch(COMING_SOON_CSV)
       .then(r => r.text())
-      .then(csv =>
+      .then(csv => {
         Papa.parse(csv, { header: true, skipEmptyLines: true })
-          .data.forEach(row => row.TMDB_ID && comingSoonKeys.add(`movie:${row.TMDB_ID}`))
-      )
+          .data.forEach(row => {
+            const tmdb = (row.TMDB_ID || "").toString().trim();
+            const bucket = (row.bucket || "").toString().trim();
+
+            if (!tmdb) return;
+
+            // Keep existing behavior: sheet matches movies by TMDB_ID
+            const key = `movie:${tmdb}`;
+
+            if (bucket === "COMING_SOON") comingSoonKeys.add(key);
+            else requestedKeys.add(key);
+          });
+      })
       .catch(() => { /* ignore */ });
 
     async function searchMedia() {
@@ -303,8 +329,13 @@
         const name = item.title || item.name;
         const year = (item.release_date || item.first_air_date || "N/A").split("-")[0];
         const poster = item.poster_path ? `https://image.tmdb.org/t/p/w200${item.poster_path}` : "https://placehold.co/52x78";
+
         const isInPlex = plexTitles.includes(`${name.toLowerCase()} (${year})`);
-        const isComingSoon = comingSoonKeys.has(`${type}:${item.id}`);
+
+        // Sheet lookups (movies will match; tv will not with current sheet key format)
+        const key = `${type}:${item.id}`;
+        const isComingSoon = comingSoonKeys.has(key);
+        const isRequested = requestedKeys.has(key);
 
         let button = "";
         let badge = "";
@@ -315,6 +346,9 @@
         } else if (isComingSoon) {
           button = `<a href="https://agplexmedia-lab.github.io/stuff/coming-soon/" class="btn btn-orange" rel="noopener">Coming Soon</a>`;
           badge = `<span class="badge badge-coming">COMING SOON</span>`;
+        } else if (isRequested) {
+          button = `<button class="btn btn-grey" disabled>Requested</button>`;
+          badge = `<span class="badge badge-requested">REQUESTED</span>`;
         } else {
           button = `<button class="btn" onclick="submitRequest(${item.id},'${type}','${encodeURIComponent(name)}','${year}')">Request</button>`;
         }
