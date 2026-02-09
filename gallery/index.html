@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>AG Plexclusive Gallery</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
-    <!-- Favicon (you already have this file) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- Favicon -->
   <link rel="apple-touch-icon" href="../assets/favicon-180.png">
   <link rel="icon" type="image/png" href="../assets/favicon-180.png">
-
 
   <style>
     :root{
@@ -23,6 +23,9 @@
       --shadow-soft:0 6px 18px rgba(15, 23, 42, 0.10);
       --radius-xl:26px;
       --radius-lg:18px;
+
+      /* universal header accent */
+      --aqua:#28f2ff;
     }
 
     *{ box-sizing:border-box; }
@@ -32,14 +35,72 @@
       font-family:'Poppins',sans-serif;
       background: var(--page-bg);
       color: var(--text);
-      padding: 0 18px 44px;
+      padding: 0 18px 0;
       text-align:center;
+    }
+
+    /* =========================
+       UNIVERSAL HEADER
+       Home link set to /stuff/ (root)
+       If you want /stuff/home/ instead, change the href in the HTML.
+    ========================== */
+    .site-header{
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: calc(14px + env(safe-area-inset-top)) 14px 12px;
+      display:flex;
+      justify-content:center;
+      background: linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,0));
+      backdrop-filter: blur(6px);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding: 8px 18px;
+      border-radius: 18px;
+      border:1px solid rgba(0,0,0,.10);
+      background: rgba(255,255,255,.75);
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.10);
+      text-decoration:none;
+      color:#111827;
+      font-weight:900;
+      letter-spacing:1px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .brand img{
+      width:32px;
+      height:32px;
+      object-fit:contain;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,.25));
+    }
+
+    /* animated underline */
+    .brand::after{
+      content:"";
+      position:absolute;
+      left:18px;
+      right:18px;
+      bottom:6px;
+      height:3px;
+      background: linear-gradient(90deg, transparent, var(--aqua), transparent);
+      transform: scaleX(0);
+      transition: transform .35s ease;
+      border-radius:999px;
+    }
+    .brand:hover::after,
+    .brand:focus-visible::after{
+      transform: scaleX(1);
     }
 
     .wrap{ max-width: 1100px; margin: 0 auto; }
 
     .hero{
-      margin: 22px auto 0;
+      margin: 18px auto 0;
       background: var(--panel-bg);
       border-radius: var(--radius-xl);
       padding: 34px 18px 26px;
@@ -182,17 +243,73 @@
 
     a{ text-decoration:none; color:inherit; }
 
+    /* =========================
+       UNIVERSAL FOOTER
+    ========================== */
+    .site-footer{
+      margin-top: 34px;
+      padding: 26px 14px 34px;
+      text-align:center;
+      color:#0b5566;
+      background:#ffffff;
+      border-top: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .footer-nav{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:10px;
+      font-weight:600;
+      font-size:16px;
+    }
+
+    .footer-nav a{
+      color:#007b8a;
+      text-decoration: underline;
+    }
+
+    .footer-nav span{
+      color:#007b8a;
+      opacity:.6;
+    }
+
+    .footer-coming{
+      margin-top: 14px;
+    }
+
+    .footer-coming a{
+      font-weight:900;
+      font-size:20px;
+      color:#007b8a;
+      text-decoration: underline;
+      letter-spacing:1px;
+    }
+
     @media (max-width: 520px){
-      body{ padding: 0 14px 40px; }
+      body{ padding: 0 14px 0; }
       .grid-wrap{ padding: 14px; }
       .status-row{ flex-direction: column; align-items: stretch; }
       .search{ width: 100%; }
       .gallery{ gap: 12px; grid-template-columns: repeat(auto-fill, minmax(130px,1fr)); }
+
+      .footer-nav{ font-size:14px; }
+      .footer-coming a{ font-size:18px; }
     }
   </style>
 </head>
 
 <body>
+
+  <!-- UNIVERSAL HEADER -->
+  <header class="site-header">
+    <!-- HOME: change href to /stuff/home/ if that's your real home -->
+    <a href="https://agplexmedia-lab.github.io/stuff/" class="brand">
+      <img src="../assets/favicon-180.png" alt="AG Plex Home">
+      <span>AG PLEX</span>
+    </a>
+  </header>
+
   <div class="wrap">
     <div class="hero">
       <h1>🎬 AG Plexclusive Gallery</h1>
@@ -203,11 +320,6 @@
       </p>
     </div>
 
-    <div class="toolbar">
-      <div class="pill"><a href="../request/">Make a Request</a></div>
-      <div class="pill"><a href="https://agplexmedia-lab.github.io/stuff/coming-soon/">Coming Soon</a></div>
-      <div class="pill"><a href="../">Home</a></div>
-    </div>
 
     <div class="grid-wrap">
       <div class="status-row">
@@ -219,6 +331,29 @@
       <div class="empty" id="emptyState">No matches.</div>
     </div>
   </div>
+
+  <!-- UNIVERSAL FOOTER -->
+  <footer class="site-footer">
+    <nav class="footer-nav">
+      <a href="https://earnest-rugelach-35fda3.netlify.app/">Server Status</a>
+      <span>|</span>
+      <a href="https://agplexmedia-lab.github.io/stuff/request/">Make a Request for the Plex!</a>
+      <span>|</span>
+      <a href="https://agplexmedia-lab.github.io/stuff/gallery/">AG PLEXclusives</a>
+      <span>|</span>
+      <a href="https://plex-recs-rex.fly.dev/">Plex-Rec Bot</a>
+      <span>|</span>
+      <a href="https://tek-support.fly.dev/">Tech Support Bot</a>
+      <span>|</span>
+      <a href="https://sites.google.com/view/ag-plex/report-a-plex-problem">Report a Problem</a>
+      <span>|</span>
+      <a href="https://agplexmedia-lab.github.io/stuff/FAQ/">FAQ</a>
+    </nav>
+
+    <div class="footer-coming">
+      <a href="https://agplexmedia-lab.github.io/stuff/coming-soon/">COMING SOON</a>
+    </div>
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script>
@@ -247,7 +382,7 @@
       out.year = norm(out.year || out["Year"]);
       out.imdb_id = norm(out.imdb_id || out["imdb"] || out["imdbid"]);
       out.tmdb_id = norm(out.tmdb_id || out["tmdb"] || out["tmdbid"]);
-      out.media_type = norm(out.media_type || out["type"]); // movie/tv
+      out.media_type = norm(out.media_type || out["type"]);
       return out;
     }
 
@@ -295,7 +430,7 @@
 
     function appendCard({ title, year, href, poster }) {
       const a = document.createElement("a");
-      a.href = href;           // same tab by default
+      a.href = href;
       a.rel = "noopener";
 
       const card = document.createElement("div");
@@ -381,7 +516,6 @@
     async function fetchData(){
       statusText.textContent = "Loading titles…";
 
-      // Load all rows first (fast), then build posters (slower)
       const allRows = [];
       for (const url of SHEET_URLS) {
         try {
@@ -397,7 +531,6 @@
 
       statusText.textContent = `Loaded ${allRows.length} rows. Fetching posters…`;
 
-      // Build cards with small concurrency so it doesn't take forever
       const CONCURRENCY = 6;
       let i = 0;
 
