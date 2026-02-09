@@ -296,24 +296,25 @@
       .catch(() => { /* ignore */ });
 
     // Load sheet and split IDs by bucket
-    fetch(COMING_SOON_CSV)
-      .then(r => r.text())
-      .then(csv => {
-        Papa.parse(csv, { header: true, skipEmptyLines: true })
-          .data.forEach(row => {
-            const tmdb = (row.TMDB_ID || "").toString().trim();
-            const bucket = (row.bucket || "").toString().trim();
+   fetch(COMING_SOON_CSV)
+  .then(r => r.text())
+  .then(csv => {
+    Papa.parse(csv, { header: true, skipEmptyLines: true })
+      .data.forEach(row => {
+        const tmdb = (row.TMDB_ID || "").toString().trim();
 
-            if (!tmdb) return;
+        // Column is "Bucket" and value is "COMING_SOON"
+        const bucket = (row.Bucket || "").toString().trim().toUpperCase();
 
-            // Keep existing behavior: sheet matches movies by TMDB_ID
-            const key = `movie:${tmdb}`;
+        if (!tmdb) return;
 
-            if (bucket === "COMING_SOON") comingSoonKeys.add(key);
-            else requestedKeys.add(key);
-          });
-      })
-      .catch(() => { /* ignore */ });
+        const key = `movie:${tmdb}`;
+
+        if (bucket === "COMING_SOON") comingSoonKeys.add(key);
+        else requestedKeys.add(key);
+      });
+  })
+  .catch(() => { /* ignore */ });
 
     async function searchMedia() {
       const q = searchInput.value.trim();
