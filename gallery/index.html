@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>AG Plexclusive Gallery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --site-blue:#1f78c8;
+      --panel-bg:#dff0ff;
+      --page-bg:#f3f6fb;
+      --card-bg:#ffffff;
+      --text:#0f172a;
+      --muted:#334155;
+      --shadow:0 10px 25px rgba(15, 23, 42, 0.12);
+      --shadow-soft:0 6px 18px rgba(15, 23, 42, 0.10);
+      --radius-xl:26px;
+      --radius-lg:18px;
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family:'Poppins',sans-serif;
+      background: var(--page-bg);
+      color: var(--text);
+      padding: 0 18px 44px;
+      text-align:center;
+    }
+
+    .wrap{ max-width: 1100px; margin: 0 auto; }
+
+    .hero{
+      margin: 22px auto 0;
+      background: var(--panel-bg);
+      border-radius: var(--radius-xl);
+      padding: 34px 18px 26px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    h1{
+      margin: 0 0 10px;
+      font-size: clamp(28px, 4vw, 44px);
+      color: var(--site-blue);
+      letter-spacing: -0.5px;
+    }
+
+    .desc{
+      margin: 0 auto;
+      max-width: 850px;
+      font-size: 16px;
+      line-height: 1.55;
+      color: #111827;
+    }
+    .desc strong{ font-weight: 700; }
+
+    .toolbar{
+      max-width: 980px;
+      margin: 18px auto 0;
+      display:flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #ffffff;
+      box-shadow: var(--shadow-soft);
+      font-size: 14px;
+      color: #0f172a;
+    }
+
+    .pill a{
+      color: var(--site-blue);
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    .grid-wrap{
+      max-width: 1100px;
+      margin: 22px auto 0;
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      text-align:left;
+    }
+
+    .status-row{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      padding: 2px 6px;
+    }
+
+    .status{
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .search{
+      width: 280px;
+      max-width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      font-size: 14px;
+      outline:none;
+    }
+    .search:focus{
+      border-color: var(--site-blue);
+      box-shadow: 0 0 0 4px rgba(31,120,200,0.18);
+    }
+
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px,1fr));
+      gap: 16px;
+    }
+
+    .card{
+      background:#f4f6f9;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      overflow:hidden;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+      transition: transform .12s ease, box-shadow .12s ease;
+      cursor:pointer;
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.10);
+    }
+
+    .poster{
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      background: #e5e7eb;
+      display:block;
+      object-fit: cover;
+    }
+
+    .title{
+      padding: 10px 10px 12px;
+      font-size: 13px;
+      line-height: 1.25;
+      color:#0f172a;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .title span{
+      font-weight: 600;
+      color:#475569;
+    }
+
+    .empty{
+      display:none;
+      text-align:center;
+      padding: 30px 10px;
+      color:#64748b;
+      font-weight: 700;
+    }
+
+    a{ text-decoration:none; color:inherit; }
+
+    @media (max-width: 520px){
+      body{ padding: 0 14px 40px; }
+      .grid-wrap{ padding: 14px; }
+      .status-row{ flex-direction: column; align-items: stretch; }
+      .search{ width: 100%; }
+      .gallery{ gap: 12px; grid-template-columns: repeat(auto-fill, minmax(130px,1fr)); }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <h1>🎬 AG Plexclusive Gallery</h1>
+      <p class="desc">
+        Welcome to the <strong>AG Plexclusive Gallery</strong>! These rare picks live <strong>exclusively</strong> on AG Plex.
+        My server scans streaming & rental services and adds any unique/unavailable titles to this collection.
+        Browse, discover, and marvel at the exclusivity 🍿
+      </p>
+    </div>
+
+    <div class="toolbar">
+      <div class="pill"><a href="../request/">Make a Request</a></div>
+      <div class="pill"><a href="https://sites.google.com/view/ag-plex/coming-soon">Coming Soon</a></div>
+      <div class="pill"><a href="../">Home</a></div>
+    </div>
+
+    <div class="grid-wrap">
+      <div class="status-row">
+        <div class="status" id="statusText">Loading titles…</div>
+        <input class="search" id="filterInput" placeholder="Filter by title…" />
+      </div>
+
+      <div class="gallery" id="gallery"></div>
+      <div class="empty" id="emptyState">No matches.</div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script>
+    const SHEET_URLS = [
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTtK9WGWZSlSJi58mOOBA01RBJ3OKeXeY9VyT4nnWFAKNL8C6SeoD8nz_srBPHupiqFr3_0Na53Y4Za/pub?gid=410187338&single=true&output=csv",
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTtK9WGWZSlSJi58mOOBA01RBJ3OKeXeY9VyT4nnWFAKNL8C6SeoD8nz_srBPHupiqFr3_0Na53Y4Za/pub?gid=97375684&single=true&output=csv"
+    ];
+
+    const TMDB_API_KEY = "5bbfc2b05c0d49eea2032b35324ebc81";
+
+    const galleryEl = document.getElementById("gallery");
+    const statusText = document.getElementById("statusText");
+    const filterInput = document.getElementById("filterInput");
+    const emptyState = document.getElementById("emptyState");
+
+    const seen = new Set();
+    const cards = []; // {el, titleLower}
+
+    const norm = v => (v ?? "").toString().trim();
+
+    function lcRow(row) {
+      const out = {};
+      for (const k in row) out[k.toLowerCase()] = row[k];
+
+      out.title = norm(out.title || out["Title"]);
+      out.year = norm(out.year || out["Year"]);
+      out.imdb_id = norm(out.imdb_id || out["imdb"] || out["imdbid"]);
+      out.tmdb_id = norm(out.tmdb_id || out["tmdb"] || out["tmdbid"]);
+      out.media_type = norm(out.media_type || out["type"]); // movie/tv
+      return out;
+    }
+
+    async function fetchCSV(url) {
+      const res = await fetch(url, { cache: "no-store" });
+      const text = await res.text();
+      const parsed = Papa.parse(text, { header: true, skipEmptyLines: true });
+      return parsed.data.map(lcRow);
+    }
+
+    async function tmdbFromImdb(imdbId) {
+      const url = `https://api.themoviedb.org/3/find/${encodeURIComponent(imdbId)}?api_key=${TMDB_API_KEY}&external_source=imdb_id`;
+      const j = await (await fetch(url)).json();
+      if (j.movie_results?.length) return { id: j.movie_results[0].id, type: "movie" };
+      if (j.tv_results?.length)    return { id: j.tv_results[0].id,    type: "tv" };
+      return null;
+    }
+
+    async function tmdbFromSearch(title, year, preferType) {
+      const order = preferType === "tv" ? ["tv","movie"] : ["movie","tv"];
+      for (const type of order) {
+        const base = `https://api.themoviedb.org/3/search/${type}?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(title)}`;
+        const y = year ? (type==="movie" ? `&year=${encodeURIComponent(year)}` : `&first_air_date_year=${encodeURIComponent(year)}`) : "";
+        const j = await (await fetch(base + y)).json();
+        if (j.results?.length) return { id: j.results[0].id, type };
+      }
+      return null;
+    }
+
+    async function resolveTmdb(row) {
+      const imdb = row.imdb_id;
+      const tmdb = row.tmdb_id;
+      const type = row.media_type || "";
+
+      if (tmdb && /^\d+$/.test(tmdb)) return { id: tmdb, type: type || "movie" };
+
+      if (imdb) {
+        const found = await tmdbFromImdb(imdb);
+        if (found) return found;
+      }
+
+      if (!row.title) return null;
+      return await tmdbFromSearch(row.title, row.year, type || "movie");
+    }
+
+    function appendCard({ title, year, href, poster }) {
+      const a = document.createElement("a");
+      a.href = href;           // same tab by default
+      a.rel = "noopener";
+
+      const card = document.createElement("div");
+      card.className = "card";
+
+      const img = document.createElement("img");
+      img.className = "poster";
+      img.src = poster;
+      img.alt = `${title} poster`;
+
+      const t = document.createElement("div");
+      t.className = "title";
+      t.innerHTML = `${escapeHtml(title)}${year ? ` <span>(${escapeHtml(year)})</span>` : ""}`;
+
+      card.appendChild(img);
+      card.appendChild(t);
+      a.appendChild(card);
+      galleryEl.appendChild(a);
+
+      cards.push({ el: a, titleLower: title.toLowerCase() });
+    }
+
+    function escapeHtml(str){
+      return (str ?? "").toString()
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    async function buildCard(row){
+      const title = row.title;
+      if (!title) return;
+
+      const key = row.imdb_id ? `imdb:${row.imdb_id}` : `${title}|${row.year}`;
+      if (seen.has(key)) return;
+      seen.add(key);
+
+      let href = `https://www.themoviedb.org/search?query=${encodeURIComponent(title)}`;
+      let poster = "https://placehold.co/300x450?text=No+Poster";
+
+      try {
+        const imdbId = row.imdb_id;
+        if (imdbId) href = `https://www.imdb.com/title/${imdbId}/`;
+
+        const resolved = await resolveTmdb(row);
+        if (resolved) {
+          const { id, type } = resolved;
+          const [details, externals] = await Promise.all([
+            fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${TMDB_API_KEY}`).then(r=>r.json()),
+            fetch(`https://api.themoviedb.org/3/${type}/${id}/external_ids?api_key=${TMDB_API_KEY}`).then(r=>r.json())
+          ]);
+
+          if (details.poster_path) poster = `https://image.tmdb.org/t/p/w342${details.poster_path}`;
+
+          if (!imdbId && externals.imdb_id) href = `https://www.imdb.com/title/${externals.imdb_id}/`;
+          else if (!imdbId) href = `https://www.themoviedb.org/${type}/${id}`;
+        }
+      } catch (e) {
+        console.error("Card build error for", title, e);
+      }
+
+      appendCard({ title, year: row.year, href, poster });
+    }
+
+    function applyFilter(){
+      const q = filterInput.value.trim().toLowerCase();
+      let shown = 0;
+
+      for (const c of cards){
+        const match = !q || c.titleLower.includes(q);
+        c.el.style.display = match ? "" : "none";
+        if (match) shown++;
+      }
+
+      emptyState.style.display = shown ? "none" : "block";
+      statusText.textContent = `Showing ${shown} of ${cards.length} titles`;
+    }
+
+    filterInput.addEventListener("input", applyFilter);
+
+    async function fetchData(){
+      statusText.textContent = "Loading titles…";
+
+      // Load all rows first (fast), then build posters (slower)
+      const allRows = [];
+      for (const url of SHEET_URLS) {
+        try {
+          const rows = await fetchCSV(url);
+          for (const row of rows) {
+            if (!row || (!row.title && !row.imdb_id && !row.tmdb_id)) continue;
+            allRows.push(row);
+          }
+        } catch (e) {
+          console.error("Error loading from", url, e);
+        }
+      }
+
+      statusText.textContent = `Loaded ${allRows.length} rows. Fetching posters…`;
+
+      // Build cards with small concurrency so it doesn't take forever
+      const CONCURRENCY = 6;
+      let i = 0;
+
+      async function worker(){
+        while (i < allRows.length){
+          const row = allRows[i++];
+          await buildCard(row);
+          statusText.textContent = `Building posters… (${cards.length})`;
+        }
+      }
+
+      await Promise.all(Array.from({length: CONCURRENCY}, worker));
+
+      statusText.textContent = `Showing ${cards.length} of ${cards.length} titles`;
+      applyFilter();
+    }
+
+    fetchData();
+  </script>
+</body>
+</html>
