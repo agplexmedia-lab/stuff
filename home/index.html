@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>AG Plex — Home</title>
 
-  <!-- Favicon / top icon -->
+  <!-- Favicon -->
   <link rel="apple-touch-icon" href="../assets/favicon-180.png">
   <link rel="icon" type="image/png" href="../assets/favicon-180.png">
 
@@ -28,90 +28,72 @@
       font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       color:var(--white);
       min-height:100vh;
-
       background:
         linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.55)),
         url("../assets/bgphoto.png") center/cover no-repeat fixed;
     }
 
+    /* ===== TOP BAR ===== */
     .topbar{
       position:sticky;
       top:0;
       z-index:10;
       padding: calc(14px + env(safe-area-inset-top)) 14px 12px;
       display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
+      justify-content:center;
       background: linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,0));
       backdrop-filter: blur(6px);
     }
 
-    .icon-btn{
-      width:46px;
-      height:46px;
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,.18);
-      background: rgba(0,0,0,.25);
-      display:grid;
-      place-items:center;
-      box-shadow: var(--shadow);
-      cursor:pointer;
-      user-select:none;
-    }
-    .icon-btn:active{ transform: translateY(1px); }
-
-    .burger{
-      width:22px;
-      height:14px;
-      position:relative;
-    }
-    .burger span{
-      position:absolute; left:0; right:0;
-      height:2.5px;
-      background:#fff;
-      border-radius:999px;
-      opacity:.95;
-    }
-    .burger span:nth-child(1){ top:0; }
-    .burger span:nth-child(2){ top:5.75px; }
-    .burger span:nth-child(3){ bottom:0; }
-
-    .search{
-      width:20px; height:20px;
-      border:2.5px solid #fff;
-      border-radius:50%;
-      position:relative;
-      opacity:.95;
-    }
-    .search:after{
-      content:"";
-      position:absolute;
-      width:10px; height:2.5px;
-      background:#fff;
-      border-radius:999px;
-      right:-7px; bottom:-5px;
-      transform: rotate(45deg);
-    }
-
-    .mascot{
-      width:46px;
-      height:46px;
-      border-radius: 16px;
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding: 8px 18px;
+      border-radius: 18px;
       border:1px solid rgba(255,255,255,.18);
       background: rgba(0,0,0,.25);
       box-shadow: var(--shadow);
-      display:grid;
-      place-items:center;
+      text-decoration:none;
+      color:#ffffff;
+      font-weight:900;
+      letter-spacing:1px;
+      position:relative;
       overflow:hidden;
     }
-    .mascot img{
-      width:34px;
-      height:34px;
+
+    .brand img{
+      width:32px;
+      height:32px;
       object-fit:contain;
       filter: drop-shadow(0 2px 6px rgba(0,0,0,.55));
     }
 
+    /* animated underline */
+    .brand::after{
+      content:"";
+      position:absolute;
+      left:18px;
+      right:18px;
+      bottom:6px;
+      height:3px;
+      background: linear-gradient(90deg, transparent, var(--aqua), transparent);
+      transform: scaleX(0);
+      transform-origin:center;
+      transition: transform .35s ease;
+      border-radius:999px;
+    }
+
+    .brand:hover::after,
+    .brand:focus-visible::after{
+      transform: scaleX(1);
+    }
+
+    .brand:active{
+      transform: translateY(1px);
+    }
+
+    /* ===== CONTENT ===== */
     .wrap{
       max-width: 860px;
       margin: 0 auto;
@@ -137,16 +119,16 @@
       letter-spacing: -0.6px;
       text-shadow: 0 2px 18px rgba(0,0,0,.55);
     }
-    .pin{ font-size: 1.05em; transform: translateY(-1px); }
 
     .links{
       list-style:none;
       padding:0;
-      margin: 0;
+      margin:0;
     }
+
     .links li{
       display:flex;
-      align-items:center;
+      align-items:flex-start; /* helps when link wraps to 2 lines */
       gap:12px;
       padding: 12px 6px;
     }
@@ -155,39 +137,46 @@
       width:8px; height:8px;
       background: rgba(255,255,255,.92);
       border-radius:2px;
-      flex: 0 0 auto;
       box-shadow: 0 2px 10px rgba(0,0,0,.35);
-      margin-left: 2px;
+      margin-top: 12px; /* aligns square with first line */
+      flex: 0 0 auto;
     }
 
     .linkline{
       display:flex;
-      align-items:baseline;
+      align-items:flex-start; /* better with multi-line titles */
       gap:10px;
-      min-width:0;
       flex:1;
+      min-width:0;
     }
 
     a.biglink{
       color: var(--aqua);
       font-weight: 900;
       font-style: italic;
+
+      /* FIX 1: slightly smaller / scales down on mobile */
+      font-size: clamp(18px, 3vw, 30px);
+
       text-decoration: underline;
       text-decoration-thickness: 3px;
       text-underline-offset: 6px;
-      font-size: clamp(22px, 3.2vw, 34px);
+
       letter-spacing: -0.3px;
       text-shadow: 0 2px 18px rgba(0,0,0,.55);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+
+      /* FIX 2: allow wrapping so nothing gets cut off */
+      white-space: normal;
+      overflow: visible;
+      text-overflow: unset;
+      display:inline;
     }
-    a.biglink:focus{ outline: 3px solid rgba(40,242,255,.35); outline-offset: 6px; border-radius: 10px; }
 
     .emoji{
       font-size: clamp(18px, 2.4vw, 26px);
       filter: drop-shadow(0 2px 10px rgba(0,0,0,.45));
       flex: 0 0 auto;
+      margin-top: 4px; /* aligns emoji with first line */
     }
 
     .hint{
@@ -199,72 +188,65 @@
     @media (max-width: 520px){
       .wrap{ padding: 10px 14px 36px; }
       .panel{ padding: 16px 14px 8px; border-radius: 20px; }
-      .links li{ padding: 11px 4px; }
       a.biglink{ text-decoration-thickness: 2.5px; text-underline-offset: 5px; }
-      .icon-btn, .mascot{ width:44px; height:44px; border-radius: 15px; }
+      .sq{ margin-top: 11px; }
     }
   </style>
 </head>
 
 <body>
+
+  <!-- HEADER -->
   <header class="topbar">
-    <div class="icon-btn" aria-label="Menu" title="Menu">
-      <div class="burger" aria-hidden="true">
-        <span></span><span></span><span></span>
-      </div>
-    </div>
-
-    <div class="mascot" aria-label="AG Plex">
+    <a href="https://agplexmedia-lab.github.io/stuff/home/" class="brand">
       <img src="../assets/favicon-180.png" alt="AG Plex Icon">
-    </div>
-
-    <div class="icon-btn" aria-label="Search" title="Search">
-      <div class="search" aria-hidden="true"></div>
-    </div>
+      <span>AG PLEX</span>
+    </a>
   </header>
 
+  <!-- CONTENT -->
   <main class="wrap">
     <section class="panel">
-      <div class="title"><span class="pin">📌</span> Quick Links:</div>
+      <div class="title">📌 Quick Links:</div>
 
       <ul class="links">
         <li>
-          <span class="sq" aria-hidden="true"></span>
+          <span class="sq"></span>
           <div class="linkline">
-            <a class="biglink" href="https://agplexmedia-lab.github.io/stuff/request/" rel="noopener">Make a Request for the Plex!</a>
-            <span class="emoji" aria-hidden="true">✌️</span>
+            <a class="biglink" href="https://agplexmedia-lab.github.io/stuff/request/">Make a Request for the Plex!</a>
+            <span class="emoji">✌️</span>
           </div>
         </li>
 
         <li>
-          <span class="sq" aria-hidden="true"></span>
+          <span class="sq"></span>
           <div class="linkline">
-            <a class="biglink" href="https://tek-support.fly.dev/" rel="noopener">Plex Support Bot</a>
-            <span class="emoji" aria-hidden="true">🐵</span>
+            <a class="biglink" href="https://tek-support.fly.dev/">Plex Support Bot</a>
+            <span class="emoji">🐵</span>
           </div>
         </li>
 
         <li>
-          <span class="sq" aria-hidden="true"></span>
+          <span class="sq"></span>
           <div class="linkline">
-            <a class="biglink" href="https://plex-recs-rex.fly.dev/" rel="noopener">Plex Recommendations Bot</a>
-            <span class="emoji" aria-hidden="true">🦖</span>
+            <a class="biglink" href="https://plex-recs-rex.fly.dev/">Plex Recommendations Bot</a>
+            <span class="emoji">🦖</span>
           </div>
         </li>
 
         <li>
-          <span class="sq" aria-hidden="true"></span>
+          <span class="sq"></span>
           <div class="linkline">
-            <a class="biglink" href="https://agplexmedia-lab.github.io/stuff/gallery/" rel="noopener">AG PLEXclusives Gallery</a>
-            <span class="emoji" aria-hidden="true">⭐</span>
+            <a class="biglink" href="https://agplexmedia-lab.github.io/stuff/gallery/">AG PLEXclusives Gallery</a>
+            <span class="emoji">⭐</span>
           </div>
         </li>
 
         <li>
-          <span class="sq" aria-hidden="true"></span>
+          <span class="sq"></span>
           <div class="linkline">
-            <a class="biglink" href="https://agplexmedia-lab.github.io/stuff/FAQ/" rel="noopener">FAQ</a>
-            <span class="emoji" aria-hidden="true">❓</span>
+            <a class="biglink" href="https://agplexmedia-lab.github.io/stuff/FAQ/">FAQ</a>
+            <span class="emoji">❓</span>
           </div>
         </li>
       </ul>
@@ -272,5 +254,6 @@
       <div class="hint">Tip: long-press / right-click a link to open in a new tab.</div>
     </section>
   </main>
+
 </body>
 </html>
