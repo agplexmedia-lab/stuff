@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Make a Request for the Plex</title>
 
-  <!-- Favicon (you already have this file) -->
+  <!-- Favicon -->
   <link rel="apple-touch-icon" href="../assets/favicon-180.png">
   <link rel="icon" type="image/png" href="../assets/favicon-180.png">
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --site-blue:#1f78c8;        /* header title blue */
-      --panel-bg:#dff0ff;         /* big rounded light-blue panel */
-      --page-bg:#f3f6fb;          /* page background */
+      --site-blue:#1f78c8;
+      --panel-bg:#dff0ff;
+      --page-bg:#f3f6fb;
       --card-bg:#ffffff;
       --text:#1f2937;
       --muted:#334155;
@@ -24,6 +24,10 @@
       --shadow-soft:0 6px 18px rgba(15, 23, 42, 0.10);
       --radius-xl:26px;
       --radius-lg:18px;
+
+      /* universal header accent */
+      --aqua:#28f2ff;
+      --shadow-strong:0 9px 28px rgba(0,0,0,.35);
     }
 
     * { box-sizing: border-box; }
@@ -34,18 +38,77 @@
       background: var(--page-bg);
       color: var(--text);
       text-align:center;
-      padding: 0 18px 40px;
+
+      /* leave room so sticky header doesn't feel glued */
+      padding: 0 18px 0;
+    }
+
+    /* =========================
+       UNIVERSAL HEADER
+    ========================== */
+    .site-header{
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: calc(14px + env(safe-area-inset-top)) 14px 12px;
+      display:flex;
+      justify-content:center;
+      background: linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,0));
+      backdrop-filter: blur(6px);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding: 8px 18px;
+      border-radius: 18px;
+      border:1px solid rgba(0,0,0,.10);
+      background: rgba(255,255,255,.75);
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.10);
+      text-decoration:none;
+      color:#111827;
+      font-weight:900;
+      letter-spacing:1px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .brand img{
+      width:32px;
+      height:32px;
+      object-fit:contain;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,.25));
+    }
+
+    /* animated underline */
+    .brand::after{
+      content:"";
+      position:absolute;
+      left:18px;
+      right:18px;
+      bottom:6px;
+      height:3px;
+      background: linear-gradient(90deg, transparent, var(--aqua), transparent);
+      transform: scaleX(0);
+      transition: transform .35s ease;
+      border-radius:999px;
+    }
+    .brand:hover::after,
+    .brand:focus-visible::after{
+      transform: scaleX(1);
     }
 
     /* keep everything centered + consistent width */
     .wrap{
       max-width: 980px;
       margin: 0 auto;
+      padding: 0 0 30px;
     }
 
     /* big rounded blue panel like your screenshot */
     .hero{
-      margin: 22px auto 0;
+      margin: 18px auto 0;
       background: var(--panel-bg);
       border-radius: var(--radius-xl);
       padding: 34px 18px 26px;
@@ -107,9 +170,7 @@
       box-shadow: 0 0 0 4px rgba(31,120,200,0.18);
     }
 
-    #results{
-      margin-top: 10px;
-    }
+    #results{ margin-top: 10px; }
 
     .result-item{
       display:flex;
@@ -150,9 +211,7 @@
       vertical-align: bottom;
     }
 
-    .buttons{
-      flex: 0 0 auto;
-    }
+    .buttons{ flex: 0 0 auto; }
 
     .btn{
       display:inline-flex;
@@ -183,7 +242,6 @@
       color:#111827;
     }
 
-    /* explicit grey button for "Requested" (disabled) */
     .btn-grey{
       background:#9ca3af;
       cursor:not-allowed;
@@ -205,7 +263,6 @@
     .badge-onplex{ background:#cfead1; color:#14532d; }
     .badge-requested{ background:#e5e7eb; color:#374151; }
 
-    /* submitted view */
     .submitted-container{
       display:none;
       max-width: 720px;
@@ -225,25 +282,80 @@
       to{ opacity:1; transform: translateY(0); }
     }
 
+    /* =========================
+       UNIVERSAL FOOTER
+    ========================== */
+    .site-footer{
+      margin-top: 34px;
+      padding: 26px 14px 34px;
+      text-align:center;
+      color:#0b5566;
+      background:#ffffff;
+      border-top: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .footer-nav{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:10px;
+      font-weight:600;
+      font-size:16px;
+    }
+
+    .footer-nav a{
+      color:#007b8a;
+      text-decoration: underline;
+    }
+
+    .footer-nav span{
+      color:#007b8a;
+      opacity:.6;
+    }
+
+    .footer-coming{
+      margin-top: 14px;
+    }
+
+    .footer-coming a{
+      font-weight:900;
+      font-size:20px;
+      color:#007b8a;
+      text-decoration: underline;
+      letter-spacing:1px;
+    }
+
     /* mobile tweaks */
     @media (max-width: 520px){
-      body{ padding: 0 14px 34px; }
+      body{ padding: 0 14px 0; }
       .card{ padding: 18px; border-radius: 22px; }
       .hero{ padding: 26px 14px 20px; }
       .result-item{ padding: 10px; border-radius: 14px; }
       .btn{ padding: 10px 12px; border-radius: 12px; }
+
+      .footer-nav{ font-size:14px; }
+      .footer-coming a{ font-size:18px; }
     }
   </style>
 </head>
 
 <body>
+
+  <!-- UNIVERSAL HEADER -->
+  <header class="site-header">
+    <a href="https://agplexmedia-lab.github.io/stuff/home/" class="brand">
+      <img src="../assets/favicon-180.png" alt="AG Plex Home">
+      <span>AG PLEX</span>
+    </a>
+  </header>
+
   <div class="wrap">
 
     <div class="hero">
       <h1>Make a Request for the Plex!</h1>
       <div class="subtext">
         I typically add stuff <strong>within 24 hours</strong>. <br>
-      Not listed? <a href="https://sites.google.com/view/ag-plex/report-a-plex-problem" rel="noopener">submit it as a Plex problem</a>.<br>
+        Not listed? <a href="https://sites.google.com/view/ag-plex/report-a-plex-problem" rel="noopener">submit it as a Plex problem</a>.<br>
         <a href="https://agplexmedia-lab.github.io/stuff/coming-soon/" rel="noopener">COMING SOON</a> = Requested but not ready!<br>
         <strong>REQUESTED</strong> = Working on it already!<br>
       </div>
@@ -252,7 +364,6 @@
     <div class="card" id="formContainer">
       <p class="error-message" id="errorMessage">⚠️ Please enter your name before requesting.</p>
 
-      <!-- UPDATED: stores name in localStorage as user types -->
       <input
         type="text"
         id="requesterName"
@@ -282,26 +393,45 @@
 
   </div>
 
+  <!-- UNIVERSAL FOOTER -->
+  <footer class="site-footer">
+    <nav class="footer-nav">
+      <a href="https://earnest-rugelach-35fda3.netlify.app/">Server Status</a>
+      <span>|</span>
+      <a href="https://agplexmedia-lab.github.io/stuff/request/">Make a Request for the Plex!</a>
+      <span>|</span>
+      <a href="https://agplexmedia-lab.github.io/stuff/gallery/">AG PLEXclusives</a>
+      <span>|</span>
+      <a href="https://plex-recs-rex.fly.dev/">Plex-Rec Bot</a>
+      <span>|</span>
+      <a href="https://tek-support.fly.dev/">Tech Support Bot</a>
+      <span>|</span>
+      <a href="https://sites.google.com/view/ag-plex/report-a-plex-problem">Report a Problem</a>
+      <span>|</span>
+      <a href="https://agplexmedia-lab.github.io/stuff/FAQ/">FAQ</a>
+    </nav>
+
+    <div class="footer-coming">
+      <a href="https://agplexmedia-lab.github.io/stuff/coming-soon/">COMING SOON</a>
+    </div>
+  </footer>
+
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
   <script>
     const TMDB_API_KEY = "5bbfc2b05c0d49eea2032b35324ebc81";
 
-    // NEW: remember name across visits/submissions
+    // remember name across visits/submissions
     const NAME_STORAGE_KEY = "agplex_requester_name";
 
     let plexTitles = [];
 
-    // Sheet status sets:
-    // - comingSoonKeys: in sheet + bucket == COMING_SOON
-    // - requestedKeys: in sheet + bucket != COMING_SOON
     let comingSoonKeys = new Set();
     let requestedKeys = new Set();
 
     const COMING_SOON_CSV =
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vTtK9WGWZSlSJi58mOOBA01RBJ3OKeXeY9VyT4nnWFAKNL8C6SeoD8nz_srBPHupiqFr3_0Na53Y4Za/pub?gid=1263928559&single=true&output=csv";
 
-    // Restore saved name on load (if present)
     document.addEventListener("DOMContentLoaded", () => {
       const saved = localStorage.getItem(NAME_STORAGE_KEY);
       if (saved) requesterName.value = saved;
@@ -316,14 +446,13 @@
       .then(d => plexTitles = d.map(i => `${i.title.toLowerCase()} (${i.year})`))
       .catch(() => { /* ignore */ });
 
-    // Load sheet and split IDs by bucket
     fetch(COMING_SOON_CSV)
       .then(r => r.text())
       .then(csv => {
         Papa.parse(csv, { header: true, skipEmptyLines: true })
           .data.forEach(row => {
             const tmdb = (row.TMDB_ID || "").toString().trim();
-            const bucket = (row.Bucket || "").toString().trim().toUpperCase(); // Column "Bucket"
+            const bucket = (row.Bucket || "").toString().trim().toUpperCase();
 
             if (!tmdb) return;
 
@@ -352,7 +481,6 @@
 
         const isInPlex = plexTitles.includes(`${name.toLowerCase()} (${year})`);
 
-        // Sheet lookups (movies will match; tv will not with current sheet key format)
         const key = `${type}:${item.id}`;
         const isComingSoon = comingSoonKeys.has(key);
         const isRequested = requestedKeys.has(key);
@@ -389,7 +517,6 @@
         return;
       }
 
-      // Make sure latest name is saved
       saveName();
 
       movieField.value = `${decodeURIComponent(encName)} (${year})`;
@@ -409,8 +536,6 @@
     function resetForm() {
       formContainer.style.display = "block";
       submittedContainer.style.display = "none";
-
-      // IMPORTANT: do NOT clear requesterName (you want it remembered)
       searchInput.value = "";
       results.innerHTML = "";
       resetError();
