@@ -6,8 +6,8 @@
   <title>AG Plex — Home</title>
 
   <!-- Favicon / top icon -->
-  <link rel="apple-touch-icon" href="./assets/favicon-180.png">
-  <link rel="icon" type="image/png" href="./assets/favicon-180.png">
+  <link rel="apple-touch-icon" href="../assets/favicon-180.png">
+  <link rel="icon" type="image/png" href="../assets/favicon-180.png">
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
 
@@ -29,13 +29,11 @@
       color:var(--white);
       min-height:100vh;
 
-      /* background image you said you'll place in assets as bgphoto.png */
       background:
         linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.55)),
-        url("./assets/bgphoto.png") center/cover no-repeat fixed;
+        url("../assets/bgphoto.png") center/cover no-repeat fixed;
     }
 
-    /* top bar */
     .topbar{
       position:sticky;
       top:0;
@@ -63,7 +61,6 @@
     }
     .icon-btn:active{ transform: translateY(1px); }
 
-    /* hamburger */
     .burger{
       width:22px;
       height:14px;
@@ -80,7 +77,6 @@
     .burger span:nth-child(2){ top:5.75px; }
     .burger span:nth-child(3){ bottom:0; }
 
-    /* search icon */
     .search{
       width:20px; height:20px;
       border:2.5px solid #fff;
@@ -98,7 +94,6 @@
       transform: rotate(45deg);
     }
 
-    /* favicon/mascot in the middle */
     .mascot{
       width:46px;
       height:46px;
@@ -117,7 +112,6 @@
       filter: drop-shadow(0 2px 6px rgba(0,0,0,.55));
     }
 
-    /* layout container */
     .wrap{
       max-width: 860px;
       margin: 0 auto;
@@ -145,7 +139,6 @@
     }
     .pin{ font-size: 1.05em; transform: translateY(-1px); }
 
-    /* links list */
     .links{
       list-style:none;
       padding:0;
@@ -197,14 +190,12 @@
       flex: 0 0 auto;
     }
 
-    /* optional small hint under list (kept subtle) */
     .hint{
       margin: 10px 6px 6px;
       opacity: .85;
       font-size: 13px;
     }
 
-    /* small screens */
     @media (max-width: 520px){
       .wrap{ padding: 10px 14px 36px; }
       .panel{ padding: 16px 14px 8px; border-radius: 20px; }
@@ -224,7 +215,7 @@
     </div>
 
     <div class="mascot" aria-label="AG Plex">
-      <img src="./assets/favicon-180.png" alt="AG Plex Icon">
+      <img src="../assets/favicon-180.png" alt="AG Plex Icon">
     </div>
 
     <div class="icon-btn" aria-label="Search" title="Search">
