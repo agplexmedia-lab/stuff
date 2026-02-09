@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Make a Request for the Plex</title>
+
+  <link rel="apple-touch-icon" href="../assets/favicon-180.png">
+  <link rel="icon" type="image/png" href="../assets/favicon-180.png">
+
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --site-blue:#1f78c8;        /* header title blue */
+      --panel-bg:#dff0ff;         /* big rounded light-blue panel */
+      --page-bg:#f3f6fb;          /* page background */
+      --card-bg:#ffffff;
+      --text:#1f2937;
+      --muted:#334155;
+      --link:#1f78c8;
+      --shadow:0 10px 25px rgba(15, 23, 42, 0.12);
+      --shadow-soft:0 6px 18px rgba(15, 23, 42, 0.10);
+      --radius-xl:26px;
+      --radius-lg:18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body{
+      margin:0;
+      font-family:'Poppins',sans-serif;
+      background: var(--page-bg);
+      color: var(--text);
+      text-align:center;
+      padding: 0 18px 40px;
+    }
+
+    /* keep everything centered + consistent width */
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    /* big rounded blue panel like your screenshot */
+    .hero{
+      margin: 22px auto 0;
+      background: var(--panel-bg);
+      border-radius: var(--radius-xl);
+      padding: 34px 18px 26px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    h1{
+      margin: 0 0 12px;
+      font-size: clamp(30px, 4vw, 44px);
+      color: var(--site-blue);
+      letter-spacing: -0.5px;
+    }
+
+    .subtext{
+      margin: 0 auto;
+      max-width: 760px;
+      font-size: 16px;
+      line-height: 1.55;
+      color: #111827;
+    }
+    .subtext a{
+      color: var(--link);
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    /* centered card for inputs */
+    .card{
+      max-width: 720px;
+      margin: 34px auto 0;
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      padding: 26px;
+      box-shadow: var(--shadow);
+    }
+
+    .error-message{
+      display:none;
+      margin: 0 0 10px;
+      color: #b91c1c;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    input{
+      width:100%;
+      padding: 16px 16px;
+      margin: 10px 0;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      font-size: 16px;
+      box-shadow: 0 0 0 rgba(0,0,0,0);
+      transition: box-shadow .15s ease, border-color .15s ease;
+    }
+    input:focus{
+      outline:none;
+      border-color: var(--site-blue);
+      box-shadow: 0 0 0 4px rgba(31,120,200,0.18);
+    }
+
+    #results{
+      margin-top: 10px;
+    }
+
+    .result-item{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      background: #f4f6f9;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 12px 12px;
+      margin: 10px 0;
+      animation: fadeIn 0.25s ease-in;
+      text-align:left;
+    }
+
+    .result-item img{
+      width: 52px;
+      height: 78px;
+      border-radius: 10px;
+      object-fit: cover;
+      flex: 0 0 auto;
+      background:#e5e7eb;
+    }
+
+    .info{
+      flex:1;
+      min-width: 0;
+      font-size: 15px;
+      line-height: 1.25;
+      color: #0f172a;
+    }
+    .info strong{
+      display:inline-block;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      vertical-align: bottom;
+    }
+
+    .buttons{
+      flex: 0 0 auto;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: none;
+      background: var(--site-blue);
+      color: white;
+      font-weight: 700;
+      cursor:pointer;
+      text-decoration:none;
+      font-size: 14px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .btn:hover{ filter: brightness(0.95); }
+
+    .btn[disabled]{
+      background:#9ca3af;
+      cursor:not-allowed;
+      filter:none;
+    }
+
+    .btn-orange{
+      background:#f59e0b;
+      color:#111827;
+    }
+
+    .badge{
+      display:inline-block;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-left: 8px;
+      vertical-align: middle;
+      letter-spacing: 0.2px;
+    }
+    .badge-coming{ background:#fde7c2; color:#8a4b00; }
+    .badge-onplex{ background:#cfead1; color:#14532d; }
+
+    /* submitted view */
+    .submitted-container{
+      display:none;
+      max-width: 720px;
+      margin: 34px auto 0;
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+    .submitted-container h2{
+      margin: 0 0 14px;
+      color:#14532d;
+    }
+
+    @keyframes fadeIn{
+      from{ opacity:0; transform: translateY(6px); }
+      to{ opacity:1; transform: translateY(0); }
+    }
+
+    /* mobile tweaks */
+    @media (max-width: 520px){
+      body{ padding: 0 14px 34px; }
+      .card{ padding: 18px; border-radius: 22px; }
+      .hero{ padding: 26px 14px 20px; }
+      .result-item{ padding: 10px; border-radius: 14px; }
+      .btn{ padding: 10px 12px; border-radius: 12px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <div class="hero">
+      <h1>Make a Request for the Plex!</h1>
+      <div class="subtext">
+        I add stuff <strong>within 24 hours</strong>. Text me if you want it added ASAP!<br>
+        If you want something not listed —
+        <a href="https://sites.google.com/view/ag-plex/report-a-plex-problem" target="_blank" rel="noopener">submit it as a Plex problem</a>.<br>
+        <a href="https://sites.google.com/view/ag-plex/coming-soon" target="_blank" rel="noopener">COMING SOON</a> = Requested but not ready yet!
+      </div>
+    </div>
+
+    <div class="card" id="formContainer">
+      <p class="error-message" id="errorMessage">⚠️ Please enter your name before requesting.</p>
+      <input type="text" id="requesterName" placeholder="Your Name (Required)" oninput="resetError()">
+      <input type="text" id="searchInput" onkeyup="searchMedia()" placeholder="Search for a movie or show..." autofocus>
+      <div id="results"></div>
+    </div>
+
+    <div class="submitted-container" id="submittedContainer">
+      <h2>✅ Request Submitted!</h2>
+      <button class="btn" onclick="resetForm()">Submit Another</button>
+    </div>
+
+    <form id="googleForm"
+          action="https://docs.google.com/forms/d/e/1FAIpQLSetYfWx5aqyYwVWYwHwLQqsL6d4uNSYPcVKQ_qezFY0K5b9PQ/formResponse"
+          method="POST"
+          target="hidden_iframe">
+      <input type="hidden" name="entry.1137128154" id="movieField">
+      <input type="hidden" name="entry.893781466" id="nameField">
+      <input type="hidden" name="entry.1525231893" id="tmdbField">
+      <input type="hidden" name="entry.264336961" id="typeField">
+    </form>
+    <iframe name="hidden_iframe" style="display:none;"></iframe>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+  <script>
+    const TMDB_API_KEY = "5bbfc2b05c0d49eea2032b35324ebc81";
+    let plexTitles = [];
+    let comingSoonKeys = new Set();
+
+    const COMING_SOON_CSV =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTtK9WGWZSlSJi58mOOBA01RBJ3OKeXeY9VyT4nnWFAKNL8C6SeoD8nz_srBPHupiqFr3_0Na53Y4Za/pub?gid=1263928559&single=true&output=csv";
+
+    fetch("https://apag104.github.io/ag-json/recently_added_movies.json")
+      .then(r => r.json())
+      .then(d => plexTitles = d.map(i => `${i.title.toLowerCase()} (${i.year})`))
+      .catch(() => { /* ignore */ });
+
+    fetch(COMING_SOON_CSV)
+      .then(r => r.text())
+      .then(csv =>
+        Papa.parse(csv, { header: true, skipEmptyLines: true })
+          .data.forEach(row => row.TMDB_ID && comingSoonKeys.add(`movie:${row.TMDB_ID}`))
+      )
+      .catch(() => { /* ignore */ });
+
+    async function searchMedia() {
+      const q = searchInput.value.trim();
+      const out = results;
+      if (!q) return out.innerHTML = "";
+
+      const m = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(q)}`).then(r => r.json());
+      const t = await fetch(`https://api.themoviedb.org/3/search/tv?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(q)}`).then(r => r.json());
+
+      out.innerHTML = "";
+      [...(m.results || []), ...(t.results || [])].forEach(item => {
+        const type = item.title ? "movie" : "tv";
+        const name = item.title || item.name;
+        const year = (item.release_date || item.first_air_date || "N/A").split("-")[0];
+        const poster = item.poster_path ? `https://image.tmdb.org/t/p/w200${item.poster_path}` : "https://placehold.co/52x78";
+        const isInPlex = plexTitles.includes(`${name.toLowerCase()} (${year})`);
+        const isComingSoon = comingSoonKeys.has(`${type}:${item.id}`);
+
+        let button = "";
+        let badge = "";
+
+        if (isInPlex) {
+          button = `<button class="btn" disabled>On Plex</button>`;
+          badge = `<span class="badge badge-onplex">ON PLEX</span>`;
+        } else if (isComingSoon) {
+          button = `<a href="https://sites.google.com/view/ag-plex/coming-soon" class="btn btn-orange" target="_blank" rel="noopener">Coming Soon</a>`;
+          badge = `<span class="badge badge-coming">COMING SOON</span>`;
+        } else {
+          button = `<button class="btn" onclick="submitRequest(${item.id},'${type}','${encodeURIComponent(name)}','${year}')">Request</button>`;
+        }
+
+        out.innerHTML += `
+          <div class="result-item">
+            <img src="${poster}" alt="Poster">
+            <div class="info"><strong>${name}</strong> (${year}) ${badge}</div>
+            <div class="buttons">${button}</div>
+          </div>`;
+      });
+    }
+
+    function submitRequest(id, type, encName, year) {
+      const name = requesterName.value.trim();
+      if (!name) {
+        errorMessage.style.display = "block";
+        return;
+      }
+
+      movieField.value = `${decodeURIComponent(encName)} (${year})`;
+      nameField.value = name;
+      tmdbField.value = id;
+      typeField.value = type;
+
+      googleForm.submit();
+      requestSubmitted();
+    }
+
+    function requestSubmitted() {
+      formContainer.style.display = "none";
+      submittedContainer.style.display = "block";
+    }
+
+    function resetForm() {
+      formContainer.style.display = "block";
+      submittedContainer.style.display = "none";
+      requesterName.value = "";
+      searchInput.value = "";
+      results.innerHTML = "";
+      resetError();
+    }
+
+    function resetError() {
+      errorMessage.style.display = "none";
+    }
+  </script>
+</body>
+</html>
