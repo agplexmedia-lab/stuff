@@ -183,7 +183,7 @@
       color:#111827;
     }
 
-    /* NEW: explicit grey button for "Requested" (disabled) */
+    /* explicit grey button for "Requested" (disabled) */
     .btn-grey{
       background:#9ca3af;
       cursor:not-allowed;
@@ -203,7 +203,6 @@
     }
     .badge-coming{ background:#fde7c2; color:#8a4b00; }
     .badge-onplex{ background:#cfead1; color:#14532d; }
-    /* NEW: requested badge */
     .badge-requested{ background:#e5e7eb; color:#374151; }
 
     /* submitted view */
@@ -252,7 +251,15 @@
 
     <div class="card" id="formContainer">
       <p class="error-message" id="errorMessage">⚠️ Please enter your name before requesting.</p>
-      <input type="text" id="requesterName" placeholder="Your Name (Required)" oninput="resetError()">
+
+      <!-- UPDATED: stores name in localStorage as user types -->
+      <input
+        type="text"
+        id="requesterName"
+        placeholder="Your Name (Required)"
+        oninput="resetError(); saveName();"
+      >
+
       <input type="text" id="searchInput" onkeyup="searchMedia()" placeholder="Search for a movie or show..." autofocus>
       <div id="results"></div>
     </div>
@@ -279,6 +286,10 @@
 
   <script>
     const TMDB_API_KEY = "5bbfc2b05c0d49eea2032b35324ebc81";
+
+    // NEW: remember name across visits/submissions
+    const NAME_STORAGE_KEY = "agplex_requester_name";
+
     let plexTitles = [];
 
     // Sheet status sets:
@@ -290,31 +301,39 @@
     const COMING_SOON_CSV =
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vTtK9WGWZSlSJi58mOOBA01RBJ3OKeXeY9VyT4nnWFAKNL8C6SeoD8nz_srBPHupiqFr3_0Na53Y4Za/pub?gid=1263928559&single=true&output=csv";
 
+    // Restore saved name on load (if present)
+    document.addEventListener("DOMContentLoaded", () => {
+      const saved = localStorage.getItem(NAME_STORAGE_KEY);
+      if (saved) requesterName.value = saved;
+    });
+
+    function saveName() {
+      localStorage.setItem(NAME_STORAGE_KEY, requesterName.value);
+    }
+
     fetch("https://apag104.github.io/ag-json/recently_added_movies.json")
       .then(r => r.json())
       .then(d => plexTitles = d.map(i => `${i.title.toLowerCase()} (${i.year})`))
       .catch(() => { /* ignore */ });
 
     // Load sheet and split IDs by bucket
-   fetch(COMING_SOON_CSV)
-  .then(r => r.text())
-  .then(csv => {
-    Papa.parse(csv, { header: true, skipEmptyLines: true })
-      .data.forEach(row => {
-        const tmdb = (row.TMDB_ID || "").toString().trim();
+    fetch(COMING_SOON_CSV)
+      .then(r => r.text())
+      .then(csv => {
+        Papa.parse(csv, { header: true, skipEmptyLines: true })
+          .data.forEach(row => {
+            const tmdb = (row.TMDB_ID || "").toString().trim();
+            const bucket = (row.Bucket || "").toString().trim().toUpperCase(); // Column "Bucket"
 
-        // Column is "Bucket" and value is "COMING_SOON"
-        const bucket = (row.Bucket || "").toString().trim().toUpperCase();
+            if (!tmdb) return;
 
-        if (!tmdb) return;
+            const key = `movie:${tmdb}`;
 
-        const key = `movie:${tmdb}`;
-
-        if (bucket === "COMING_SOON") comingSoonKeys.add(key);
-        else requestedKeys.add(key);
-      });
-  })
-  .catch(() => { /* ignore */ });
+            if (bucket === "COMING_SOON") comingSoonKeys.add(key);
+            else requestedKeys.add(key);
+          });
+      })
+      .catch(() => { /* ignore */ });
 
     async function searchMedia() {
       const q = searchInput.value.trim();
@@ -370,6 +389,9 @@
         return;
       }
 
+      // Make sure latest name is saved
+      saveName();
+
       movieField.value = `${decodeURIComponent(encName)} (${year})`;
       nameField.value = name;
       tmdbField.value = id;
@@ -387,7 +409,8 @@
     function resetForm() {
       formContainer.style.display = "block";
       submittedContainer.style.display = "none";
-      requesterName.value = "";
+
+      // IMPORTANT: do NOT clear requesterName (you want it remembered)
       searchInput.value = "";
       results.innerHTML = "";
       resetError();
