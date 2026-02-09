@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>AG Plex — Coming Soon</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <!-- Favicon (you already have this file) -->
+  <link rel="apple-touch-icon" href="../assets/favicon-180.png">
+  <link rel="icon" type="image/png" href="../assets/favicon-180.png">
+
+  <style>
+    :root{
+      --site-blue:#1f78c8;
+      --panel-bg:#dff0ff;
+      --page-bg:#f3f6fb;
+      --card-bg:#ffffff;
+      --text:#0f172a;
+      --muted:#334155;
+      --shadow:0 10px 25px rgba(15, 23, 42, 0.12);
+      --shadow-soft:0 6px 18px rgba(15, 23, 42, 0.10);
+      --radius-xl:26px;
+      --radius-lg:18px;
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family:'Poppins',sans-serif;
+      background: var(--page-bg);
+      color: var(--text);
+      padding: 0 18px 44px;
+      text-align:center;
+    }
+
+    .wrap{ max-width: 1100px; margin: 0 auto; }
+
+    .hero{
+      margin: 22px auto 0;
+      background: var(--panel-bg);
+      border-radius: var(--radius-xl);
+      padding: 34px 18px 26px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    h1{
+      margin: 0 0 10px;
+      font-size: clamp(28px, 4vw, 44px);
+      color: var(--site-blue);
+      letter-spacing: -0.5px;
+    }
+
+    .desc{
+      margin: 0 auto;
+      max-width: 880px;
+      font-size: 16px;
+      line-height: 1.55;
+      color: #111827;
+    }
+
+    .toolbar{
+      max-width: 980px;
+      margin: 18px auto 0;
+      display:flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #ffffff;
+      box-shadow: var(--shadow-soft);
+      font-size: 14px;
+      color: #0f172a;
+    }
+
+    .pill a{
+      color: var(--site-blue);
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    .panel{
+      max-width: 1100px;
+      margin: 22px auto 0;
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      text-align:left;
+    }
+
+    .status-row{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      padding: 2px 6px;
+      flex-wrap: wrap;
+    }
+
+    .status{
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .search{
+      width: 320px;
+      max-width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      font-size: 14px;
+      outline:none;
+    }
+    .search:focus{
+      border-color: var(--site-blue);
+      box-shadow: 0 0 0 4px rgba(31,120,200,0.18);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+    }
+
+    a{ text-decoration:none; color:inherit; }
+
+    .card{
+      background:#f4f6f9;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      overflow:hidden;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+      transition: transform .12s ease, box-shadow .12s ease;
+      cursor:pointer;
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.10);
+    }
+
+    .poster{
+      width:100%;
+      aspect-ratio: 2 / 3;
+      object-fit: cover;
+      background:#e5e7eb;
+      display:block;
+    }
+
+    .card-body{
+      padding: 10px 10px 12px;
+    }
+
+    .title{
+      font-size: 13px;
+      line-height: 1.25;
+      color:#0f172a;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 6px;
+    }
+
+    .meta{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 12px;
+      color:#475569;
+      font-weight: 700;
+    }
+
+    .date{
+      color:#0f172a;
+      font-weight: 900;
+    }
+
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 900;
+      border: 1px solid #cbd5e1;
+      color:#0f172a;
+      background:#ffffff;
+      white-space: nowrap;
+    }
+
+    .empty{
+      display:none;
+      text-align:center;
+      padding: 30px 10px;
+      color:#64748b;
+      font-weight: 800;
+    }
+
+    @media (max-width: 520px){
+      body{ padding: 0 14px 40px; }
+      .panel{ padding: 14px; }
+      .grid{ gap: 12px; grid-template-columns: repeat(auto-fill, minmax(140px,1fr)); }
+      .status-row{ flex-direction: column; align-items: stretch; }
+      .search{ width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <div class="hero">
+      <h1>📅 Coming Soon on AG Plex</h1>
+      <p class="desc">
+        These titles are already queued in AG Plex. The date shown is when they’re expected to appear on the server.
+        If a date is unknown, you’ll see <strong>??</strong> with an <strong>Est.</strong> tag.
+      </p>
+    </div>
+
+    <div class="toolbar">
+      <div class="pill"><a href="../request/">Make a Request</a></div>
+      <div class="pill"><a href="../gallery/">Plexclusive Gallery</a></div>
+      <div class="pill"><a href="../">Home</a></div>
+    </div>
+
+    <div class="panel">
+      <div class="status-row">
+        <div class="status" id="statusText">Loading…</div>
+        <input class="search" id="filterInput" placeholder="Filter by title…" />
+      </div>
+
+      <div class="grid" id="grid"></div>
+      <div class="empty" id="emptyState">Nothing queued right now.</div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script>
+    const SHEET_CSV_URL =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTtK9WGWZSlSJi58mOOBA01RBJ3OKeXeY9VyT4nnWFAKNL8C6SeoD8nz_srBPHupiqFr3_0Na53Y4Za/pub?gid=1263928559&single=true&output=csv";
+
+    const TMDB_API_KEY = "5bbfc2b05c0d49eea2032b35324ebc81";
+
+    const gridEl = document.getElementById("grid");
+    const statusText = document.getElementById("statusText");
+    const filterInput = document.getElementById("filterInput");
+    const emptyState = document.getElementById("emptyState");
+
+    const cards = []; // {el, titleLower}
+    const norm = v => (v ?? "").toString().trim();
+
+    function lcRow(row) {
+      const out = {};
+      for (const k in row) out[k.toLowerCase()] = row[k];
+
+      out.title = norm(out.title);
+      out.year = norm(out.year);
+      out.tmdb_id = norm(out.tmdb_id);
+      out.bucket = norm(out.bucket);
+      out.nextmilestone = norm(out.nextmilestone);
+      out.milestonesource = norm(out.milestonesource);
+      return out;
+    }
+
+    function parseISODate(s) {
+      if (!s) return null;
+      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
+      if (!m) return null;
+      return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+    }
+
+    async function fetchCSV(url) {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("Failed to load sheet CSV");
+      const text = await res.text();
+      const parsed = Papa.parse(text, { header: true, skipEmptyLines: true });
+      return parsed.data.map(lcRow);
+    }
+
+    async function tmdbExternalIds(movieId) {
+      return await fetch(`https://api.themoviedb.org/3/movie/${movieId}/external_ids?api_key=${TMDB_API_KEY}`)
+        .then(r => r.json());
+    }
+
+    async function tmdbDetails(movieId) {
+      return await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${TMDB_API_KEY}`)
+        .then(r => r.json());
+    }
+
+    function escapeHtml(s) {
+      return (s ?? "").toString()
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    async function buildLink(tmdbId) {
+      if (!tmdbId || !/^\d+$/.test(tmdbId)) return "#";
+      try {
+        const externals = await tmdbExternalIds(tmdbId);
+        if (externals.imdb_id) return `https://www.imdb.com/title/${externals.imdb_id}/`;
+        return `https://www.themoviedb.org/movie/${tmdbId}`;
+      } catch {
+        return `https://www.themoviedb.org/movie/${tmdbId}`;
+      }
+    }
+
+    function addCard({ title, year, href, poster, dateText, est }) {
+      const a = document.createElement("a");
+      a.href = href || "#";
+      a.rel = "noopener";
+
+      const card = document.createElement("div");
+      card.className = "card";
+
+      card.innerHTML = `
+        <img class="poster" src="${poster}" alt="${escapeHtml(title)} poster">
+        <div class="card-body">
+          <div class="title" title="${escapeHtml(title)}">${escapeHtml(title)}${year ? ` (${escapeHtml(year)})` : ""}</div>
+          <div class="meta">
+            <span class="date">${escapeHtml(dateText)}</span>
+            ${est ? `<span class="tag">Est.</span>` : `<span class="tag">On Plex</span>`}
+          </div>
+        </div>
+      `;
+
+      a.appendChild(card);
+      gridEl.appendChild(a);
+      cards.push({ el: a, titleLower: (title || "").toLowerCase() });
+    }
+
+    function applyFilter(){
+      const q = filterInput.value.trim().toLowerCase();
+      let shown = 0;
+
+      for (const c of cards){
+        const match = !q || c.titleLower.includes(q);
+        c.el.style.display = match ? "" : "none";
+        if (match) shown++;
+      }
+
+      emptyState.style.display = shown ? "none" : "block";
+      statusText.textContent = `Showing ${shown} of ${cards.length} titles`;
+    }
+
+    filterInput.addEventListener("input", applyFilter);
+
+    async function buildCardFromRow(r, today) {
+      const title = r.title || "Untitled";
+      const year = r.year;
+
+      const d = parseISODate(r.nextmilestone);
+      const hasFutureDate = !!(d && d > today);
+      const dateText = hasFutureDate ? r.nextmilestone : "??";
+
+      const estFromSheet = (r.milestonesource || "").toLowerCase().startsWith("estimate");
+      const est = estFromSheet || !hasFutureDate;
+
+      const tmdbId = r.tmdb_id;
+      const href = await buildLink(tmdbId);
+
+      let poster = "https://placehold.co/342x513?text=No+Poster";
+      if (tmdbId && /^\d+$/.test(tmdbId)) {
+        try {
+          const details = await tmdbDetails(tmdbId);
+          if (details.poster_path) poster = `https://image.tmdb.org/t/p/w342${details.poster_path}`;
+        } catch { /* ignore */ }
+      }
+
+      addCard({ title, year, href, poster, dateText, est });
+    }
+
+    async function main() {
+      const rows = await fetchCSV(SHEET_CSV_URL);
+
+      const today = new Date();
+      today.setHours(0,0,0,0);
+
+      const comingSoon = rows
+        .filter(r => r.bucket === "COMING_SOON")
+        .map(r => {
+          const d = parseISODate(r.nextmilestone);
+          const hasFutureDate = !!(d && d > today);
+          return { row: r, d, hasFutureDate };
+        })
+        .sort((a, b) => {
+          if (a.hasFutureDate && b.hasFutureDate) return a.d - b.d;
+          if (a.hasFutureDate) return -1;
+          if (b.hasFutureDate) return 1;
+          return (a.row.title || "").localeCompare(b.row.title || "");
+        })
+        .map(x => x.row);
+
+      if (!comingSoon.length) {
+        statusText.textContent = "0 titles";
+        emptyState.style.display = "block";
+        return;
+      }
+
+      statusText.textContent = `Loaded ${comingSoon.length} titles. Fetching posters…`;
+
+      // small concurrency so it doesn't take forever
+      const CONCURRENCY = 6;
+      let i = 0;
+
+      async function worker(){
+        while (i < comingSoon.length){
+          const r = comingSoon[i++];
+          await buildCardFromRow(r, today);
+          statusText.textContent = `Building posters… (${cards.length}/${comingSoon.length})`;
+        }
+      }
+
+      await Promise.all(Array.from({length: CONCURRENCY}, worker));
+
+      statusText.textContent = `Showing ${cards.length} of ${cards.length} titles`;
+      applyFilter();
+    }
+
+    main().catch(err => {
+      console.error(err);
+      statusText.textContent = "Error loading Coming Soon list.";
+      emptyState.style.display = "block";
+    });
+  </script>
+</body>
+</html>
