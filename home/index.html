@@ -127,6 +127,7 @@
       background:#fff;
       border-radius:2px;
       margin-top:12px;
+      flex:0 0 auto;
     }
 
     .linkline{
@@ -134,6 +135,7 @@
       gap:10px;
       flex:1;
       flex-wrap:wrap;
+      align-items:flex-start;
     }
 
     a.biglink{
@@ -152,23 +154,47 @@
       margin-top: 2px;
     }
 
-    /* ===== STATUS EMBED ===== */
+    /* ===== STATUS EMBED (more native) ===== */
     .status-wrap{
       margin-top: 18px;
-      overflow:hidden;
       border-radius: 18px;
       box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,.14);
+      overflow:hidden;
+
+      /* "native card" feel */
+      background: rgba(0,0,0,.35);
+      backdrop-filter: blur(8px);
     }
 
-    .status-wrap iframe{
+    /* Use aspect-ratio so it scales cleanly across devices */
+    .status-frame{
       width:100%;
-      height:220px;
-      border:none;
-      background:#000;
+      aspect-ratio: 16 / 9;     /* desktop-friendly */
+      min-height: 320px;        /* prevents squished frame */
+      max-height: 640px;        /* stops it from being absurdly tall */
+      position: relative;
     }
 
+    .status-frame iframe{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      border:0;
+      background:#000;
+
+      /* Try to avoid inner scrollbars when possible */
+      overflow:hidden;
+    }
+
+    /* Give it more vertical room on phones */
     @media (max-width: 520px){
-      .status-wrap iframe{ height:260px; }
+      .status-frame{
+        aspect-ratio: 10 / 12;  /* taller card on mobile */
+        min-height: 420px;
+        max-height: 760px;
+      }
     }
   </style>
 </head>
@@ -192,6 +218,10 @@
       <li><span class="sq"></span><div class="linkline"><a class="biglink" href="https://tek-support.fly.dev/">Plex Support Bot</a><span class="emoji">🐵</span></div></li>
       <li><span class="sq"></span><div class="linkline"><a class="biglink" href="https://plex-recs-rex.fly.dev/">Plex Recommendations Bot</a><span class="emoji">🦖</span></div></li>
       <li><span class="sq"></span><div class="linkline"><a class="biglink" href="https://agplexmedia-lab.github.io/stuff/gallery/">AG PLEXclusives Gallery</a><span class="emoji">⭐</span></div></li>
+
+      <!-- NEW: COMING SOON (above FAQ) -->
+      <li><span class="sq"></span><div class="linkline"><a class="biglink" href="https://agplexmedia-lab.github.io/stuff/coming-soon/">COMING SOON</a><span class="emoji">🍿</span></div></li>
+
       <li><span class="sq"></span><div class="linkline"><a class="biglink" href="https://agplexmedia-lab.github.io/stuff/FAQ/">FAQ</a><span class="emoji">❓</span></div></li>
     </ul>
   </section>
@@ -200,11 +230,14 @@
   <section class="panel">
     <div class="title">📡 Server Status</div>
     <div class="status-wrap">
-      <iframe
-        src="https://earnest-rugelach-35fda3.netlify.app/"
-        title="AG Plex Server Status"
-        loading="lazy">
-      </iframe>
+      <div class="status-frame">
+        <iframe
+          src="https://earnest-rugelach-35fda3.netlify.app/"
+          title="AG Plex Server Status"
+          loading="lazy"
+          scrolling="no">
+        </iframe>
+      </div>
     </div>
   </section>
 
