@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Tech Support Bot — Tek</title>
+
+  <!-- Favicon -->
+  <link rel="apple-touch-icon" href="../assets/favicon-180.png">
+  <link rel="icon" type="image/png" href="../assets/favicon-180.png">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --site-blue:#1f78c8;
+      --panel-bg:#dff0ff;
+      --page-bg:#f3f6fb;
+      --card-bg:#ffffff;
+      --text:#1f2937;
+      --muted:#334155;
+      --link:#1f78c8;
+      --shadow:0 10px 25px rgba(15, 23, 42, 0.12);
+      --shadow-soft:0 6px 18px rgba(15, 23, 42, 0.10);
+      --radius-xl:26px;
+      --radius-lg:18px;
+
+      /* universal header accent */
+      --aqua:#28f2ff;
+      --shadow-strong:0 9px 28px rgba(0,0,0,.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    /* IMPORTANT: make layout height-managed so iframe doesn't cause page scroll */
+    html, body{
+      height: 100%;
+      margin: 0;
+    }
+
+    body{
+      font-family:'Poppins',sans-serif;
+      background: var(--page-bg);
+      color: var(--text);
+      text-align:center;
+
+      /* turn page into a vertical layout */
+      display: flex;
+      flex-direction: column;
+
+      /* match your padding vibe */
+      padding: 0 18px 0;
+      overflow: hidden; /* prevent double scroll */
+    }
+
+    /* =========================
+       UNIVERSAL HEADER
+    ========================== */
+    .site-header{
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: calc(14px + env(safe-area-inset-top)) 14px 12px;
+      display:flex;
+      justify-content:center;
+      background: linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,0));
+      backdrop-filter: blur(6px);
+      flex: 0 0 auto;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding: 8px 18px;
+      border-radius: 18px;
+      border:1px solid rgba(0,0,0,.10);
+      background: rgba(255,255,255,.75);
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.10);
+      text-decoration:none;
+      color:#111827;
+      font-weight:900;
+      letter-spacing:1px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .brand img{
+      width:32px;
+      height:32px;
+      object-fit:contain;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,.25));
+    }
+
+    .brand::after{
+      content:"";
+      position:absolute;
+      left:18px;
+      right:18px;
+      bottom:6px;
+      height:3px;
+      background: linear-gradient(90deg, transparent, var(--aqua), transparent);
+      transform: scaleX(0);
+      transition: transform .35s ease;
+      border-radius:999px;
+    }
+    .brand:hover::after,
+    .brand:focus-visible::after{
+      transform: scaleX(1);
+    }
+
+    /* Content area should take remaining height between header + footer */
+    main{
+      flex: 1 1 auto;
+      min-height: 0; /* CRITICAL: allows child flex items to shrink without overflow */
+      display: flex;
+      flex-direction: column;
+    }
+
+    .wrap{
+      max-width: 980px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 0 18px;
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+
+    .hero{
+      margin: 18px auto 0;
+      background: var(--panel-bg);
+      border-radius: var(--radius-xl);
+      padding: 30px 18px 22px;
+      box-shadow: var(--shadow-soft);
+      flex: 0 0 auto;
+    }
+
+    h1{
+      margin: 0 0 10px;
+      font-size: clamp(28px, 4vw, 42px);
+      color: var(--site-blue);
+      letter-spacing: -0.5px;
+    }
+
+    .subtext{
+      margin: 0 auto;
+      max-width: 760px;
+      font-size: 16px;
+      line-height: 1.55;
+      color: #111827;
+    }
+    .subtext a{
+      color: var(--link);
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    /* Tek embed card fills the rest */
+    .card{
+      margin: 18px auto 0;
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 980px;
+
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden; /* keep iframe edges clean */
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-inner{
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+    }
+
+    iframe{
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #000;
+    }
+
+    /* =========================
+       UNIVERSAL FOOTER
+    ========================== */
+    .site-footer{
+      margin-top: 16px;
+      padding: 26px 14px 34px;
+      text-align:center;
+      color:#0b5566;
+      background:#ffffff;
+      border-top: 1px solid rgba(15, 23, 42, 0.08);
+      flex: 0 0 auto;
+    }
+
+    .footer-nav{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:10px;
+      font-weight:600;
+      font-size:16px;
+    }
+
+    .footer-nav a{
+      color:#007b8a;
+      text-decoration: underline;
+    }
+
+    .footer-nav span{
+      color:#007b8a;
+      opacity:.6;
+    }
+
+    .footer-coming{
+      margin-top: 14px;
+    }
+
+    .footer-coming a{
+      font-weight:900;
+      font-size:20px;
+      color:#007b8a;
+      text-decoration: underline;
+      letter-spacing:1px;
+    }
+
+    /* mobile tweaks */
+    @media (max-width: 520px){
+      body{ padding: 0 14px 0; }
+      .hero{ padding: 24px 14px 18px; }
+      .footer-nav{ font-size:14px; }
+      .footer-coming a{ font-size:18px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- UNIVERSAL HEADER -->
+  <header class="site-header">
+    <a href="https://agplexmedia-lab.github.io/stuff/home/" class="brand">
+      <img src="../assets/favicon-180.png" alt="AG Plex Home">
+      <span>AG PLEX</span>
+    </a>
+  </header>
+
+  <main>
+    <div class="wrap">
+
+      <div class="hero">
+        <h1>Tek — Tech Support Bot</h1>
+        <div class="subtext">
+          Ask Tek about buffering, playback errors, device settings, or what the server is doing right now.<br>
+          If you’re reporting a real issue, use <a href="https://sites.google.com/view/ag-plex/report-a-plex-problem" rel="noopener">Report a Problem</a>.
+        </div>
+      </div>
+
+      <!-- TEK EMBED -->
+      <section class="card" aria-label="Tek Support Chat">
+        <div class="card-inner">
+          <iframe
+            src="https://tek-support.fly.dev/"
+            title="Tek Support"
+            loading="eager"
+            referrerpolicy="no-referrer-when-downgrade"
+            allow="clipboard-read; clipboard-write"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- UNIVERSAL FOOTER -->
+  <footer class="site-footer">
+    <nav class="footer-nav">
+      <a href="https://agplexmedia-lab.github.io/stuff/home/">Home</a>
+      <span>|</span>
+      <a href="https://agplexmedia-lab.github.io/stuff/request/">Make a Request for the Plex!</a>
+      <span>|</span>
+      <a href="https://agplexmedia-lab.github.io/stuff/gallery/">AG PLEXclusives</a>
+      <span>|</span>
+      <a href="https://plex-recs-rex.fly.dev/">Plex-Rec Bot</a>
+      <span>|</span>
+      <a href="https://tek-support.fly.dev/">Tech Support Bot</a>
+      <span>|</span>
+      <a href="https://sites.google.com/view/ag-plex/report-a-plex-problem">Report a Problem</a>
+      <span>|</span>
+      <a href="https://agplexmedia-lab.github.io/stuff/FAQ/">FAQ</a>
+    </nav>
+
+    <div class="footer-coming">
+      <a href="https://agplexmedia-lab.github.io/stuff/coming-soon/">COMING SOON</a>
+    </div>
+  </footer>
+
+</body>
+</html>
