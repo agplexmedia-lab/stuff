@@ -32,7 +32,6 @@
 
     * { box-sizing: border-box; }
 
-    /* IMPORTANT: make layout height-managed so iframe doesn't cause page scroll */
     html, body{
       height: 100%;
       margin: 0;
@@ -44,11 +43,9 @@
       color: var(--text);
       text-align:center;
 
-      /* turn page into a vertical layout */
       display: flex;
       flex-direction: column;
 
-      /* match your padding vibe */
       padding: 0 18px 0;
       overflow: hidden; /* prevent double scroll */
     }
@@ -112,7 +109,7 @@
     /* Content area should take remaining height between header + footer */
     main{
       flex: 1 1 auto;
-      min-height: 0; /* CRITICAL: allows child flex items to shrink without overflow */
+      min-height: 0; /* CRITICAL */
       display: flex;
       flex-direction: column;
     }
@@ -128,27 +125,30 @@
       min-height: 0;
     }
 
+    /* COMPACT HERO */
     .hero{
-      margin: 18px auto 0;
+      margin: 12px auto 0;
       background: var(--panel-bg);
-      border-radius: var(--radius-xl);
-      padding: 30px 18px 22px;
+      border-radius: var(--radius-lg);
+      padding: 14px 16px;
       box-shadow: var(--shadow-soft);
       flex: 0 0 auto;
     }
 
     h1{
-      margin: 0 0 10px;
-      font-size: clamp(28px, 4vw, 42px);
+      margin: 0;
+      font-size: clamp(20px, 3.5vw, 28px);
       color: var(--site-blue);
-      letter-spacing: -0.5px;
+      letter-spacing: -0.3px;
     }
 
     .subtext{
-      margin: 0 auto;
+      margin-top: 6px;
       max-width: 760px;
-      font-size: 16px;
-      line-height: 1.55;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 14px;
+      line-height: 1.35;
       color: #111827;
     }
     .subtext a{
@@ -159,7 +159,7 @@
 
     /* Tek embed card fills the rest */
     .card{
-      margin: 18px auto 0;
+      margin: 10px auto 0; /* tighter */
       background: var(--card-bg);
       border-radius: var(--radius-xl);
       box-shadow: var(--shadow);
@@ -168,7 +168,7 @@
 
       flex: 1 1 auto;
       min-height: 0;
-      overflow: hidden; /* keep iframe edges clean */
+      overflow: hidden;
       display: flex;
       flex-direction: column;
     }
@@ -232,12 +232,37 @@
       letter-spacing:1px;
     }
 
-    /* mobile tweaks */
+    /* mobile tweaks: maximize Tek area */
     @media (max-width: 520px){
       body{ padding: 0 14px 0; }
-      .hero{ padding: 24px 14px 18px; }
-      .footer-nav{ font-size:14px; }
-      .footer-coming a{ font-size:18px; }
+
+      .hero{
+        padding: 10px 12px;
+        border-radius: 18px;
+      }
+      h1{ font-size: 18px; }
+      .subtext{
+        font-size: 13px;
+        line-height: 1.3;
+      }
+
+      .wrap{ padding-bottom: 6px; }
+
+      .card{
+        margin-top: 8px;
+        flex: 1 1 auto;
+      }
+
+      .site-footer{
+        padding: 16px 10px 22px;
+      }
+      .footer-nav{
+        font-size: 13px;
+        gap: 8px;
+      }
+      .footer-coming a{
+        font-size: 16px;
+      }
     }
   </style>
 </head>
@@ -258,8 +283,8 @@
       <div class="hero">
         <h1>Tek — Tech Support Bot</h1>
         <div class="subtext">
-          Ask Tek about buffering, playback errors, device settings, or what the server is doing right now.<br>
-          If you’re reporting a real issue, use <a href="https://sites.google.com/view/ag-plex/report-a-plex-problem" rel="noopener">Report a Problem</a>.
+          Ask Tek about playback, buffering, device settings, or server status.
+          Need a real ticket? <a href="https://sites.google.com/view/ag-plex/report-a-plex-problem" rel="noopener">Report a Problem</a>.
         </div>
       </div>
 
