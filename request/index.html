@@ -571,7 +571,15 @@
           button = `<button class="btn btn-grey" disabled>Requested</button>`;
           badge = `<span class="badge badge-requested">REQUESTED</span>`;
         } else {
-          button = `<button class="btn" onclick="submitRequest(${item.id},'${type}','${encodeURIComponent(name)}','${year}')">Request</button>`;
+          /* FIX: no inline onclick with title (apostrophes break it). Use data-* + listener. */
+          button = `<button
+                      class="btn request-btn"
+                      data-id="${item.id}"
+                      data-type="${type}"
+                      data-name="${encodeURIComponent(name)}"
+                      data-year="${year}">
+                      Request
+                    </button>`;
         }
 
         out.innerHTML += `
@@ -580,6 +588,18 @@
             <div class="info"><strong>${name}</strong> (${year}) ${badge}</div>
             <div class="buttons">${button}</div>
           </div>`;
+      });
+
+      /* FIX: attach click handlers safely after rendering */
+      document.querySelectorAll(".request-btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+          submitRequest(
+            this.dataset.id,
+            this.dataset.type,
+            this.dataset.name,
+            this.dataset.year
+          );
+        });
       });
     }
 
