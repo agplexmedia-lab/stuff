@@ -26,6 +26,43 @@
 
       /* universal header accent */
       --aqua:#28f2ff;
+
+      /* ===== GLOBAL BANNER OFFSET (JS sets dynamically) ===== */
+      --banner-offset: 0px;
+    }
+
+    /* ===== GLOBAL BANNER (fixed + safe header offset) ===== */
+    .global-banner{
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 9999;
+
+      width: 100%;
+      background: #0f172a;
+      color: #fff;
+      padding: 10px 14px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1.25;
+    }
+
+    .global-banner a{
+      color: #28f2ff;
+      text-decoration: underline;
+      font-weight: 900;
+    }
+
+    /* Push your sticky header down under the banner */
+    .site-header{
+      top: var(--banner-offset);
+    }
+
+    /* Push the whole page content down so nothing hides under the banner */
+    body{
+      padding-top: var(--banner-offset);
     }
 
     *{ box-sizing:border-box; }
@@ -356,6 +393,42 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+  <!-- ===== GLOBAL BANNER LOADER (drop before </body>) ===== -->
+  <script>
+  (async () => {
+    try {
+      if (document.body.dataset.noBanner === "true") return;
+
+      const cfgRes = await fetch("/stuff/assets/banner-config.json", { cache: "no-store" });
+      if (!cfgRes.ok) return;
+      const cfg = await cfgRes.json();
+      if (!cfg.enabled) return;
+
+      const htmlPath = cfg.html_path || "/stuff/assets/banner.html";
+      const bannerRes = await fetch(htmlPath, { cache: "no-store" });
+      if (!bannerRes.ok) return;
+
+      const html = await bannerRes.text();
+      const mount = document.createElement("div");
+      mount.innerHTML = html;
+
+      document.body.insertBefore(mount, document.body.firstChild);
+
+      function setOffset(){
+        const bannerEl = document.querySelector(".global-banner");
+        const h = bannerEl ? Math.ceil(bannerEl.getBoundingClientRect().height) : 0;
+        document.documentElement.style.setProperty("--banner-offset", h + "px");
+      }
+
+      setOffset();
+      window.addEventListener("resize", setOffset);
+    } catch {
+      // fail silently
+    }
+  })();
+  </script>
+
   <script>
     const SHEET_URLS = [
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vTtK9WGWZSlSJi58mOOBA01RBJ3OKeXeY9VyT4nnWFAKNL8C6SeoD8nz_srBPHupiqFr3_0Na53Y4Za/pub?gid=410187338&single=true&output=csv",
