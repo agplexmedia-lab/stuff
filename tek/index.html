@@ -180,7 +180,7 @@
     }
 
     /* =========================
-       FOOTER
+       FOOTER (styles stay local; HTML is injected)
     ========================== */
     .site-footer{
       padding: 18px 12px 24px;
@@ -272,7 +272,7 @@
       <div class="hero">
         <h1>Tek — Tech Support Bot</h1>
         <div class="subtext">
-          Tek is an AI with Plex knowledge. Ask him anything!  
+          Tek is an AI with Plex knowledge. Ask him anything!
           Or <a href="https://sites.google.com/view/ag-plex/report-a-plex-problem" rel="noopener">Report a Problem</a>.
         </div>
       </div>
@@ -294,28 +294,40 @@
     </div>
   </main>
 
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <nav class="footer-nav">
-      <a href="https://agplexmedia-lab.github.io/stuff/home/">Home</a>
-      <span>|</span>
-      <a href="https://agplexmedia-lab.github.io/stuff/request/">Make a Request</a>
-      <span>|</span>
-      <a href="https://agplexmedia-lab.github.io/stuff/gallery/">AG PLEXclusives</a>
-      <span>|</span>
-      <a href="https://plex-recs-rex.fly.dev/">Plex-Rec Bot</a>
-      <span>|</span>
-      <a href="https://tek-support.fly.dev/">Tech Support Bot</a>
-      <span>|</span>
-      <a href="https://sites.google.com/view/ag-plex/report-a-plex-problem">Report a Problem</a>
-      <span>|</span>
-      <a href="https://agplexmedia-lab.github.io/stuff/FAQ/">FAQ</a>
-    </nav>
+  <!-- UNIVERSAL FOOTER MOUNT (footer.html gets injected here) -->
+  <div id="footerMount"></div>
 
-    <div class="footer-coming">
-      <a href="https://agplexmedia-lab.github.io/stuff/coming-soon/">COMING SOON</a>
-    </div>
-  </footer>
+  <!-- ===== GLOBAL FOOTER LOADER (drop before </body>) ===== -->
+  <script>
+  (async () => {
+    try {
+      if (document.body.dataset.noFooter === "true") return;
+
+      const cfgRes = await fetch("/stuff/assets/footer-config.json", { cache: "no-store" });
+      if (!cfgRes.ok) return;
+      const cfg = await cfgRes.json();
+      if (!cfg.enabled) return;
+
+      const htmlPath = cfg.html_path || "/stuff/assets/footer.html";
+      const footerRes = await fetch(htmlPath, { cache: "no-store" });
+      if (!footerRes.ok) return;
+
+      const html = await footerRes.text();
+      const mount = document.getElementById("footerMount") || document.body;
+
+      const wrap = document.createElement("div");
+      wrap.innerHTML = html;
+
+      if (mount === document.body) {
+        document.body.appendChild(wrap);
+      } else {
+        mount.replaceChildren(wrap);
+      }
+    } catch {
+      // fail silently
+    }
+  })();
+  </script>
 
 </body>
 </html>
