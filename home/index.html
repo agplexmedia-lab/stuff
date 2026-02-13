@@ -18,45 +18,44 @@
       --glass:rgba(0,0,0,.25);
       --glass2:rgba(0,0,0,.35);
       --radius:22px;
+
+      /* ===== GLOBAL BANNER OFFSET (JS sets dynamically) ===== */
+      --banner-offset: 0px;
     }
+
     /* ===== GLOBAL BANNER (fixed + safe header offset) ===== */
-:root{
-  --banner-offset: 0px; /* JS sets this dynamically */
-}
+    .global-banner{
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 9999;
 
-.global-banner{
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 9999;
+      width: 100%;
+      background: #0f172a;
+      color: #fff;
+      padding: 10px 14px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1.25;
+    }
 
-  width: 100%;
-  background: #0f172a;
-  color: #fff;
-  padding: 10px 14px;
-  text-align: center;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1.25;
-}
+    .global-banner a{
+      color: #28f2ff;
+      text-decoration: underline;
+      font-weight: 900;
+    }
 
-.global-banner a{
-  color: #28f2ff;
-  text-decoration: underline;
-  font-weight: 900;
-}
+    /* Push your sticky header down under the banner */
+    .topbar{
+      top: var(--banner-offset);
+    }
 
-/* Push your sticky header down under the banner */
-.site-header{
-  top: var(--banner-offset);
-}
-
-/* Push the whole page content down so nothing hides under the banner */
-body{
-  padding-top: var(--banner-offset);
-}
-
+    /* Push the whole page content down so nothing hides under the banner */
+    body{
+      padding-top: var(--banner-offset);
+    }
 
     *{ box-sizing:border-box; }
 
@@ -73,7 +72,6 @@ body{
     /* ===== HEADER ===== */
     .topbar{
       position:sticky;
-      top:0;
       z-index:10;
       padding: calc(14px + env(safe-area-inset-top)) 14px 12px;
       display:flex;
@@ -235,41 +233,6 @@ body{
       }
     }
   </style>
-  <script>
-(async () => {
-  try {
-    if (document.body.dataset.noBanner === "true") return;
-
-    const cfgRes = await fetch("/stuff/assets/banner-config.json", { cache: "no-store" });
-    if (!cfgRes.ok) return;
-    const cfg = await cfgRes.json();
-    if (!cfg.enabled) return;
-
-    const htmlPath = cfg.html_path || "/stuff/assets/banner.html";
-    const bannerRes = await fetch(htmlPath, { cache: "no-store" });
-    if (!bannerRes.ok) return;
-
-    const html = await bannerRes.text();
-    const mount = document.createElement("div");
-    mount.innerHTML = html;
-
-    // Insert at top of body
-    document.body.insertBefore(mount, document.body.firstChild);
-
-    function setOffset(){
-      const bannerEl = document.querySelector(".global-banner");
-      const h = bannerEl ? Math.ceil(bannerEl.getBoundingClientRect().height) : 0;
-      document.documentElement.style.setProperty("--banner-offset", h + "px");
-    }
-
-    setOffset();
-    window.addEventListener("resize", setOffset);
-  } catch {
-    // fail silently
-  }
-})();
-</script>
-
 </head>
 
 <body>
@@ -315,6 +278,42 @@ body{
   </section>
 
 </main>
+
+<!-- ===== GLOBAL BANNER LOADER (put at end so body definitely exists) ===== -->
+<script>
+(async () => {
+  try {
+    if (document.body.dataset.noBanner === "true") return;
+
+    const cfgRes = await fetch("/stuff/assets/banner-config.json", { cache: "no-store" });
+    if (!cfgRes.ok) return;
+    const cfg = await cfgRes.json();
+    if (!cfg.enabled) return;
+
+    const htmlPath = cfg.html_path || "/stuff/assets/banner.html";
+    const bannerRes = await fetch(htmlPath, { cache: "no-store" });
+    if (!bannerRes.ok) return;
+
+    const html = await bannerRes.text();
+    const mount = document.createElement("div");
+    mount.innerHTML = html;
+
+    // Insert at top of body
+    document.body.insertBefore(mount, document.body.firstChild);
+
+    function setOffset(){
+      const bannerEl = document.querySelector(".global-banner");
+      const h = bannerEl ? Math.ceil(bannerEl.getBoundingClientRect().height) : 0;
+      document.documentElement.style.setProperty("--banner-offset", h + "px");
+    }
+
+    setOffset();
+    window.addEventListener("resize", setOffset);
+  } catch {
+    // fail silently
+  }
+})();
+</script>
 
 </body>
 </html>
