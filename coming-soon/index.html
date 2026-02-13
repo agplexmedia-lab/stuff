@@ -31,27 +31,44 @@
       --aqua:#5eead4;
     }
 
-    /* ===== GLOBAL BANNER (shared) ===== */
-   .global-banner{
-    position: sticky;
-    top: 0;
-    z-index: 9999;
+   /* ===== GLOBAL BANNER (fixed + safe header offset) ===== */
+:root{
+  --banner-offset: 0px; /* JS sets this dynamically */
+}
 
-    width: 100%;
-    background: #0f172a;
-    color: #fff;
-    padding: 10px 14px;
-    text-align: center;
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 1.25;
-  }
+.global-banner{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
 
-  .global-banner a{
-    color: #28f2ff;
-    text-decoration: underline;
-    font-weight: 900;
-  }
+  width: 100%;
+  background: #0f172a;
+  color: #fff;
+  padding: 10px 14px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.global-banner a{
+  color: #28f2ff;
+  text-decoration: underline;
+  font-weight: 900;
+}
+
+/* Push your sticky header down under the banner */
+.site-header{
+  top: var(--banner-offset);
+}
+
+/* Push the whole page content down so nothing hides under the banner */
+body{
+  padding-top: var(--banner-offset);
+}
+
 
     *{ box-sizing:border-box; }
 
@@ -384,14 +401,11 @@
 <script>
 (async () => {
   try {
-    // Optional per-page disable:
-    // add <body data-no-banner="true"> on pages that should never show it
     if (document.body.dataset.noBanner === "true") return;
 
     const cfgRes = await fetch("/stuff/assets/banner-config.json", { cache: "no-store" });
     if (!cfgRes.ok) return;
     const cfg = await cfgRes.json();
-
     if (!cfg.enabled) return;
 
     const htmlPath = cfg.html_path || "/stuff/assets/banner.html";
@@ -402,13 +416,23 @@
     const mount = document.createElement("div");
     mount.innerHTML = html;
 
-    // Insert at very top of body so it sits ABOVE your sticky header
+    // Insert at top of body
     document.body.insertBefore(mount, document.body.firstChild);
+
+    function setOffset(){
+      const bannerEl = document.querySelector(".global-banner");
+      const h = bannerEl ? Math.ceil(bannerEl.getBoundingClientRect().height) : 0;
+      document.documentElement.style.setProperty("--banner-offset", h + "px");
+    }
+
+    setOffset();
+    window.addEventListener("resize", setOffset);
   } catch {
     // fail silently
   }
 })();
 </script>
+
 
 
   <script>
