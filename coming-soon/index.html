@@ -13,41 +13,40 @@
 
   <style>
    :root{
-  --site-blue:#0f766e;      /* primary accent (teal) */
-  --panel-bg:#e6fffa;       /* hero background */
-  --page-bg:#f0fdfa;        /* page background */
-  --card-bg:#ffffff;        /* cards stay clean */
+      --site-blue:#0f766e;      /* primary accent (teal) */
+      --panel-bg:#e6fffa;       /* hero background */
+      --page-bg:#f0fdfa;        /* page background */
+      --card-bg:#ffffff;        /* cards stay clean */
 
-  --text:#022c22;           /* main text */
-  --muted:#134e4a;          /* secondary text */
+      --text:#022c22;           /* main text */
+      --muted:#134e4a;          /* secondary text */
 
-  --shadow:0 10px 25px rgba(2, 44, 34, 0.14);
-  --shadow-soft:0 6px 18px rgba(2, 44, 34, 0.10);
+      --shadow:0 10px 25px rgba(2, 44, 34, 0.14);
+      --shadow-soft:0 6px 18px rgba(2, 44, 34, 0.10);
 
-  --radius-xl:26px;
-  --radius-lg:18px;
+      --radius-xl:26px;
+      --radius-lg:18px;
 
-     .global-banner{
-  width: 100%;
-  background: #0f172a;
-  color: #fff;
-  padding: 10px 14px;
-  text-align: center;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1.25;
-}
+      /* universal header accent */
+      --aqua:#5eead4;
+    }
 
-.global-banner a{
-  color: #28f2ff;
-  text-decoration: underline;
-  font-weight: 900;
-}
-
-
-  /* universal header accent */
-  --aqua:#5eead4;
-}
+    /* ===== GLOBAL BANNER (shared) ===== */
+    .global-banner{
+      width: 100%;
+      background: #0f172a;
+      color: #fff;
+      padding: 10px 14px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1.25;
+    }
+    .global-banner a{
+      color: #28f2ff;
+      text-decoration: underline;
+      font-weight: 900;
+    }
 
     *{ box-sizing:border-box; }
 
@@ -375,6 +374,37 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+  <!-- GLOBAL BANNER LOADER -->
+  <script>
+  (async () => {
+    try {
+      // Optional per-page disable:
+      // add <body data-no-banner="true"> on pages that should never show it
+      if (document.body.dataset.noBanner === "true") return;
+
+      const cfgRes = await fetch("/stuff/assets/banner-config.json", { cache: "no-store" });
+      if (!cfgRes.ok) return;
+      const cfg = await cfgRes.json();
+
+      if (!cfg.enabled) return;
+
+      const htmlPath = cfg.html_path || "/stuff/assets/banner.html";
+      const bannerRes = await fetch(htmlPath, { cache: "no-store" });
+      if (!bannerRes.ok) return;
+
+      const html = await bannerRes.text();
+      const mount = document.createElement("div");
+      mount.innerHTML = html;
+
+      // Put banner at the top of body (above sticky header)
+      document.body.insertBefore(mount, document.body.firstChild);
+    } catch {
+      // fail silently
+    }
+  })();
+  </script>
+
   <script>
     const SHEET_CSV_URL =
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vTtK9WGWZSlSJi58mOOBA01RBJ3OKeXeY9VyT4nnWFAKNL8C6SeoD8nz_srBPHupiqFr3_0Na53Y4Za/pub?gid=1263928559&single=true&output=csv";
@@ -563,6 +593,6 @@
       statusText.textContent = "Error loading Coming Soon list.";
       emptyState.style.display = "block";
     });
-</script>
+  </script>
 </body>
 </html>
