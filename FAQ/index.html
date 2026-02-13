@@ -23,6 +23,43 @@
       --shadow-soft:0 6px 18px rgba(15, 23, 42, 0.10);
       --radius-xl:26px;
       --aqua:#28f2ff;
+
+      /* ===== GLOBAL BANNER OFFSET (JS sets dynamically) ===== */
+      --banner-offset: 0px;
+    }
+
+    /* ===== GLOBAL BANNER (fixed + safe header offset) ===== */
+    .global-banner{
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 9999;
+
+      width: 100%;
+      background: #0f172a;
+      color: #fff;
+      padding: 10px 14px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1.25;
+    }
+
+    .global-banner a{
+      color: #28f2ff;
+      text-decoration: underline;
+      font-weight: 900;
+    }
+
+    /* Push your sticky header down under the banner */
+    .site-header{
+      top: var(--banner-offset);
+    }
+
+    /* Push the whole page content down so nothing hides under the banner */
+    body{
+      padding-top: var(--banner-offset);
     }
 
     *{ box-sizing:border-box; }
@@ -178,12 +215,14 @@
       text-decoration:underline;
     }
 
-    /* ===== FOOTER ===== */
+    /* ===== FOOTER (styles stay local; HTML is injected) ===== */
     .site-footer{
       margin-top:34px;
       padding:26px 14px 34px;
       background:#fff;
       border-top:1px solid rgba(15,23,42,.08);
+      text-align:center;
+      color:#0b5566;
     }
 
     .footer-nav{
@@ -192,17 +231,29 @@
       justify-content:center;
       gap:10px;
       font-weight:600;
+      font-size:16px;
     }
 
     .footer-nav a{ color:#007b8a; text-decoration:underline; }
+
+    .footer-nav span{
+      color:#007b8a;
+      opacity:.6;
+    }
 
     .footer-coming{
       margin-top:14px;
       font-weight:900;
       font-size:20px;
+      letter-spacing:1px;
     }
 
     .footer-coming a{ color:#007b8a; text-decoration:underline; }
+
+    @media (max-width: 520px){
+      .footer-nav{ font-size:14px; }
+      .footer-coming{ font-size:18px; }
+    }
   </style>
 </head>
 
@@ -247,11 +298,8 @@
     <details>
       <summary><div class="qmark">Q</div>Is Plex Free?</summary>
       <div class="answer">
-        Yup! I have an account, and all these features are free. I also have a Plex Pass for some extra “nerd” settings, but overall, everything is free—apart from my own investments into my own server. If you’d like your own free Plex account, go for it! You'll have your own profile, settings, and history. Then you can request access to my library 
-<a href="https://sites.google.com/view/ag-plex/use-your-own-plex-account" rel="noopener">
-here :)
-</a>
-
+        Yup! I have an account, and all these features are free. I also have a Plex Pass for some extra “nerd” settings, but overall, everything is free—apart from my own investments into my own server. If you’d like your own free Plex account, go for it! You'll have your own profile, settings, and history. Then you can request access to my library
+        <a href="https://sites.google.com/view/ag-plex/use-your-own-plex-account" rel="noopener">here :)</a>
       </div>
     </details>
 
@@ -264,7 +312,7 @@ here :)
     </details>
 
     <div class="callout">
-      Having an issue?  
+      Having an issue?
       <a href="https://docs.google.com/forms/d/e/1FAIpQLScUSTxNo0ZRSBOt0GjUksD_AG00lTeC4SQ_yseqZfjAF4grAQ/viewform" rel="noopener">
         Report a problem here
       </a>
@@ -273,27 +321,75 @@ here :)
   </section>
 </main>
 
-<footer class="site-footer">
-    <nav class="footer-nav">
-      <a href="https://agplexmedia-lab.github.io/stuff/home/">Home</a>
-      <span>|</span>
-      <a href="https://agplexmedia-lab.github.io/stuff/request/">Make a Request for the Plex!</a>
-      <span>|</span>
-      <a href="https://agplexmedia-lab.github.io/stuff/gallery/">AG PLEXclusives</a>
-      <span>|</span>
-      <a href="https://plex-recs-rex.fly.dev/">Plex-Rec Bot</a>
-      <span>|</span>
-      <a href="https://agplexmedia-lab.github.io/stuff/tek/">Tech Support Bot</a>
-      <span>|</span>
-      <a href="https://sites.google.com/view/ag-plex/report-a-plex-problem">Report a Problem</a>
-      <span>|</span>
-      <a href="https://agplexmedia-lab.github.io/stuff/FAQ/">FAQ</a>
-    </nav>
+<!-- UNIVERSAL FOOTER MOUNT (footer.html gets injected here) -->
+<div id="footerMount"></div>
 
-    <div class="footer-coming">
-      <a href="https://agplexmedia-lab.github.io/stuff/coming-soon/">COMING SOON</a>
-    </div>
-  </footer>
+<!-- ===== GLOBAL BANNER LOADER (drop before </body>) ===== -->
+<script>
+(async () => {
+  try {
+    if (document.body.dataset.noBanner === "true") return;
+
+    const cfgRes = await fetch("/stuff/assets/banner-config.json", { cache: "no-store" });
+    if (!cfgRes.ok) return;
+    const cfg = await cfgRes.json();
+    if (!cfg.enabled) return;
+
+    const htmlPath = cfg.html_path || "/stuff/assets/banner.html";
+    const bannerRes = await fetch(htmlPath, { cache: "no-store" });
+    if (!bannerRes.ok) return;
+
+    const html = await bannerRes.text();
+    const mount = document.createElement("div");
+    mount.innerHTML = html;
+
+    document.body.insertBefore(mount, document.body.firstChild);
+
+    function setOffset(){
+      const bannerEl = document.querySelector(".global-banner");
+      const h = bannerEl ? Math.ceil(bannerEl.getBoundingClientRect().height) : 0;
+      document.documentElement.style.setProperty("--banner-offset", h + "px");
+    }
+
+    setOffset();
+    window.addEventListener("resize", setOffset);
+  } catch {
+    // fail silently
+  }
+})();
+</script>
+
+<!-- ===== GLOBAL FOOTER LOADER (drop before </body>) ===== -->
+<script>
+(async () => {
+  try {
+    if (document.body.dataset.noFooter === "true") return;
+
+    const cfgRes = await fetch("/stuff/assets/footer-config.json", { cache: "no-store" });
+    if (!cfgRes.ok) return;
+    const cfg = await cfgRes.json();
+    if (!cfg.enabled) return;
+
+    const htmlPath = cfg.html_path || "/stuff/assets/footer.html";
+    const footerRes = await fetch(htmlPath, { cache: "no-store" });
+    if (!footerRes.ok) return;
+
+    const html = await footerRes.text();
+    const mount = document.getElementById("footerMount") || document.body;
+
+    const wrap = document.createElement("div");
+    wrap.innerHTML = html;
+
+    if (mount === document.body) {
+      document.body.appendChild(wrap);
+    } else {
+      mount.replaceChildren(wrap);
+    }
+  } catch {
+    // fail silently
+  }
+})();
+</script>
 
 </body>
 </html>
