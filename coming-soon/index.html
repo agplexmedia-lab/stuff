@@ -27,6 +27,24 @@
   --radius-xl:26px;
   --radius-lg:18px;
 
+     .global-banner{
+  width: 100%;
+  background: #0f172a;
+  color: #fff;
+  padding: 10px 14px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.global-banner a{
+  color: #28f2ff;
+  text-decoration: underline;
+  font-weight: 900;
+}
+
+
   /* universal header accent */
   --aqua:#5eead4;
 }
@@ -545,6 +563,33 @@
       statusText.textContent = "Error loading Coming Soon list.";
       emptyState.style.display = "block";
     });
-  </script>
+  <script>
+(async () => {
+  try {
+    // optional per-page disable:
+    // add <body data-no-banner="true"> on pages that should never show it
+    if (document.body.dataset.noBanner === "true") return;
+
+    const cfgRes = await fetch("/stuff/assets/banner-config.json", { cache: "no-store" });
+    if (!cfgRes.ok) return;
+    const cfg = await cfgRes.json();
+
+    if (!cfg.enabled) return;
+
+    const htmlPath = cfg.html_path || "/stuff/assets/banner.html";
+    const bannerRes = await fetch(htmlPath, { cache: "no-store" });
+    if (!bannerRes.ok) return;
+
+    const html = await bannerRes.text();
+    const mount = document.createElement("div");
+    mount.innerHTML = html;
+
+    // Put banner at the top of the page
+    document.body.insertBefore(mount, document.body.firstChild);
+  } catch (e) {
+    // fail silently
+  }
+})();
+</script>
 </body>
 </html>
