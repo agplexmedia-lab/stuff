@@ -455,7 +455,9 @@
     const filterInput = document.getElementById("filterInput");
     const emptyState = document.getElementById("emptyState");
 
-    const cards = []; // {el, titleLower}
+    // Cards now keep a "sortKey" so filtering can also keep the sorted order.
+    // sortKey: number (ms since epoch) or Infinity for unknown/unparseable
+    const cards = []; // {el, titleLower, sortKey}
     const norm = v => (v ?? "").toString().trim();
 
     function lcRow(row) {
@@ -516,7 +518,7 @@
       }
     }
 
-    function addCard({ title, year, href, poster, dateText, est }) {
+    function addCard({ title, year, href, poster, dateText, est, sortKey }) {
       const a = document.createElement("a");
       a.href = href || "#";
       a.rel = "noopener";
@@ -536,14 +538,24 @@
       `;
 
       a.appendChild(card);
-      gridEl.appendChild(a);
-      cards.push({ el: a, titleLower: (title || "").toLowerCase() });
+
+      // IMPORTANT: don't append to grid here — we append in sorted batches
+      cards.push({
+        el: a,
+        titleLower: (title || "").toLowerCase(),
+        sortKey: Number.isFinite(sortKey) ? sortKey : Infinity
+      });
+    }
+
+    function renderGridFromCards(list){
+      gridEl.replaceChildren(...list.map(c => c.el));
     }
 
     function applyFilter(){
       const q = filterInput.value.trim().toLowerCase();
-      let shown = 0;
 
+      // Keep display order = current sorted card order.
+      let shown = 0;
       for (const c of cards){
         const match = !q || c.titleLower.includes(q);
         c.el.style.display = match ? "" : "none";
@@ -556,16 +568,20 @@
 
     filterInput.addEventListener("input", applyFilter);
 
-    async function buildCardFromRow(r, today) {
+    async function buildCardFromRow(r) {
       const title = r.title || "Untitled";
       const year = r.year;
 
+      // CHANGE: sort by soonest *valid* date (including past), then unknown last.
       const d = parseISODate(r.nextmilestone);
-      const hasFutureDate = !!(d && d > today);
-      const dateText = hasFutureDate ? r.nextmilestone : "??";
+      const sortKey = d ? d.getTime() : Infinity;
 
+      // Display logic stays consistent: if it isn't a valid date, show ??
+      const dateText = d ? r.nextmilestone : "??";
+
+      // Est. tag if sheet says estimate OR if date is unknown
       const estFromSheet = (r.milestonesource || "").toLowerCase().startsWith("estimate");
-      const est = estFromSheet || !hasFutureDate;
+      const est = estFromSheet || !d;
 
       const tmdbId = r.tmdb_id;
       const href = await buildLink(tmdbId);
@@ -578,29 +594,14 @@
         } catch { /* ignore */ }
       }
 
-      addCard({ title, year, href, poster, dateText, est });
+      addCard({ title, year, href, poster, dateText, est, sortKey });
     }
 
     async function main() {
       const rows = await fetchCSV(SHEET_CSV_URL);
 
-      const today = new Date();
-      today.setHours(0,0,0,0);
-
-      const comingSoon = rows
-        .filter(r => r.bucket === "COMING_SOON")
-        .map(r => {
-          const d = parseISODate(r.nextmilestone);
-          const hasFutureDate = !!(d && d > today);
-          return { row: r, d, hasFutureDate };
-        })
-        .sort((a, b) => {
-          if (a.hasFutureDate && b.hasFutureDate) return a.d - b.d;
-          if (a.hasFutureDate) return -1;
-          if (b.hasFutureDate) return 1;
-          return (a.row.title || "").localeCompare(b.row.title || "");
-        })
-        .map(x => x.row);
+      // Only COMING_SOON rows
+      const comingSoon = rows.filter(r => r.bucket === "COMING_SOON");
 
       if (!comingSoon.length) {
         statusText.textContent = "0 titles";
@@ -616,12 +617,21 @@
       async function worker(){
         while (i < comingSoon.length){
           const r = comingSoon[i++];
-          await buildCardFromRow(r, today);
+          await buildCardFromRow(r);
           statusText.textContent = `Building posters… (${cards.length}/${comingSoon.length})`;
         }
       }
 
       await Promise.all(Array.from({length: CONCURRENCY}, worker));
+
+      // CHANGE: after building all cards, sort the *actual rendered order*:
+      // soonest date -> latest date -> unknown
+      cards.sort((a, b) => {
+        if (a.sortKey !== b.sortKey) return a.sortKey - b.sortKey;
+        return a.titleLower.localeCompare(b.titleLower);
+      });
+
+      renderGridFromCards(cards);
 
       statusText.textContent = `Showing ${cards.length} of ${cards.length} titles`;
       applyFilter();
