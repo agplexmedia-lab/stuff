@@ -31,44 +31,43 @@
       --aqua:#5eead4;
     }
 
-   /* ===== GLOBAL BANNER (fixed + safe header offset) ===== */
-:root{
-  --banner-offset: 0px; /* JS sets this dynamically */
-}
+    /* ===== GLOBAL BANNER (fixed + safe header offset) ===== */
+    :root{
+      --banner-offset: 0px; /* JS sets this dynamically */
+    }
 
-.global-banner{
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 9999;
+    .global-banner{
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 9999;
 
-  width: 100%;
-  background: #0f172a;
-  color: #fff;
-  padding: 10px 14px;
-  text-align: center;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1.25;
-}
+      width: 100%;
+      background: #0f172a;
+      color: #fff;
+      padding: 10px 14px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1.25;
+    }
 
-.global-banner a{
-  color: #28f2ff;
-  text-decoration: underline;
-  font-weight: 900;
-}
+    .global-banner a{
+      color: #28f2ff;
+      text-decoration: underline;
+      font-weight: 900;
+    }
 
-/* Push your sticky header down under the banner */
-.site-header{
-  top: var(--banner-offset);
-}
+    /* Push your sticky header down under the banner */
+    .site-header{
+      top: var(--banner-offset);
+    }
 
-/* Push the whole page content down so nothing hides under the banner */
-body{
-  padding-top: var(--banner-offset);
-}
-
+    /* Push the whole page content down so nothing hides under the banner */
+    body{
+      padding-top: var(--banner-offset);
+    }
 
     *{ box-sizing:border-box; }
 
@@ -286,7 +285,7 @@ body{
     }
 
     /* =========================
-       UNIVERSAL FOOTER
+       UNIVERSAL FOOTER (styles stay here)
     ========================== */
     .site-footer{
       margin-top: 34px;
@@ -372,68 +371,78 @@ body{
 
   </div>
 
-  <!-- UNIVERSAL FOOTER -->
-  <footer class="site-footer">
-    <nav class="footer-nav">
-      <a href="https://agplexmedia-lab.github.io/stuff/home/">Home</a>
-      <span>|</span>
-      <a href="https://agplexmedia-lab.github.io/stuff/request/">Make a Request for the Plex!</a>
-      <span>|</span>
-      <a href="https://agplexmedia-lab.github.io/stuff/gallery/">AG PLEXclusives</a>
-      <span>|</span>
-      <a href="https://plex-recs-rex.fly.dev/">Plex-Rec Bot</a>
-      <span>|</span>
-      <a href="https://agplexmedia-lab.github.io/stuff/tek/">Tech Support Bot</a>
-      <span>|</span>
-      <a href="https://sites.google.com/view/ag-plex/report-a-plex-problem">Report a Problem</a>
-      <span>|</span>
-      <a href="https://agplexmedia-lab.github.io/stuff/FAQ/">FAQ</a>
-    </nav>
-
-    <div class="footer-coming">
-      <a href="https://agplexmedia-lab.github.io/stuff/coming-soon/">COMING SOON</a>
-    </div>
-  </footer>
+  <!-- UNIVERSAL FOOTER MOUNT (footer.html gets injected here) -->
+  <div id="footerMount"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
   <!-- ===== GLOBAL BANNER LOADER (drop before </body> on every page) ===== -->
-<script>
-(async () => {
-  try {
-    if (document.body.dataset.noBanner === "true") return;
+  <script>
+  (async () => {
+    try {
+      if (document.body.dataset.noBanner === "true") return;
 
-    const cfgRes = await fetch("/stuff/assets/banner-config.json", { cache: "no-store" });
-    if (!cfgRes.ok) return;
-    const cfg = await cfgRes.json();
-    if (!cfg.enabled) return;
+      const cfgRes = await fetch("/stuff/assets/banner-config.json", { cache: "no-store" });
+      if (!cfgRes.ok) return;
+      const cfg = await cfgRes.json();
+      if (!cfg.enabled) return;
 
-    const htmlPath = cfg.html_path || "/stuff/assets/banner.html";
-    const bannerRes = await fetch(htmlPath, { cache: "no-store" });
-    if (!bannerRes.ok) return;
+      const htmlPath = cfg.html_path || "/stuff/assets/banner.html";
+      const bannerRes = await fetch(htmlPath, { cache: "no-store" });
+      if (!bannerRes.ok) return;
 
-    const html = await bannerRes.text();
-    const mount = document.createElement("div");
-    mount.innerHTML = html;
+      const html = await bannerRes.text();
+      const mount = document.createElement("div");
+      mount.innerHTML = html;
 
-    // Insert at top of body
-    document.body.insertBefore(mount, document.body.firstChild);
+      document.body.insertBefore(mount, document.body.firstChild);
 
-    function setOffset(){
-      const bannerEl = document.querySelector(".global-banner");
-      const h = bannerEl ? Math.ceil(bannerEl.getBoundingClientRect().height) : 0;
-      document.documentElement.style.setProperty("--banner-offset", h + "px");
+      function setOffset(){
+        const bannerEl = document.querySelector(".global-banner");
+        const h = bannerEl ? Math.ceil(bannerEl.getBoundingClientRect().height) : 0;
+        document.documentElement.style.setProperty("--banner-offset", h + "px");
+      }
+
+      setOffset();
+      window.addEventListener("resize", setOffset);
+    } catch {
+      // fail silently
     }
+  })();
+  </script>
 
-    setOffset();
-    window.addEventListener("resize", setOffset);
-  } catch {
-    // fail silently
-  }
-})();
-</script>
+  <!-- ===== GLOBAL FOOTER LOADER (drop before </body> on every page) ===== -->
+  <script>
+  (async () => {
+    try {
+      if (document.body.dataset.noFooter === "true") return;
 
+      const cfgRes = await fetch("/stuff/assets/footer-config.json", { cache: "no-store" });
+      if (!cfgRes.ok) return;
+      const cfg = await cfgRes.json();
+      if (!cfg.enabled) return;
 
+      const htmlPath = cfg.html_path || "/stuff/assets/footer.html";
+      const footerRes = await fetch(htmlPath, { cache: "no-store" });
+      if (!footerRes.ok) return;
+
+      const html = await footerRes.text();
+      const mount = document.getElementById("footerMount") || document.body;
+
+      const wrap = document.createElement("div");
+      wrap.innerHTML = html;
+
+      // Prefer inserting inside #footerMount if present
+      if (mount === document.body) {
+        document.body.appendChild(wrap);
+      } else {
+        mount.replaceChildren(wrap);
+      }
+    } catch {
+      // fail silently
+    }
+  })();
+  </script>
 
   <script>
     const SHEET_CSV_URL =
