@@ -455,8 +455,8 @@
     const filterInput = document.getElementById("filterInput");
     const emptyState = document.getElementById("emptyState");
 
-    // Cards now keep a "sortKey" so filtering can also keep the sorted order.
-    // sortKey: number (ms since epoch) or Infinity for unknown/unparseable
+    // Cards keep a "sortKey" so filtering doesn't disturb the sorted order.
+    // sortKey: number (ms since epoch) or Infinity for "unknown"
     const cards = []; // {el, titleLower, sortKey}
     const norm = v => (v ?? "").toString().trim();
 
@@ -539,7 +539,7 @@
 
       a.appendChild(card);
 
-      // IMPORTANT: don't append to grid here — we append in sorted batches
+      // Don't append here; we render once after sorting.
       cards.push({
         el: a,
         titleLower: (title || "").toLowerCase(),
@@ -553,9 +553,8 @@
 
     function applyFilter(){
       const q = filterInput.value.trim().toLowerCase();
-
-      // Keep display order = current sorted card order.
       let shown = 0;
+
       for (const c of cards){
         const match = !q || c.titleLower.includes(q);
         c.el.style.display = match ? "" : "none";
@@ -568,20 +567,24 @@
 
     filterInput.addEventListener("input", applyFilter);
 
-    async function buildCardFromRow(r) {
+    // ✅ FIXED: keeps your old "future date only" display logic,
+    // while still sorting soonest->furthest and unknown last.
+    async function buildCardFromRow(r, today) {
       const title = r.title || "Untitled";
       const year = r.year;
 
-      // CHANGE: sort by soonest *valid* date (including past), then unknown last.
       const d = parseISODate(r.nextmilestone);
-      const sortKey = d ? d.getTime() : Infinity;
+      const hasFutureDate = !!(d && d > today);
 
-      // Display logic stays consistent: if it isn't a valid date, show ??
-      const dateText = d ? r.nextmilestone : "??";
+      // Sort by soonest future date; anything else (past/blank/bad) goes to end
+      const sortKey = hasFutureDate ? d.getTime() : Infinity;
 
-      // Est. tag if sheet says estimate OR if date is unknown
+      // Display only future dates, otherwise ??
+      const dateText = hasFutureDate ? r.nextmilestone : "??";
+
+      // Est. if sheet says estimate OR date isn't a future date
       const estFromSheet = (r.milestonesource || "").toLowerCase().startsWith("estimate");
-      const est = estFromSheet || !d;
+      const est = estFromSheet || !hasFutureDate;
 
       const tmdbId = r.tmdb_id;
       const href = await buildLink(tmdbId);
@@ -609,6 +612,9 @@
         return;
       }
 
+      const today = new Date();
+      today.setHours(0,0,0,0);
+
       statusText.textContent = `Loaded ${comingSoon.length} titles. Fetching posters…`;
 
       const CONCURRENCY = 6;
@@ -617,15 +623,14 @@
       async function worker(){
         while (i < comingSoon.length){
           const r = comingSoon[i++];
-          await buildCardFromRow(r);
+          await buildCardFromRow(r, today);
           statusText.textContent = `Building posters… (${cards.length}/${comingSoon.length})`;
         }
       }
 
       await Promise.all(Array.from({length: CONCURRENCY}, worker));
 
-      // CHANGE: after building all cards, sort the *actual rendered order*:
-      // soonest date -> latest date -> unknown
+      // Sort soonest future date -> latest future date -> unknown
       cards.sort((a, b) => {
         if (a.sortKey !== b.sortKey) return a.sortKey - b.sortKey;
         return a.titleLower.localeCompare(b.titleLower);
