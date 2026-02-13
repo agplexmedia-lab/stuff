@@ -366,15 +366,34 @@
 
     /* mobile tweaks */
     @media (max-width: 520px){
-      body{ padding-left:14px; padding-right:14px; padding-bottom:0; }
-      .card{ padding: 18px; border-radius: 22px; }
-      .hero{ padding: 26px 14px 20px; }
-      .result-item{ padding: 10px; border-radius: 14px; }
-      .btn{ padding: 10px 12px; border-radius: 12px; }
+  body{ padding-left:14px; padding-right:14px; padding-bottom:0; }
+  .card{ padding: 18px; border-radius: 22px; }
+  .hero{ padding: 26px 14px 20px; }
+  .result-item{ padding: 10px; border-radius: 14px; }
+  .btn{ padding: 10px 12px; border-radius: 12px; }
 
-      .footer-nav{ font-size:14px; }
-      .footer-coming a{ font-size:18px; }
-    }
+  .footer-nav{ font-size:14px; }
+  .footer-coming a{ font-size:18px; }
+
+  /* ADD THESE BELOW */
+  .site-header{
+    padding: calc(6px + env(safe-area-inset-top)) 10px 6px;
+  }
+
+  .hero{
+    margin-top: 6px;   /* pulls page up */
+    padding: 20px 14px 16px;
+  }
+
+  .card{
+    margin-top: 20px;
+  }
+
+  .submitted-container{
+    margin-top: 20px;
+  }
+}
+
   </style>
 </head>
 
