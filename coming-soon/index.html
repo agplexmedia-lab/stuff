@@ -32,21 +32,26 @@
     }
 
     /* ===== GLOBAL BANNER (shared) ===== */
-    .global-banner{
-      width: 100%;
-      background: #0f172a;
-      color: #fff;
-      padding: 10px 14px;
-      text-align: center;
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 1.25;
-    }
-    .global-banner a{
-      color: #28f2ff;
-      text-decoration: underline;
-      font-weight: 900;
-    }
+   .global-banner{
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+
+    width: 100%;
+    background: #0f172a;
+    color: #fff;
+    padding: 10px 14px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.25;
+  }
+
+  .global-banner a{
+    color: #28f2ff;
+    text-decoration: underline;
+    font-weight: 900;
+  }
 
     *{ box-sizing:border-box; }
 
