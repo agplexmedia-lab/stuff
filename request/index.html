@@ -28,6 +28,43 @@
       /* universal header accent */
       --aqua:#28f2ff;
       --shadow-strong:0 9px 28px rgba(0,0,0,.35);
+
+      /* ===== GLOBAL BANNER OFFSET (JS sets dynamically) ===== */
+      --banner-offset: 0px;
+    }
+
+    /* ===== GLOBAL BANNER (fixed + safe header offset) ===== */
+    .global-banner{
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 9999;
+
+      width: 100%;
+      background: #0f172a;
+      color: #fff;
+      padding: 10px 14px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1.25;
+    }
+
+    .global-banner a{
+      color: #28f2ff;
+      text-decoration: underline;
+      font-weight: 900;
+    }
+
+    /* Push your sticky header down under the banner */
+    .site-header{
+      top: var(--banner-offset);
+    }
+
+    /* Push the whole page content down so nothing hides under the banner */
+    body{
+      padding-top: var(--banner-offset);
     }
 
     * { box-sizing: border-box; }
@@ -40,7 +77,9 @@
       text-align:center;
 
       /* leave room so sticky header doesn't feel glued */
-      padding: 0 18px 0;
+      padding-left: 18px;
+      padding-right: 18px;
+      padding-bottom: 0;
     }
 
     /* =========================
@@ -48,7 +87,6 @@
     ========================== */
     .site-header{
       position: sticky;
-      top: 0;
       z-index: 100;
       padding: calc(14px + env(safe-area-inset-top)) 14px 12px;
       display:flex;
@@ -327,7 +365,7 @@
 
     /* mobile tweaks */
     @media (max-width: 520px){
-      body{ padding: 0 14px 0; }
+      body{ padding-left:14px; padding-right:14px; padding-bottom:0; }
       .card{ padding: 18px; border-radius: 22px; }
       .hero{ padding: 26px 14px 20px; }
       .result-item{ padding: 10px; border-radius: 14px; }
@@ -417,6 +455,41 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+  <!-- ===== GLOBAL BANNER LOADER (drop before </body>) ===== -->
+  <script>
+  (async () => {
+    try {
+      if (document.body.dataset.noBanner === "true") return;
+
+      const cfgRes = await fetch("/stuff/assets/banner-config.json", { cache: "no-store" });
+      if (!cfgRes.ok) return;
+      const cfg = await cfgRes.json();
+      if (!cfg.enabled) return;
+
+      const htmlPath = cfg.html_path || "/stuff/assets/banner.html";
+      const bannerRes = await fetch(htmlPath, { cache: "no-store" });
+      if (!bannerRes.ok) return;
+
+      const html = await bannerRes.text();
+      const mount = document.createElement("div");
+      mount.innerHTML = html;
+
+      document.body.insertBefore(mount, document.body.firstChild);
+
+      function setOffset(){
+        const bannerEl = document.querySelector(".global-banner");
+        const h = bannerEl ? Math.ceil(bannerEl.getBoundingClientRect().height) : 0;
+        document.documentElement.style.setProperty("--banner-offset", h + "px");
+      }
+
+      setOffset();
+      window.addEventListener("resize", setOffset);
+    } catch {
+      // fail silently
+    }
+  })();
+  </script>
 
   <script>
     const TMDB_API_KEY = "5bbfc2b05c0d49eea2032b35324ebc81";
