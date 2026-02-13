@@ -375,35 +375,36 @@
 
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
-  <!-- GLOBAL BANNER LOADER -->
-  <script>
-  (async () => {
-    try {
-      // Optional per-page disable:
-      // add <body data-no-banner="true"> on pages that should never show it
-      if (document.body.dataset.noBanner === "true") return;
+  <!-- ===== GLOBAL BANNER LOADER (drop before </body> on every page) ===== -->
+<script>
+(async () => {
+  try {
+    // Optional per-page disable:
+    // add <body data-no-banner="true"> on pages that should never show it
+    if (document.body.dataset.noBanner === "true") return;
 
-      const cfgRes = await fetch("/stuff/assets/banner-config.json", { cache: "no-store" });
-      if (!cfgRes.ok) return;
-      const cfg = await cfgRes.json();
+    const cfgRes = await fetch("/stuff/assets/banner-config.json", { cache: "no-store" });
+    if (!cfgRes.ok) return;
+    const cfg = await cfgRes.json();
 
-      if (!cfg.enabled) return;
+    if (!cfg.enabled) return;
 
-      const htmlPath = cfg.html_path || "/stuff/assets/banner.html";
-      const bannerRes = await fetch(htmlPath, { cache: "no-store" });
-      if (!bannerRes.ok) return;
+    const htmlPath = cfg.html_path || "/stuff/assets/banner.html";
+    const bannerRes = await fetch(htmlPath, { cache: "no-store" });
+    if (!bannerRes.ok) return;
 
-      const html = await bannerRes.text();
-      const mount = document.createElement("div");
-      mount.innerHTML = html;
+    const html = await bannerRes.text();
+    const mount = document.createElement("div");
+    mount.innerHTML = html;
 
-      // Put banner at the top of body (above sticky header)
-      document.body.insertBefore(mount, document.body.firstChild);
-    } catch {
-      // fail silently
-    }
-  })();
-  </script>
+    // Insert at very top of body so it sits ABOVE your sticky header
+    document.body.insertBefore(mount, document.body.firstChild);
+  } catch {
+    // fail silently
+  }
+})();
+</script>
+
 
   <script>
     const SHEET_CSV_URL =
