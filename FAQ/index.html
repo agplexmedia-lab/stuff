@@ -57,21 +57,18 @@
       top: var(--banner-offset);
     }
 
-    /* Push the whole page content down so nothing hides under the banner */
-
     *{ box-sizing:border-box; }
 
-      body{
-  margin:0;
-  font-family:'Poppins',sans-serif;
-  background: var(--page-bg);
-  color: var(--text);
-  padding-top: var(--banner-offset);
-  padding-left: 18px;
-  padding-right: 18px;
-  text-align:center;
-}
-
+    body{
+      margin:0;
+      font-family:'Poppins',sans-serif;
+      background: var(--page-bg);
+      color: var(--text);
+      padding-top: var(--banner-offset);
+      padding-left: 18px;
+      padding-right: 18px;
+      text-align:center;
+    }
 
     .wrap{ max-width: 980px; margin: 0 auto; }
 
@@ -158,24 +155,23 @@
       text-align:left;
     }
 
-    details{
+    /* Always-visible FAQ blocks (replaces details/summary) */
+    .faq-item{
       background:#f4f6f9;
       border:1px solid #e5e7eb;
       border-radius:18px;
       margin-bottom:12px;
       box-shadow: 0 6px 18px rgba(15,23,42,.06);
+      padding: 14px;
     }
 
-    summary{
-      list-style:none;
-      cursor:pointer;
-      padding:14px;
+    .faq-q{
       display:flex;
       gap:10px;
       font-weight:900;
+      align-items:flex-start;
+      margin-bottom: 8px;
     }
-
-    summary::-webkit-details-marker{ display:none; }
 
     .qmark{
       width:26px;
@@ -186,10 +182,11 @@
       place-items:center;
       color:var(--site-blue);
       font-weight:900;
+      flex: 0 0 auto;
     }
 
     .answer{
-      padding: 0 14px 14px 50px;
+      padding: 0 0 0 36px;
       font-size:15px;
       line-height:1.55;
     }
@@ -274,42 +271,42 @@
 
   <section class="panel">
 
-    <details open>
-      <summary><div class="qmark">Q</div>What is Plex??</summary>
+    <div class="faq-item">
+      <div class="faq-q"><div class="qmark">Q</div>What is Plex??</div>
       <div class="answer">
         Plex is a popular app amongst media nerds - Plex allows someone (me, Andrew) to organize and stream their own collection of movies, TV shows, music, and photos, from a central location (Andrew’s home desktop computer).
       </div>
-    </details>
+    </div>
 
-    <details>
-      <summary><div class="qmark">Q</div>Where do you get your movies and shows?</summary>
+    <div class="faq-item">
+      <div class="faq-q"><div class="qmark">Q</div>Where do you get your movies and shows?</div>
       <div class="answer">
         Everywhere! It is my main hobby to find and collect movies and tv shows.
       </div>
-    </details>
+    </div>
 
-    <details>
-      <summary><div class="qmark">Q</div>So you’ll just add whatever I want to this Plex App for me?</summary>
+    <div class="faq-item">
+      <div class="faq-q"><div class="qmark">Q</div>So you’ll just add whatever I want to this Plex App for me?</div>
       <div class="answer">
         Absolutely! I love finding stuff and expanding my collection. Even / especially if it’s stuff you can find only via online rental or on an app you don’t have (apple tv lol). Just submit a request and I will find it! Usually in under a day!
       </div>
-    </details>
+    </div>
 
-    <details>
-      <summary><div class="qmark">Q</div>Is Plex Free?</summary>
+    <div class="faq-item">
+      <div class="faq-q"><div class="qmark">Q</div>Is Plex Free?</div>
       <div class="answer">
         Yup! I have an account, and all these features are free. I also have a Plex Pass for some extra “nerd” settings, but overall, everything is free—apart from my own investments into my own server. If you’d like your own free Plex account, go for it! You'll have your own profile, settings, and history. Then you can request access to my library
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSe-yT7smKJHNaKjXaHvVq20eVsYlH7qTf05Rgs1RuCg3jbYtQ/viewform" rel="noopener">here :)</a>
       </div>
-    </details>
+    </div>
 
-    <details>
-      <summary><div class="qmark">Q</div>Woah, is this Legal?</summary>
+    <div class="faq-item">
+      <div class="faq-q"><div class="qmark">Q</div>Woah, is this Legal?</div>
       <div class="answer">
         Lol, 100%. All of my content is legally sourced. Plex is legit.<br><br>
         But why did you ask? Are you a COP?!?!!
       </div>
-    </details>
+    </div>
 
     <div class="callout">
       Having an issue?
