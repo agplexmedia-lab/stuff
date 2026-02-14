@@ -58,27 +58,27 @@
     }
 
     /* Push the whole page content down so nothing hides under the banner */
-    body{
-      padding-top: var(--banner-offset);
-    }
 
     *{ box-sizing:border-box; }
 
-    body{
-      margin:0;
-      font-family:'Poppins',sans-serif;
-      background: var(--page-bg);
-      color: var(--text);
-      padding: 0 18px;
-      text-align:center;
-    }
+      body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background: var(--page-bg);
+  color: var(--text);
+  padding-top: var(--banner-offset);
+  padding-left: 18px;
+  padding-right: 18px;
+  text-align:center;
+}
+
 
     .wrap{ max-width: 980px; margin: 0 auto; }
 
     /* ===== HEADER ===== */
     .site-header{
       position: sticky;
-      top: 0;
+      top: var(--banner-offset);
       z-index: 100;
       padding: calc(14px + env(safe-area-inset-top)) 14px 12px;
       display:flex;
