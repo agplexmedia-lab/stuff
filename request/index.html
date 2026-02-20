@@ -249,6 +249,29 @@
       vertical-align: bottom;
     }
 
+    /* ===== FIX: title link styling (IMDB click) ===== */
+    .title-link{
+      color: inherit;
+      text-decoration: none;
+      display: inline-block;
+      max-width: 100%;
+    }
+    .title-link:hover strong,
+    .title-link:focus-visible strong{
+      text-decoration: underline;
+    }
+
+    /* ===== FIX: year/badge on its own line (mobile-friendly) ===== */
+    .info .meta{
+      margin-top: 4px;
+      font-size: 13px;
+      color: var(--muted);
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap: wrap;
+    }
+
     .buttons{ flex: 0 0 auto; }
 
     .btn{
@@ -391,6 +414,22 @@
 
   .submitted-container{
     margin-top: 20px;
+  }
+
+  /* ===== FIX: free space for titles on mobile ===== */
+  .buttons{ flex: 0 0 96px; }
+  .btn{ width: 100%; }
+
+  /* ===== FIX: slightly smaller poster on mobile ===== */
+  .result-item img{ width: 44px; height: 66px; }
+
+  /* ===== FIX: allow 2 lines for title on mobile ===== */
+  .info strong{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    white-space: normal;
+    overflow: hidden;
   }
 }
 
@@ -614,10 +653,16 @@
                     </button>`;
         }
 
+        /* FIX: title is clickable -> opens IMDb (fallback TMDb); year/badge on next line */
         out.innerHTML += `
           <div class="result-item">
             <img src="${poster}" alt="Poster">
-            <div class="info"><strong>${name}</strong> (${year}) ${badge}</div>
+            <div class="info">
+              <a href="#" class="title-link" data-type="${type}" data-tmdb="${item.id}" aria-label="Open IMDb page">
+                <strong>${name}</strong>
+              </a>
+              <div class="meta">(${year}) ${badge}</div>
+            </div>
             <div class="buttons">${button}</div>
           </div>`;
       });
@@ -631,6 +676,28 @@
             this.dataset.name,
             this.dataset.year
           );
+        });
+      });
+
+      /* NEW: title click -> open IMDb (fallback: TMDb) */
+      document.querySelectorAll(".title-link").forEach(a => {
+        a.addEventListener("click", async (e) => {
+          e.preventDefault();
+          const type = a.dataset.type;
+          const tmdbId = a.dataset.tmdb;
+
+          try{
+            const ext = await fetch(`https://api.themoviedb.org/3/${type}/${tmdbId}/external_ids?api_key=${TMDB_API_KEY}`)
+              .then(r => r.json());
+
+            const imdb = ext && ext.imdb_id;
+            if (imdb) {
+              window.open(`https://www.imdb.com/title/${imdb}/`, "_blank", "noopener");
+              return;
+            }
+          }catch{}
+
+          window.open(`https://www.themoviedb.org/${type}/${tmdbId}`, "_blank", "noopener");
         });
       });
     }
