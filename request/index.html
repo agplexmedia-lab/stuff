@@ -33,30 +33,29 @@
       --banner-offset: 0px;
     }
 
-    /* ===== GLOBAL BANNER (fixed + safe header offset) ===== */
-    .global-banner{
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 9999;
+   /* ===== GLOBAL BANNER (fixed + safe header offset) ===== */
+.global-banner{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
 
-      width: 100%;
-      background: #0f172a;
-      color: #fff;
-      padding: 10px 14px;
-      text-align: center;
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 1.25;
-    }
+  width: 100%;
+  background: #f59e0b; /* bold amber */
+  color: #111827;      /* dark text for contrast */
+  padding: 10px 14px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.25;
+}
 
-    .global-banner a{
-      color: #28f2ff;
-      text-decoration: underline;
-      font-weight: 900;
-    }
-
+.global-banner a{
+  color: #111827;
+  text-decoration: underline;
+  font-weight: 900;
+}
     /* Push your sticky header down under the banner */
     .site-header{
       top: var(--banner-offset);
