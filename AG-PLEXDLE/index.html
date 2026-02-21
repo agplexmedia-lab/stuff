@@ -440,6 +440,7 @@
        - Hints become a 2x2 grid
        - Pills wrap (no cutoff)
        - Input + button stack cleanly
+       - FIX: datalist input giant box
     ========================== */
     @media (max-width: 720px){
       body{ padding-left:14px; padding-right:14px; }
@@ -452,12 +453,34 @@
 
       /* Stack input and button */
       .inputrow{
+        display:flex;
         flex-direction: column;
+        gap: 10px;
         align-items: stretch;
       }
+
+      /* FIX: the datalist input becomes huge on some mobile browsers */
+      #guessInput{
+        flex: 0 0 auto;
+        width: 100%;
+        height: 52px;
+        min-height: 52px;
+        max-height: 52px;
+        padding: 12px 14px;
+        font-size: 16px;
+        line-height: 1.2;
+        display: block;
+      }
+
+      /* Also make sure the base input rule can't force stretching */
+      input{
+        flex: 0 0 auto !important;
+      }
+
       #guessBtn{
         width: 100%;
-        padding: 12px 14px;
+        height: 48px;
+        padding: 0 14px;
         border-radius: 14px;
       }
 
@@ -774,7 +797,6 @@
       const genP  = makePill(feedback.genres.text, feedback.genres.tone);
       const ratP  = makePill(feedback.rating.text, feedback.rating.tone);
 
-      // nice tooltips
       yearP.title = `Year: ${feedback.year.text}`;
       rtP.title   = `Runtime: ${feedback.runtime.text}`;
       genP.title  = `Genres: ${feedback.genres.text}`;
@@ -792,7 +814,6 @@
     }
 
     function compareGuess(guess, answer){
-      // YEAR: if matched, show actual year
       let yearTone = "bad";
       let yearText = "—";
       if (Number(guess.year) === Number(answer.year)){
@@ -806,7 +827,6 @@
         yearText = "⬇️";
       }
 
-      // RUNTIME: if matched, show actual minutes
       const gRT = Number(guess.runtime_minutes || 0);
       const aRT = Number(answer.runtime_minutes || 0);
       let rtTone = "bad";
@@ -824,7 +844,6 @@
         }
       }
 
-      // GENRES: if perfect match, show full genres string
       const gGenres = new Set(splitGenres(guess.genres));
       const aGenresList = splitGenres(answer.genres);
       const aSet = new Set(aGenresList);
@@ -841,7 +860,6 @@
         genTone = "warn";
       }
 
-      // RATING: if matched, show actual rating
       const gr = (guess.content_rating || "").toString().trim().toLowerCase();
       const ar = (answer.content_rating || "").toString().trim().toLowerCase();
       let ratTone = "bad";
@@ -946,7 +964,6 @@
       const input = raw.trim();
       if (!input) return { movie: null, error: "Type a title." };
 
-      // If user includes "(YEAR)" we honor that
       const m = input.match(/^(.*?)(?:\s*\(\s*(\d{4})\s*\))\s*$/);
       if (m){
         const t = normTitle(m[1]);
@@ -957,7 +974,6 @@
         return { movie: exact, error: "" };
       }
 
-      // Title-only match
       const key = normTitle(input);
       const list = TITLE_TO_MOVIES.get(key) || [];
 
@@ -1094,7 +1110,6 @@
       buildTitleIndex();
       showFreebie();
 
-      // render existing guesses
       board.innerHTML = "";
       for (const g of STATE.guesses){
         const fb = compareGuess(g, ANSWER);
@@ -1115,7 +1130,6 @@
       }
     }
 
-    // Wire up events
     guessBtn.addEventListener("click", handleGuess);
     guessInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") handleGuess();
