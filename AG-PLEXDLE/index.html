@@ -23,11 +23,9 @@
       --shadow:0 10px 25px rgba(15, 23, 42, 0.12);
       --shadow-soft:0 6px 18px rgba(15, 23, 42, 0.10);
       --radius-xl:26px;
-      --radius-lg:18px;
 
       /* universal header accent */
       --aqua:#28f2ff;
-      --shadow-strong:0 9px 28px rgba(0,0,0,.35);
 
       /* ===== GLOBAL BANNER OFFSET (JS sets dynamically) ===== */
       --banner-offset: 0px;
@@ -53,7 +51,6 @@
       padding-right: 18px;
       padding-bottom: 0;
 
-      /* pushed by banner loader */
       padding-top: var(--banner-offset);
     }
 
@@ -77,7 +74,6 @@
       font-weight: 900;
     }
 
-    /* Push sticky header down under banner */
     .site-header{ top: var(--banner-offset); }
 
     /* =========================
@@ -280,6 +276,7 @@
       font-size: 13px;
       line-height: 1.4;
     }
+
     .msg{
       margin-top: 10px;
       font-size: 14px;
@@ -288,6 +285,31 @@
     }
     .msg.bad{ color: #991b1b; }
     .msg.good{ color: #14532d; }
+
+    /* Daily freebie hint box */
+    .freebie{
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: #eef2ff;
+      border: 1px solid rgba(30,41,59,.10);
+      color:#0f172a;
+      font-weight: 900;
+      display:none;
+      line-height: 1.35;
+    }
+    .freebie .label{
+      display:inline-block;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .7px;
+      color: var(--muted);
+      margin-right: 8px;
+      font-weight: 900;
+    }
+    .freebie .value{
+      font-weight: 900;
+    }
 
     .board{
       margin-top: 14px;
@@ -330,15 +352,6 @@
       overflow:hidden;
     }
 
-    .hint{
-      gap:8px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      width:100%;
-      font-weight: 900;
-    }
-
     .pill{
       display:inline-flex;
       align-items:center;
@@ -351,6 +364,11 @@
       font-weight: 900;
       width:100%;
       min-height: 30px;
+
+      /* allow long values like genres/studios to not explode layout */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .pill.good{ background: rgba(22,163,74,.12); color:#14532d; border-color: rgba(22,163,74,.25); }
@@ -390,18 +408,6 @@
       text-decoration: underline;
     }
 
-    /* =========================
-       UNIVERSAL FOOTER
-    ========================== */
-    .site-footer{
-      margin-top: 34px;
-      padding: 26px 14px 34px;
-      text-align:center;
-      color:#0b5566;
-      background:#ffffff;
-      border-top: 1px solid rgba(15, 23, 42, 0.08);
-    }
-
     @media (max-width: 720px){
       body{ padding-left:14px; padding-right:14px; }
       .card{ padding: 18px; }
@@ -411,21 +417,12 @@
         padding: calc(6px + env(safe-area-inset-top)) 10px 6px;
       }
 
-      /* Make board more readable on mobile */
       .row, .headerrow{
         grid-template-columns: 1.7fr 0.8fr 1fr 1fr 0.8fr;
         gap:8px;
       }
       .cell{ border-radius: 12px; padding: 10px 10px; }
       .pill{ font-size: 12px; }
-    }
-
-    @media (max-width: 520px){
-      .row, .headerrow{
-        grid-template-columns: 1.8fr 0.8fr 1fr 1fr 0.8fr;
-        gap:8px;
-      }
-      .colhead{ font-size: 11px; }
     }
   </style>
 </head>
@@ -445,12 +442,12 @@
     <div class="hero">
       <h1>Plexdle</h1>
       <div class="subtext">
-        Daily movie guessing game — pulled from the AG Plex movie JSON. You get <strong>6 guesses</strong>.<br>
-        Type a title and hit Guess. (If a title exists multiple times, you’ll be asked for the year.)
+        Daily movie guessing game — you get <strong>6 guesses</strong>.<br>
+        Type a title and hit Guess. (If a title exists multiple times, it’ll ask for the year.)
       </div>
 
       <div class="chips" aria-hidden="true">
-        <span class="chip"><span class="dot good"></span> Exact match</span>
+        <span class="chip"><span class="dot good"></span> Match shows the value</span>
         <span class="chip"><span class="dot warn"></span> Higher / lower hint</span>
         <span class="chip"><span class="dot bad"></span> No match</span>
       </div>
@@ -465,6 +462,12 @@
         </div>
       </div>
 
+      <!-- Daily pre-revealed hint -->
+      <div class="freebie" id="freebieBox">
+        <span class="label">Today’s freebie:</span>
+        <span class="value" id="freebieValue"></span>
+      </div>
+
       <div class="inputrow">
         <input id="guessInput" list="titleList" placeholder="Type a movie title…" autocomplete="off" />
         <datalist id="titleList"></datalist>
@@ -473,10 +476,10 @@
 
       <div class="help" id="helpBox" style="display:none;">
         <strong>Hints:</strong><br>
-        <strong>Year:</strong> ⬆️ means the answer’s year is higher, ⬇️ means lower.<br>
-        <strong>Runtime:</strong> ⬆️ means the answer is longer, ⬇️ means shorter (shows minute difference).<br>
-        <strong>Genres:</strong> shows how many genres overlap (e.g. 1/2).<br>
-        <strong>Rating:</strong> matches MPAA/TV rating (PG, R, etc.) if available.
+        <strong>Year:</strong> ⬆️ means the answer’s year is higher, ⬇️ means lower. If you match it, it shows the exact year.<br>
+        <strong>Runtime:</strong> ⬆️ means the answer is longer, ⬇️ means shorter (shows minute difference). If you match it, it shows exact minutes.<br>
+        <strong>Genres:</strong> shows how many genres overlap (e.g. 1/2). If you match all genres, it shows the full genre list.<br>
+        <strong>Rating:</strong> if you match it, it shows the actual rating (PG-13, R, etc.).
       </div>
 
       <div class="msg" id="msg"></div>
@@ -491,15 +494,16 @@
 
       <div class="board" id="board"></div>
 
+      <!-- Answer reveal (always shown when win/lose) -->
       <div class="reveal" id="revealBox"></div>
     </div>
 
-    <!-- UNIVERSAL FOOTER MOUNT (footer.html gets injected here) -->
+    <!-- UNIVERSAL FOOTER MOUNT -->
     <div id="footerMount"></div>
 
   </div>
 
-  <!-- ===== GLOBAL BANNER LOADER (drop before </body>) ===== -->
+  <!-- ===== GLOBAL BANNER LOADER ===== -->
   <script>
   (async () => {
     try {
@@ -534,7 +538,7 @@
   })();
   </script>
 
-  <!-- ===== GLOBAL FOOTER LOADER (drop before </body>) ===== -->
+  <!-- ===== GLOBAL FOOTER LOADER ===== -->
   <script>
   (async () => {
     try {
@@ -555,11 +559,8 @@
       const wrap = document.createElement("div");
       wrap.innerHTML = html;
 
-      if (mount === document.body) {
-        document.body.appendChild(wrap);
-      } else {
-        mount.replaceChildren(wrap);
-      }
+      if (mount === document.body) document.body.appendChild(wrap);
+      else mount.replaceChildren(wrap);
     } catch {
       // fail silently
     }
@@ -569,13 +570,10 @@
   <script>
     /************************************************************
      * ANDREW: CONFIG
-     * Swap this URL if you ever change where the full library JSON lives.
      ************************************************************/
     const MOVIES_URL = "https://apag104.github.io/ag-json/recently_added_movies.json";
-
     const MAX_GUESSES = 6;
 
-    // Daily key (local time): YYYY-MM-DD
     function todayKey(){
       const d = new Date();
       const y = d.getFullYear();
@@ -584,7 +582,6 @@
       return `${y}-${m}-${day}`;
     }
 
-    // Normalize title for matching
     function normTitle(s){
       return (s || "").toLowerCase().trim().replace(/\s+/g, " ");
     }
@@ -596,11 +593,16 @@
         .filter(Boolean);
     }
 
-    // Deterministic daily index (stable w/out backend)
     function dailyIndex(len){
-      // Use local day count since epoch, then mod
       const day = Math.floor(Date.now() / 86400000);
       return len ? (day % len) : 0;
+    }
+
+    function dailyFreebieKey(){
+      // rotates: year -> runtime -> genres -> rating
+      const keys = ["year", "runtime", "genres", "rating"];
+      const day = Math.floor(Date.now() / 86400000);
+      return keys[day % keys.length];
     }
 
     // UI refs
@@ -614,14 +616,17 @@
     const msg         = document.getElementById("msg");
     const board       = document.getElementById("board");
     const revealBox   = document.getElementById("revealBox");
+    const freebieBox  = document.getElementById("freebieBox");
+    const freebieValue= document.getElementById("freebieValue");
 
     // Game state
     let MOVIES = [];
-    let TITLE_TO_MOVIES = new Map(); // normalized title -> array of movies
+    let TITLE_TO_MOVIES = new Map();
     let ANSWER = null;
+    let FREEBIE = null; // one of: year/runtime/genres/rating
     let STATE = { day: todayKey(), guesses: [], done: false };
 
-    const STORAGE_KEY = "agplex_plexdle_state_v1";
+    const STORAGE_KEY = "agplex_plexdle_state_v2";
 
     function loadState(){
       try{
@@ -629,7 +634,6 @@
         if (!raw) return;
         const s = JSON.parse(raw);
         if (!s || typeof s !== "object") return;
-        // If it's a different day, start fresh
         if (s.day !== todayKey()) return;
         if (!Array.isArray(s.guesses)) s.guesses = [];
         STATE = {
@@ -656,13 +660,10 @@
       return `https://www.imdb.com/title/${imdbId}/`;
     }
 
-    function safeText(s){
-      return (s ?? "").toString();
-    }
-
     function makePill(text, tone){
       const span = document.createElement("div");
       span.className = `pill ${tone || ""}`.trim();
+      span.title = text; // lets you long-press / hover to see full value
       span.textContent = text;
       return span;
     }
@@ -674,7 +675,7 @@
       const titleCell = document.createElement("div");
       titleCell.className = "cell titlecell";
       const titleSpan = document.createElement("span");
-      titleSpan.textContent = `${safeText(guess.title)} (${guess.year})`;
+      titleSpan.textContent = `${guess.title} (${guess.year})`;
       titleCell.appendChild(titleSpan);
 
       const yearCell = document.createElement("div");
@@ -699,34 +700,33 @@
       row.appendChild(gCell);
       row.appendChild(rCell);
 
-      // newest at top
       board.prepend(row);
     }
 
     function compareGuess(guess, answer){
-      // YEAR
+      // YEAR: if matched, show actual year
       let yearTone = "bad";
       let yearText = "—";
       if (Number(guess.year) === Number(answer.year)){
         yearTone = "good";
-        yearText = "✅";
+        yearText = `${answer.year}`;
       } else if (Number(guess.year) < Number(answer.year)){
         yearTone = "warn";
         yearText = "⬆️";
-      } else if (Number(guess.year) > Number(answer.year)){
+      } else {
         yearTone = "warn";
         yearText = "⬇️";
       }
 
-      // RUNTIME
+      // RUNTIME: if matched, show actual minutes
       const gRT = Number(guess.runtime_minutes || 0);
       const aRT = Number(answer.runtime_minutes || 0);
       let rtTone = "bad";
-      let rtText = "—";
+      let rtText = "n/a";
       if (gRT && aRT){
         if (gRT === aRT){
           rtTone = "good";
-          rtText = "✅";
+          rtText = `${aRT}m`;
         } else if (gRT < aRT){
           rtTone = "warn";
           rtText = `⬆️ +${aRT - gRT}m`;
@@ -734,41 +734,41 @@
           rtTone = "warn";
           rtText = `⬇️ -${gRT - aRT}m`;
         }
-      } else {
-        rtTone = "bad";
-        rtText = "n/a";
       }
 
-      // GENRES overlap count
+      // GENRES: if perfect match, show full genres string
       const gGenres = new Set(splitGenres(guess.genres));
-      const aGenres = splitGenres(answer.genres);
-      const aSet = new Set(aGenres);
+      const aGenresList = splitGenres(answer.genres);
+      const aSet = new Set(aGenresList);
       let match = 0;
       for (const g of gGenres) if (aSet.has(g)) match++;
-      const denom = aGenres.length || 0;
+      const denom = aGenresList.length || 0;
 
       let genTone = "bad";
-      if (denom === 0) genTone = "bad";
-      else if (match === denom) genTone = "good";
-      else if (match > 0) genTone = "warn";
-      const genText = denom ? `${match}/${denom}` : "n/a";
+      let genText = denom ? `${match}/${denom}` : "n/a";
+      if (denom > 0 && match === denom){
+        genTone = "good";
+        genText = (answer.genres || "").toString().trim() || "✅";
+      } else if (match > 0){
+        genTone = "warn";
+      }
 
-      // CONTENT RATING
+      // RATING: if matched, show actual rating
       const gr = (guess.content_rating || "").toString().trim().toLowerCase();
       const ar = (answer.content_rating || "").toString().trim().toLowerCase();
       let ratTone = "bad";
-      let ratText = "—";
-      if (gr && ar){
-        if (gr === ar){
+      let ratText = "n/a";
+      if (ar){
+        if (gr && gr === ar){
           ratTone = "good";
-          ratText = "✅";
-        } else {
+          ratText = (answer.content_rating || "").toString().trim();
+        } else if (gr && gr !== ar){
           ratTone = "bad";
           ratText = "✖";
+        } else {
+          ratTone = "bad";
+          ratText = "—";
         }
-      } else {
-        ratTone = "bad";
-        ratText = "n/a";
       }
 
       const correct = (normTitle(guess.title) === normTitle(answer.title) && Number(guess.year) === Number(answer.year));
@@ -782,18 +782,42 @@
       };
     }
 
+    function showFreebie(){
+      if (!ANSWER || !FREEBIE) return;
+
+      let label = "";
+      let value = "";
+
+      if (FREEBIE === "year"){
+        label = "Year";
+        value = `${ANSWER.year}`;
+      } else if (FREEBIE === "runtime"){
+        label = "Runtime";
+        value = ANSWER.runtime_minutes ? `${ANSWER.runtime_minutes} minutes` : "n/a";
+      } else if (FREEBIE === "genres"){
+        label = "Genres";
+        value = (ANSWER.genres || "").toString().trim() || "n/a";
+      } else if (FREEBIE === "rating"){
+        label = "Rating";
+        value = (ANSWER.content_rating || "").toString().trim() || "n/a";
+      }
+
+      freebieValue.textContent = `${label}: ${value}`;
+      freebieBox.style.display = "block";
+    }
+
     function showReveal(win){
       const a = ANSWER;
       const link = imdbLink(a.imdb_id);
-      const title = `${safeText(a.title)} (${a.year})`;
+      const title = `${a.title} (${a.year})`;
       const rt = a.runtime_minutes ? `${a.runtime_minutes} min` : "n/a";
-      const genres = a.genres ? safeText(a.genres) : "n/a";
-      const rating = a.content_rating ? safeText(a.content_rating) : "n/a";
+      const genres = a.genres ? a.genres : "n/a";
+      const rating = a.content_rating ? a.content_rating : "n/a";
 
       let html = `<div>${win ? "🎉" : "😵"} <strong>Answer:</strong> ${title}</div>`;
-      html += `<div style="margin-top:8px; font-weight:800;">Year: ${a.year} · Runtime: ${rt} · Genres: ${genres} · Rating: ${rating}</div>`;
+      html += `<div style="margin-top:8px; font-weight:900;">Year: ${a.year} · Runtime: ${rt} · Genres: ${genres} · Rating: ${rating}</div>`;
       if (a.plot){
-        html += `<div style="margin-top:10px; font-weight:700; color:#334155; line-height:1.45;">${safeText(a.plot)}</div>`;
+        html += `<div style="margin-top:10px; font-weight:700; color:#334155; line-height:1.45;">${a.plot}</div>`;
       }
       if (link){
         html += `<div style="margin-top:10px;"><a href="${link}" target="_blank" rel="noopener">Open on IMDb</a></div>`;
@@ -823,9 +847,8 @@
         TITLE_TO_MOVIES.get(key).push(m);
       }
 
-      // populate datalist with UNIQUE TITLES (title-only)
       const uniqueTitles = Array.from(TITLE_TO_MOVIES.keys())
-        .map(k => TITLE_TO_MOVIES.get(k)[0].title) // original casing from first instance
+        .map(k => TITLE_TO_MOVIES.get(k)[0].title)
         .sort((a,b) => a.localeCompare(b));
 
       titleList.innerHTML = uniqueTitles.map(t => `<option value="${t}"></option>`).join("");
@@ -842,9 +865,7 @@
         const y = Number(m[2]);
         const list = TITLE_TO_MOVIES.get(t) || [];
         const exact = list.find(x => Number(x.year) === y);
-        if (!exact){
-          return { movie: null, error: "That title/year combo isn’t in AG Plex." };
-        }
+        if (!exact) return { movie: null, error: "That title/year combo isn’t in AG Plex." };
         return { movie: exact, error: "" };
       }
 
@@ -855,9 +876,7 @@
       if (list.length === 0){
         return { movie: null, error: "Not found in AG Plex. Pick from the suggestions." };
       }
-
       if (list.length > 1){
-        // Ambiguous title
         const years = list
           .map(x => x.year)
           .filter(Boolean)
@@ -898,12 +917,11 @@
         return;
       }
 
-      // record guess (store minimal fields we need)
       const g = {
         title: movie.title,
         year: movie.year,
         genres: movie.genres || "",
-        runtime_minutes: movie.runtime_minutes || 0,
+        runtime_minutes: Number(movie.runtime_minutes || 0),
         content_rating: movie.content_rating || ""
       };
       STATE.guesses.push(g);
@@ -920,7 +938,7 @@
         updateStatus();
         setLocked(true);
         setMessage(`You got it in ${STATE.guesses.length}/${MAX_GUESSES}.`, "good");
-        showReveal(true);
+        showReveal(true); // ✅ answer reveal at end (win)
         return;
       }
 
@@ -930,7 +948,7 @@
         updateStatus();
         setLocked(true);
         setMessage(`Out of guesses.`, "bad");
-        showReveal(false);
+        showReveal(false); // ✅ answer reveal at end (lose)
         return;
       }
 
@@ -939,7 +957,6 @@
     }
 
     function resetToday(){
-      // Reset ONLY today (handy for testing)
       STATE = { day: todayKey(), guesses: [], done: false };
       saveState();
       board.innerHTML = "";
@@ -982,12 +999,13 @@
         return;
       }
 
-      // pick daily answer
       ANSWER = MOVIES[dailyIndex(MOVIES.length)];
+      FREEBIE = dailyFreebieKey();
 
       buildTitleIndex();
+      showFreebie();
 
-      // render existing guesses for today
+      // render existing guesses
       board.innerHTML = "";
       for (const g of STATE.guesses){
         const fb = compareGuess(g, ANSWER);
@@ -998,9 +1016,8 @@
 
       if (STATE.done){
         setLocked(true);
-        // determine win/lose based on whether any guess matched
         const won = STATE.guesses.some(g => compareGuess(g, ANSWER).correct);
-        showReveal(!!won);
+        showReveal(!!won); // ✅ always reveal answer when finished
         setMessage(won ? "You already solved today’s Plexdle." : "Today’s Plexdle is already finished.", won ? "good" : "bad");
       } else {
         setLocked(false);
@@ -1009,7 +1026,6 @@
       }
     }
 
-    // Wire up events
     guessBtn.addEventListener("click", handleGuess);
     guessInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") handleGuess();
@@ -1023,7 +1039,6 @@
       howBtn.textContent = showing ? "How it works" : "Hide";
     });
 
-    // Boot
     init().catch(err => {
       console.error(err);
       statusLine.textContent = "Load error.";
