@@ -29,28 +29,37 @@
     }
 
     /* ===== GLOBAL BANNER (fixed + safe header offset) ===== */
-    .global-banner{
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 9999;
+.global-banner{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
 
-      width: 100%;
-      background: #0f172a;
-      color: #fff;
-      padding: 10px 14px;
-      text-align: center;
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 1.25;
-    }
+  width: 100%;
+  background: #f59e0b; /* bold amber */
+  color: #111827;      /* dark text for contrast */
+  padding: 10px 14px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.25;
 
-    .global-banner a{
-      color: #28f2ff;
-      text-decoration: underline;
-      font-weight: 900;
-    }
+  animation: pulseBanner 2s ease-in-out infinite;
+}
+
+.global-banner a{
+  color: #111827;
+  text-decoration: underline;
+  font-weight: 900;
+}
+
+/* subtle attention pulse */
+@keyframes pulseBanner {
+  0% { opacity: 1; }
+  50% { opacity: 0.88; }
+  100% { opacity: 1; }
+}
 
     *{ box-sizing:border-box; }
 
