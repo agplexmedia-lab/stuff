@@ -383,6 +383,22 @@
     .pill.warn{ background: rgba(245,158,11,.14); color:#7c2d12; border-color: rgba(245,158,11,.28); }
     .pill.bad{  background: rgba(239,68,68,.12); color:#7f1d1d; border-color: rgba(239,68,68,.25); }
 
+    /* Labels inside pills (used for mobile clarity) */
+    .pill-label{
+      display:none;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      opacity: .75;
+      line-height: 1;
+    }
+    .pill-value{
+      display:inline;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
     /* Column headers (desktop only) */
     .headerrow{
       margin-top: 10px;
@@ -441,6 +457,7 @@
        - Pills wrap (no cutoff)
        - Input + button stack cleanly
        - FIX: datalist input giant box
+       - FIX: add labels to pills
     ========================== */
     @media (max-width: 720px){
       body{ padding-left:14px; padding-right:14px; }
@@ -523,11 +540,18 @@
         white-space: normal;
         overflow: visible;
         text-overflow: clip;
-        min-height: 38px;
+        min-height: 44px;
         line-height: 1.15;
-        padding: 8px 10px;
+        padding: 10px 10px;
         font-size: 12px;
+
+        /* show label + value stacked */
+        flex-direction: column;
+        gap: 4px;
       }
+
+      .pill-label{ display:block; }
+      .pill-value{ display:block; font-size: 13px; }
     }
   </style>
 </head>
@@ -771,12 +795,13 @@
       return `https://www.imdb.com/title/${imdbId}/`;
     }
 
-    function makePill(text, tone){
-      const span = document.createElement("div");
-      span.className = `pill ${tone || ""}`.trim();
-      span.title = text;
-      span.textContent = text;
-      return span;
+    // UPDATED: pill now supports a visible label on mobile
+    function makePill(label, text, tone){
+      const el = document.createElement("div");
+      el.className = `pill ${tone || ""}`.trim();
+      el.title = `${label}: ${text}`;
+      el.innerHTML = `<span class="pill-label">${label}</span><span class="pill-value">${text}</span>`;
+      return el;
     }
 
     function renderRow(guess, feedback){
@@ -792,15 +817,10 @@
       const hintsCell = document.createElement("div");
       hintsCell.className = "cell hints-cell";
 
-      const yearP = makePill(feedback.year.text, feedback.year.tone);
-      const rtP   = makePill(feedback.runtime.text, feedback.runtime.tone);
-      const genP  = makePill(feedback.genres.text, feedback.genres.tone);
-      const ratP  = makePill(feedback.rating.text, feedback.rating.tone);
-
-      yearP.title = `Year: ${feedback.year.text}`;
-      rtP.title   = `Runtime: ${feedback.runtime.text}`;
-      genP.title  = `Genres: ${feedback.genres.text}`;
-      ratP.title  = `Rating: ${feedback.rating.text}`;
+      const yearP = makePill("Year", feedback.year.text, feedback.year.tone);
+      const rtP   = makePill("Runtime", feedback.runtime.text, feedback.runtime.tone);
+      const genP  = makePill("Genres", feedback.genres.text, feedback.genres.tone);
+      const ratP  = makePill("Rating", feedback.rating.text, feedback.rating.tone);
 
       hintsCell.appendChild(yearP);
       hintsCell.appendChild(rtP);
