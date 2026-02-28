@@ -298,40 +298,7 @@
 <!-- UNIVERSAL FOOTER MOUNT (footer.html gets injected here) -->
 <div id="footerMount"></div>
 
-<!-- ===== GLOBAL BANNER LOADER (drop before </body>) ===== -->
-<script>
-(async () => {
-  try {
-    if (document.body.dataset.noBanner === "true") return;
 
-    const cfgRes = await fetch("/stuff/assets/banner-config.json", { cache: "no-store" });
-    if (!cfgRes.ok) return;
-    const cfg = await cfgRes.json();
-    if (!cfg.enabled) return;
-
-    const htmlPath = cfg.html_path || "/stuff/assets/banner.html";
-    const bannerRes = await fetch(htmlPath, { cache: "no-store" });
-    if (!bannerRes.ok) return;
-
-    const html = await bannerRes.text();
-    const mount = document.createElement("div");
-    mount.innerHTML = html;
-
-    document.body.insertBefore(mount, document.body.firstChild);
-
-    function setOffset(){
-      const bannerEl = document.querySelector(".global-banner");
-      const h = bannerEl ? Math.ceil(bannerEl.getBoundingClientRect().height) : 0;
-      document.documentElement.style.setProperty("--banner-offset", h + "px");
-    }
-
-    setOffset();
-    window.addEventListener("resize", setOffset);
-  } catch {
-    // fail silently
-  }
-})();
-</script>
 
 <!-- ===== GLOBAL FOOTER LOADER (drop before </body>) ===== -->
 <script>
