@@ -24,7 +24,45 @@
       --radius-xl:26px;
       --aqua:#28f2ff;
 
-      
+      /* ===== GLOBAL BANNER OFFSET (JS sets dynamically) ===== */
+      --banner-offset: 0px;
+    }
+
+    /* ===== GLOBAL BANNER (fixed + safe header offset) ===== */
+.global-banner{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+
+  width: 100%;
+  background: #f59e0b; /* bold amber */
+  color: #111827;      /* dark text for contrast */
+  padding: 10px 14px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.25;
+
+  animation: pulseBanner 2s ease-in-out infinite;
+}
+
+.global-banner a{
+  color: #111827;
+  text-decoration: underline;
+  font-weight: 900;
+}
+
+/* subtle attention pulse */
+@keyframes pulseBanner {
+  0% { opacity: 1; }
+  50% { opacity: 0.88; }
+  100% { opacity: 1; }
+}
+
+    *{ box-sizing:border-box; }
+
     body{
       margin:0;
       font-family:'Poppins',sans-serif;
@@ -298,7 +336,40 @@
 <!-- UNIVERSAL FOOTER MOUNT (footer.html gets injected here) -->
 <div id="footerMount"></div>
 
+<!-- ===== GLOBAL BANNER LOADER (drop before </body>) ===== -->
+<script>
+(async () => {
+  try {
+    if (document.body.dataset.noBanner === "true") return;
 
+    const cfgRes = await fetch("/stuff/assets/banner-config.json", { cache: "no-store" });
+    if (!cfgRes.ok) return;
+    const cfg = await cfgRes.json();
+    if (!cfg.enabled) return;
+
+    const htmlPath = cfg.html_path || "/stuff/assets/banner.html";
+    const bannerRes = await fetch(htmlPath, { cache: "no-store" });
+    if (!bannerRes.ok) return;
+
+    const html = await bannerRes.text();
+    const mount = document.createElement("div");
+    mount.innerHTML = html;
+
+    document.body.insertBefore(mount, document.body.firstChild);
+
+    function setOffset(){
+      const bannerEl = document.querySelector(".global-banner");
+      const h = bannerEl ? Math.ceil(bannerEl.getBoundingClientRect().height) : 0;
+      document.documentElement.style.setProperty("--banner-offset", h + "px");
+    }
+
+    setOffset();
+    window.addEventListener("resize", setOffset);
+  } catch {
+    // fail silently
+  }
+})();
+</script>
 
 <!-- ===== GLOBAL FOOTER LOADER (drop before </body>) ===== -->
 <script>
