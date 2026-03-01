@@ -260,7 +260,7 @@
 
   <!-- HEADER -->
   <header class="site-header">
-    <a href="https://agplexmedia-lab.github.io/stuff/home/" class="brand">
+    <a href="https://agplexhub.com/home/" class="brand">
       <img src="../assets/favicon-180.png" alt="AG Plex Home">
       <span>AG PLEX</span>
     </a>
@@ -303,12 +303,12 @@
     try {
       if (document.body.dataset.noFooter === "true") return;
 
-      const cfgRes = await fetch("/stuff/assets/footer-config.json", { cache: "no-store" });
+      const cfgRes = await fetch("/assets/footer-config.json", { cache: "no-store" });
       if (!cfgRes.ok) return;
       const cfg = await cfgRes.json();
       if (!cfg.enabled) return;
 
-      const htmlPath = cfg.html_path || "/stuff/assets/footer.html";
+      const htmlPath = cfg.html_path || "/assets/footer.html";
       const footerRes = await fetch(htmlPath, { cache: "no-store" });
       if (!footerRes.ok) return;
 
