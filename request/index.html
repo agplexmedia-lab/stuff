@@ -439,7 +439,7 @@ line-height: 1.25;
 
   <!-- UNIVERSAL HEADER -->
   <header class="site-header">
-    <a href="https://agplexmedia-lab.github.io/stuff/home/" class="brand">
+    <a href="https://agplexhub.com/home/" class="brand">
       <img src="../assets/favicon-180.png" alt="AG Plex Home">
       <span>AG PLEX</span>
     </a>
@@ -452,7 +452,7 @@ line-height: 1.25;
       <div class="subtext">
         I typically add stuff <strong>within 24 hours</strong>. <br>
         Not listed? <a href="https://docs.google.com/forms/d/e/1FAIpQLScUSTxNo0ZRSBOt0GjUksD_AG00lTeC4SQ_yseqZfjAF4grAQ/viewform">submit it as a Plex problem</a>.<br>
-        <a href="https://agplexmedia-lab.github.io/stuff/coming-soon/" rel="noopener">COMING SOON</a> = Requested but not ready!<br>
+        <a href="https://agplexhub.com/coming-soon/" rel="noopener">COMING SOON</a> = Requested but not ready!<br>
         <strong>REQUESTED</strong> = Working on it already!<br>
       </div>
     </div>
@@ -500,12 +500,12 @@ line-height: 1.25;
     try {
       if (document.body.dataset.noBanner === "true") return;
 
-      const cfgRes = await fetch("/stuff/assets/banner-config.json", { cache: "no-store" });
+      const cfgRes = await fetch("/assets/banner-config.json", { cache: "no-store" });
       if (!cfgRes.ok) return;
       const cfg = await cfgRes.json();
       if (!cfg.enabled) return;
 
-      const htmlPath = cfg.html_path || "/stuff/assets/banner.html";
+      const htmlPath = cfg.html_path || "/assets/banner.html";
       const bannerRes = await fetch(htmlPath, { cache: "no-store" });
       if (!bannerRes.ok) return;
 
@@ -535,12 +535,12 @@ line-height: 1.25;
     try {
       if (document.body.dataset.noFooter === "true") return;
 
-      const cfgRes = await fetch("/stuff/assets/footer-config.json", { cache: "no-store" });
+      const cfgRes = await fetch("/assets/footer-config.json", { cache: "no-store" });
       if (!cfgRes.ok) return;
       const cfg = await cfgRes.json();
       if (!cfg.enabled) return;
 
-      const htmlPath = cfg.html_path || "/stuff/assets/footer.html";
+      const htmlPath = cfg.html_path || "/assets/footer.html";
       const footerRes = await fetch(htmlPath, { cache: "no-store" });
       if (!footerRes.ok) return;
 
@@ -635,7 +635,7 @@ line-height: 1.25;
           button = `<button class="btn" disabled>On Plex</button>`;
           badge = `<span class="badge badge-onplex">ON PLEX</span>`;
         } else if (isComingSoon) {
-          button = `<a href="https://agplexmedia-lab.github.io/stuff/coming-soon/" class="btn btn-orange" rel="noopener">Coming Soon</a>`;
+          button = `<a href="https://agplexhub.com/" class="btn btn-orange" rel="noopener">Coming Soon</a>`;
           badge = `<span class="badge badge-coming">COMING SOON</span>`;
         } else if (isRequested) {
           button = `<button class="btn btn-grey" disabled>Requested</button>`;
