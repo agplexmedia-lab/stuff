@@ -301,12 +301,12 @@ Any questions, please don’t hesitate to ask!
   try {
     if (document.body.dataset.noBanner === "true") return;
 
-    const cfgRes = await fetch("/stuff/assets/banner-config.json", { cache: "no-store" });
+    const cfgRes = await fetch("/assets/banner-config.json", { cache: "no-store" });
     if (!cfgRes.ok) return;
     const cfg = await cfgRes.json();
     if (!cfg.enabled) return;
 
-    const htmlPath = cfg.html_path || "/stuff/assets/banner.html";
+    const htmlPath = cfg.html_path || "/assets/banner.html";
     const bannerRes = await fetch(htmlPath, { cache: "no-store" });
     if (!bannerRes.ok) return;
 
@@ -336,12 +336,12 @@ Any questions, please don’t hesitate to ask!
   try {
     if (document.body.dataset.noFooter === "true") return;
 
-    const cfgRes = await fetch("/stuff/assets/footer-config.json", { cache: "no-store" });
+    const cfgRes = await fetch("/assets/footer-config.json", { cache: "no-store" });
     if (!cfgRes.ok) return;
     const cfg = await cfgRes.json();
     if (!cfg.enabled) return;
 
-    const htmlPath = cfg.html_path || "/stuff/assets/footer.html";
+    const htmlPath = cfg.html_path || "/assets/footer.html";
     const footerRes = await fetch(htmlPath, { cache: "no-store" });
     if (!footerRes.ok) return;
 
