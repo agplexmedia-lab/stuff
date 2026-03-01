@@ -184,21 +184,63 @@
       margin-top: 8px;
     }
 
-    .iframe-wrap{
-      border-radius: 18px;
-      overflow:hidden;
-      border:1px solid #e5e7eb;
-      background:#fff;
+    /* ===== NATIVE FORM (replaces Google Forms iframe) ===== */
+    .native-form{
       margin-top: 12px;
+      display: grid;
+      gap: 14px;
     }
 
-    iframe{
-      width:100%;
-      height:900px;
-      border:0;
-      display:block;
-      background:#fff;
+    .field{
+      display: grid;
+      gap: 8px;
     }
+
+    .label{
+      font-weight: 900;
+      font-size: 14px;
+      color:#111827;
+    }
+
+    .native-form input,
+    .native-form textarea{
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid #e5e7eb;
+      font-size: 16px; /* prevents iOS zoom-on-focus */
+      font-family:'Poppins',sans-serif;
+      background:#fff;
+      outline: none;
+      resize: vertical;
+    }
+
+    .native-form input:focus,
+    .native-form textarea:focus{
+      border-color: rgba(31,120,200,.6);
+      box-shadow: 0 0 0 4px rgba(31,120,200,.12);
+    }
+
+    .btn{
+      appearance:none;
+      border:0;
+      border-radius:14px;
+      padding:14px 16px;
+      font-weight:900;
+      font-size:16px;
+      cursor:pointer;
+      background: var(--site-blue);
+      color:#fff;
+      box-shadow: 0 10px 20px rgba(31,120,200,.20);
+    }
+
+    .btn:disabled{
+      opacity:.6;
+      cursor:not-allowed;
+      box-shadow:none;
+    }
+
+    .btn:active{ transform: translateY(1px); }
 
     /* ===== FOOTER (styles stay local; HTML is injected) ===== */
     .site-footer{
@@ -246,26 +288,45 @@
       </div>
     </div>
 
+    <!-- STEP 2: Native form submission to Google Forms (no iframe scrolling) -->
     <div class="card">
       <div class="step">
         <div class="badge">2</div>
         <div>
-          <h2>Send Me Your Plex Email</h2>
-          <p>
-            Submit the email you use for Plex using the form below.
-          </p>
+          <h2>Send Me Your Info</h2>
+          <p>Submit your Plex email and your name/comments below.</p>
 
-          <div class="iframe-wrap">
-            <iframe
-              src="https://docs.google.com/forms/d/e/1FAIpQLSe-yT7smKJHNaKjXaHvVq20eVsYlH7qTf05Rgs1RuCg3jbYtQ/viewform?embedded=true"
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-              title="AG Plex Join Form">
-              Loading…
-            </iframe>
-          </div>
+          <form id="joinForm" class="native-form" autocomplete="on" novalidate>
+            <label class="field">
+              <span class="label">Your Plex Email</span>
+              <input
+                id="plexEmail"
+                type="email"
+                inputmode="email"
+                autocomplete="email"
+                placeholder="name@example.com"
+                required
+              />
+            </label>
 
-          <p class="mini">Tip: If the form looks weird on your phone, open it in your browser.</p>
+            <label class="field">
+              <span class="label">Your Name & Any Comments</span>
+              <textarea
+                id="plexNameComments"
+                rows="3"
+                placeholder="Your name (and anything you'd like to say)"
+                required
+              ></textarea>
+            </label>
+
+            <button class="btn" type="submit">Submit</button>
+
+            <p class="mini" id="formStatus" aria-live="polite" style="margin-top:10px;"></p>
+          </form>
+
+          <!-- Hidden iframe so the page doesn't navigate away -->
+          <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
         </div>
       </div>
     </div>
@@ -342,6 +403,88 @@
   } catch {
     // fail silently
   }
+})();
+</script>
+
+<!-- ===== JOIN FORM SUBMITTER (Google Forms hidden submission) ===== -->
+<script>
+(() => {
+  // Google Form endpoint (viewform -> formResponse)
+  const FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSe-yT7smKJHNaKjXaHvVq20eVsYlH7qTf05Rgs1RuCg3jbYtQ/formResponse";
+
+  // Your required fields
+  const ENTRY_EMAIL = "entry.1594851729";      // Your Plex Email
+  const ENTRY_NAMEC = "entry.711309896";       // Your name and any comments
+
+  const form = document.getElementById("joinForm");
+  const statusEl = document.getElementById("formStatus");
+  const btn = form.querySelector("button[type='submit']");
+  const emailEl = document.getElementById("plexEmail");
+  const namecEl = document.getElementById("plexNameComments");
+
+  function setStatus(html){
+    statusEl.innerHTML = html;
+  }
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const email = (emailEl.value || "").trim();
+    const namec = (namecEl.value || "").trim();
+
+    // Native validation
+    if (!emailEl.checkValidity()) {
+      emailEl.reportValidity();
+      return;
+    }
+    if (!namec) {
+      namecEl.focus();
+      setStatus("Please enter your name (and any comments).");
+      return;
+    }
+
+    // Build a real form POST to Google Forms
+    const postForm = document.createElement("form");
+    postForm.action = FORM_ACTION;
+    postForm.method = "POST";
+    postForm.target = "hidden_iframe";
+    postForm.style.display = "none";
+
+    const emailInput = document.createElement("input");
+    emailInput.type = "hidden";
+    emailInput.name = ENTRY_EMAIL;
+    emailInput.value = email;
+
+    const namecInput = document.createElement("input");
+    namecInput.type = "hidden";
+    namecInput.name = ENTRY_NAMEC;
+    namecInput.value = namec;
+
+    // optional: helps some forms behave more consistently
+    const pageHistory = document.createElement("input");
+    pageHistory.type = "hidden";
+    pageHistory.name = "pageHistory";
+    pageHistory.value = "0";
+
+    postForm.appendChild(emailInput);
+    postForm.appendChild(namecInput);
+    postForm.appendChild(pageHistory);
+    document.body.appendChild(postForm);
+
+    // UX
+    btn.disabled = true;
+    setStatus("<strong>You will receive a confirmation email shortly with next final steps!</strong>");
+
+    // Submit silently
+    postForm.submit();
+
+    // Reset + cleanup
+    setTimeout(() => {
+      form.reset();
+      btn.disabled = false;
+      postForm.remove();
+    }, 1200);
+  });
 })();
 </script>
 
