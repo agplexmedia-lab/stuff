@@ -7,7 +7,7 @@
 
   <link rel="apple-touch-icon" href="../assets/favicon-180.png">
   <link rel="icon" type="image/png" href="../assets/favicon-180.png">
-  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Rubik:wght@400;500;700;800&family=VT323&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -40,7 +40,7 @@
     html, body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'Rubik', system-ui, sans-serif;
+      font-family: 'Barlow', system-ui, sans-serif;
       min-height: 100vh;
     }
 
@@ -149,9 +149,10 @@
     }
 
     .eyebrow {
-      font-family: 'VT323', monospace;
-      font-size: 18px;
-      letter-spacing: 3px;
+      font-family: 'Barlow', sans-serif;
+      font-size: 15px;
+      
+      letter-spacing: 1px;
       color: var(--cyan);
       text-transform: uppercase;
     }
@@ -160,7 +161,7 @@
       position: relative;
       z-index: 1;
       font-family: 'Bungee', cursive;
-      font-size: 32px;
+      font-size: 36px;
       line-height: 1.04;
       letter-spacing: .015em;
       color: #ffffff;
@@ -171,14 +172,13 @@
     .hero-sub {
       position: relative;
       z-index: 1;
-      font-size: 13px;
-      line-height: 1.6;
+      font-family: 'Barlow', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      letter-spacing: .3px;
       color: #8898b8;
       max-width: 520px;
       margin-bottom: 18px;
-      font-family: 'VT323', monospace;
-      font-size: 17px;
-      letter-spacing: .5px;
     }
 
     /* bottom rainbow bar */
@@ -215,17 +215,19 @@
     .block-header.green  { background: #1a6838; }
 
     .block-label {
-      font-family: 'VT323', monospace;
-      font-size: 21px;
-      letter-spacing: 2px;
+      font-family: 'Barlow', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: .5px;
       text-transform: uppercase;
       color: #ffffff;
       line-height: 1;
     }
 
     .block-label-sub {
-      font-family: 'VT323', monospace;
-      font-size: 14px;
+      font-family: 'Barlow', sans-serif;
+      font-size: 16px;
+      
       letter-spacing: 1px;
       color: rgba(255,255,255,.55);
       text-transform: uppercase;
@@ -239,10 +241,10 @@
 
     /* VHS back-of-tape body text style */
     .vhs-text {
-      font-family: 'VT323', monospace;
-      font-size: 17px;
-      line-height: 1.65;
-      letter-spacing: .4px;
+      font-family: 'Barlow', sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      letter-spacing: .2px;
       color: #a8bccc;
     }
 
@@ -262,10 +264,10 @@
     }
 
     .news-content {
-      font-family: 'VT323', monospace;
-      font-size: 17px;
-      line-height: 1.7;
-      letter-spacing: .4px;
+      font-family: 'Barlow', sans-serif;
+      font-size: 16px;
+      line-height: 1.8;
+      letter-spacing: .2px;
       color: #b8ccd8;
     }
 
@@ -277,9 +279,10 @@
     .news-content a { color: var(--blue-lt); border-bottom: 1px solid rgba(77,143,223,.3); text-decoration: none; }
 
     .loading, .empty, .error {
-      font-family: 'VT323', monospace;
-      font-size: 18px;
-      letter-spacing: 1px;
+      font-family: 'Barlow', sans-serif;
+      font-size: 16px;
+      
+      letter-spacing: .5px;
       color: var(--muted);
     }
 
@@ -319,12 +322,12 @@
     .coming-card-body { padding: 8px 10px 10px; }
 
     .coming-title {
-      font-family: 'VT323', monospace;
+      font-family: 'Barlow', sans-serif;
       font-size: 16px;
-      line-height: 1.3;
+      line-height: 1.4;
       color: #c8d8e8;
       margin: 0 0 6px 0;
-      letter-spacing: .5px;
+      letter-spacing: .2px;
     }
 
     .coming-meta {
@@ -335,11 +338,12 @@
     }
 
     .coming-date {
-      font-family: 'VT323', monospace;
-      font-size: 20px;
+      font-family: 'Barlow', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
       line-height: 1;
       color: var(--blue-lt);
-      letter-spacing: .4px;
+      letter-spacing: .3px;
     }
 
     /* keep the original post-it sticker */
@@ -349,10 +353,12 @@
       justify-content: center;
       padding: 3px 7px 4px;
       border-radius: 2px;
-      font-family: 'VT323', monospace;
-      font-size: 16px;
+      font-family: 'Barlow', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
       line-height: 1;
-      letter-spacing: .4px;
+      letter-spacing: .5px;
+      text-transform: uppercase;
       border: 1px solid #c8b858;
       color: #3a2a08;
       background: #f0e090;
@@ -383,20 +389,24 @@
       transition: filter .1s ease;
     }
 
-    .btn:hover { filter: brightness(1.12); }
+    .btn:hover { filter: brightness(1.1); }
 
     .btn.primary {
-      background: linear-gradient(180deg, #3070c8 0%, #1e4e98 100%);
+      background: #2d6bbf;
       color: #ffffff;
-      border: 1px solid #4888d8;
-      box-shadow: 0 3px 0 rgba(8,20,50,.6);
+      border: 2px solid #4888d8;
+      border-right-color: #1a3a78;
+      border-bottom-color: #1a3a78;
+      border-radius: 0;
     }
 
     .btn.secondary {
-      background: linear-gradient(180deg, #1e2838 0%, #161e2c 100%);
+      background: #161e2c;
       color: #7aacdc;
-      border: 1px solid rgba(45,107,191,.3);
-      box-shadow: 0 3px 0 rgba(0,0,0,.4);
+      border: 2px solid #2a3a58;
+      border-right-color: #0a1018;
+      border-bottom-color: #0a1018;
+      border-radius: 0;
     }
 
     /* ── WORN TAPE DIVIDER ── */
@@ -416,17 +426,18 @@
     .footer {
       text-align: center;
       padding: 18px 10px 32px;
-      font-family: 'VT323', monospace;
+      font-family: 'Barlow', sans-serif;
       font-size: 16px;
-      letter-spacing: 1px;
+      
+      letter-spacing: .5px;
       color: #384858;
       text-transform: uppercase;
-      line-height: 1.8;
+      line-height: 2;
     }
 
     @media (min-width: 600px) {
       body { padding: 18px; }
-      .hero h1 { font-size: 40px; }
+      .hero h1 { font-size: 48px; }
       .coming-grid { grid-template-columns: repeat(4, 1fr); }
       .cta-row { grid-template-columns: repeat(2, 1fr); }
     }
