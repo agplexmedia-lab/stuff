@@ -337,19 +337,21 @@
       padding: 8px 9px 10px;
     }
 
+    /* Title — Barlow bold, light colour, two-line clamp */
     .card-title {
       font-family: 'Barlow', sans-serif;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 700;
-      line-height: 1.3;
+      line-height: 1.35;
       color: #c8d8e8;
-      margin-bottom: 6px;
+      margin-bottom: 7px;
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
       overflow: hidden;
     }
 
+    /* Bottom row: date left, tag right — matches newsletter */
     .card-meta {
       display: flex;
       align-items: center;
@@ -357,30 +359,35 @@
       gap: 6px;
     }
 
-    /* Date in Bungee like our coming-date in index */
+    /* Date: bright blue, bold Barlow — matches .coming-date in newsletter */
     .card-date {
-      font-family: 'Bungee', cursive;
+      font-family: 'Barlow', sans-serif;
       font-size: 13px;
-      letter-spacing: .03em;
-      color: #a0b8d8;
+      font-weight: 700;
       line-height: 1;
+      color: var(--blue-lt);   /* #4d8fdf */
+      letter-spacing: .3px;
     }
 
-    /* Yellow post-it sticker tag like index */
+    /* Post-it sticker — exact match to newsletter .tag */
     .tag {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       padding: 3px 7px 4px;
-      font-family: 'Bungee', cursive;
+      border-radius: 2px;
+      font-family: 'Barlow', sans-serif;
       font-size: 11px;
-      letter-spacing: .04em;
+      font-weight: 700;
       line-height: 1;
-      background: var(--sticker);
-      color: var(--sticker-dark);
-      border: 1px solid rgba(212,168,32,.4);
-      transform: rotate(-1.5deg);
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      border: 1px solid #c8b858;
+      color: #3a2a08;
+      background: #f0e090;
+      box-shadow: 1px 1px 0 rgba(80,60,10,.3);
       white-space: nowrap;
+      transform: rotate(-2deg);
     }
 
     .empty {
@@ -508,7 +515,7 @@
       </div>
     </div>
 
-  </div><!-- /.wrap -->
+  </div>
 
   <div id="footerMount"></div>
 
@@ -589,11 +596,11 @@
 
     const TMDB_API_KEY = "5bbfc2b05c0d49eea2032b35324ebc81";
 
-    const gridEl       = document.getElementById("grid");
-    const statusText   = document.getElementById("statusText");
-    const statusSubtext= document.getElementById("statusSubtext");
-    const filterInput  = document.getElementById("filterInput");
-    const emptyState   = document.getElementById("emptyState");
+    const gridEl        = document.getElementById("grid");
+    const statusText    = document.getElementById("statusText");
+    const statusSubtext = document.getElementById("statusSubtext");
+    const filterInput   = document.getElementById("filterInput");
+    const emptyState    = document.getElementById("emptyState");
 
     const cards = [];
     const norm = v => (v ?? "").toString().trim();
@@ -660,7 +667,7 @@
           <div class="card-title">${escapeHtml(title)}${year ? ` (${escapeHtml(year)})` : ""}</div>
           <div class="card-meta">
             <span class="card-date">${escapeHtml(dateText)}</span>
-            <span class="tag">${est ? "Est." : "Soon"}</span>
+            <span class="tag">${est ? "Est." : "On Plex"}</span>
           </div>
         </div>`;
 
@@ -692,7 +699,9 @@
       const d     = parseISODate(r.nextmilestone);
       const hasFutureDate = !!(d && d > today);
       const sortKey  = hasFutureDate ? d.getTime() : Infinity;
-      const dateText = hasFutureDate ? r.nextmilestone : "??";
+      const dateText = hasFutureDate
+        ? new Date(r.nextmilestone + "T00:00:00").toLocaleDateString("en-US")
+        : "??";
       const estFromSheet = (r.milestonesource || "").toLowerCase().startsWith("estimate");
       const est = estFromSheet || !hasFutureDate;
       const tmdbId = r.tmdb_id;
