@@ -7,7 +7,7 @@
 
   <link rel="apple-touch-icon" href="../assets/favicon-180.png">
   <link rel="icon" type="image/png" href="../assets/favicon-180.png">
-  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Rubik:wght@400;500;700;800&family=VT323&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee&family=Abril+Fatface&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -106,7 +106,7 @@
       color: var(--text);
       font-family: 'Bungee', cursive;
       font-size: 16px;
-      letter-spacing: 2px;
+      letter-spacing: .5px;
       box-shadow: 0 4px 14px rgba(0,0,0,.5);
     }
 
@@ -176,9 +176,10 @@
     }
 
     .eyebrow {
-      font-family: 'VT323', monospace;
-      font-size: 18px;
-      letter-spacing: 3px;
+      font-family: 'Abril Fatface', Georgia, serif;
+      font-size: 13px;
+      
+      letter-spacing: 1px;
       color: var(--cyan);
       text-transform: uppercase;
     }
@@ -187,7 +188,7 @@
       position: relative;
       z-index: 1;
       font-family: 'Bungee', cursive;
-      font-size: 30px;
+      font-size: 34px;
       line-height: 1.04;
       color: #ffffff;
       margin-bottom: 8px;
@@ -197,9 +198,10 @@
     .hero-sub {
       position: relative;
       z-index: 1;
-      font-family: 'VT323', monospace;
-      font-size: 17px;
-      letter-spacing: .5px;
+      font-family: 'Abril Fatface', Georgia, serif;
+      font-size: 14px;
+      line-height: 1.7;
+      letter-spacing: .3px;
       color: #8898b8;
       margin-bottom: 4px;
     }
@@ -235,17 +237,19 @@
     .block-header.indigo { background: #242c6e; }
 
     .block-label {
-      font-family: 'VT323', monospace;
-      font-size: 21px;
-      letter-spacing: 2px;
+      font-family: 'Abril Fatface', Georgia, serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .5px;
       text-transform: uppercase;
       color: #ffffff;
       line-height: 1;
     }
 
     .block-label-sub {
-      font-family: 'VT323', monospace;
+      font-family: 'Abril Fatface', Georgia, serif;
       font-size: 14px;
+      
       letter-spacing: 1px;
       color: rgba(255,255,255,.5);
       text-transform: uppercase;
@@ -282,17 +286,17 @@
 
     .step-content h2 {
       font-family: 'Bungee', cursive;
-      font-size: 16px;
+      font-size: 15px;
       letter-spacing: .04em;
       color: #e0eaf8;
       margin-bottom: 6px;
     }
 
     .step-content p {
-      font-family: 'VT323', monospace;
-      font-size: 17px;
-      letter-spacing: .4px;
-      line-height: 1.6;
+      font-family: 'Abril Fatface', Georgia, serif;
+      font-size: 14px;
+      letter-spacing: .2px;
+      line-height: 1.75;
       color: #a8bccc;
       margin-bottom: 6px;
     }
@@ -307,9 +311,10 @@
     }
 
     .mini {
-      font-family: 'VT323', monospace;
-      font-size: 15px;
-      letter-spacing: .5px;
+      font-family: 'Abril Fatface', Georgia, serif;
+      font-size: 14px;
+      
+      letter-spacing: .3px;
       color: var(--muted);
       margin-top: 4px;
     }
@@ -324,9 +329,10 @@
     .field { display: grid; gap: 6px; }
 
     .field-label {
-      font-family: 'VT323', monospace;
-      font-size: 17px;
-      letter-spacing: 1px;
+      font-family: 'Abril Fatface', Georgia, serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .5px;
       color: #a8bccc;
       text-transform: uppercase;
     }
@@ -337,8 +343,8 @@
       padding: 12px 14px;
       border-radius: 3px;
       border: 1px solid rgba(255,255,255,.1);
-      font-size: 16px;
-      font-family: 'Rubik', sans-serif;
+      font-size: 14px;
+      font-family: 'Abril Fatface', Georgia, serif;
       background: #0e1420;
       color: var(--text);
       outline: none;
@@ -348,6 +354,7 @@
     .native-form input::placeholder,
     .native-form textarea::placeholder {
       color: #3a4a60;
+      
     }
 
     .native-form input:focus,
@@ -358,28 +365,30 @@
 
     .submit-btn {
       appearance: none;
-      border: 1px solid #4888d8;
-      border-radius: 3px;
-      padding: 13px 16px;
+      border: 2px solid #4888d8;
+      border-right-color: #1a3a78;
+      border-bottom-color: #1a3a78;
+      border-radius: 0;
+      padding: 12px 16px;
       font-family: 'Bungee', cursive;
       font-size: 16px;
       letter-spacing: .06em;
       cursor: pointer;
-      background: linear-gradient(180deg, #3070c8 0%, #1e4e98 100%);
+      background: #2d6bbf;
       color: #ffffff;
       text-transform: uppercase;
-      box-shadow: 0 3px 0 rgba(8,20,50,.6);
       transition: filter .1s ease;
     }
 
-    .submit-btn:hover { filter: brightness(1.12); }
-    .submit-btn:active { transform: translateY(1px); }
+    .submit-btn:hover { background: #3070c8; }
+    .submit-btn:active { border-color: #1a3a78; border-right-color: #4888d8; border-bottom-color: #4888d8; }
     .submit-btn:disabled { opacity: .5; cursor: not-allowed; }
 
     .form-status {
-      font-family: 'VT323', monospace;
-      font-size: 17px;
-      letter-spacing: .5px;
+      font-family: 'Abril Fatface', Georgia, serif;
+      font-size: 14px;
+      
+      letter-spacing: .3px;
       color: var(--green);
       margin-top: 4px;
     }
@@ -401,17 +410,18 @@
     .footer {
       text-align: center;
       padding: 18px 10px 32px;
-      font-family: 'VT323', monospace;
-      font-size: 16px;
-      letter-spacing: 1px;
+      font-family: 'Abril Fatface', Georgia, serif;
+      font-size: 14px;
+      
+      letter-spacing: .5px;
       color: #384858;
       text-transform: uppercase;
-      line-height: 1.8;
+      line-height: 2;
     }
 
     @media (min-width: 600px) {
       body { padding: 18px; }
-      .hero h1 { font-size: 38px; }
+      .hero h1 { font-size: 44px; }
     }
   </style>
 </head>
