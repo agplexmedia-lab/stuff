@@ -46,8 +46,9 @@
       display: flex;
       flex-direction: column;
       padding-top: var(--banner-offset);
-      padding-left: 12px;
-      padding-right: 12px;
+      /* tighter side padding on mobile */
+      padding-left: 6px;
+      padding-right: 6px;
     }
 
     /* ── GRAIN ── */
@@ -87,7 +88,8 @@
       position: sticky;
       top: var(--banner-offset);
       z-index: 100;
-      padding: calc(10px + env(safe-area-inset-top)) 0 10px;
+      /* reduced vertical padding on mobile */
+      padding: calc(6px + env(safe-area-inset-top)) 0 6px;
       display: flex;
       justify-content: center;
     }
@@ -95,8 +97,8 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 9px 18px;
+      gap: 8px;
+      padding: 7px 14px;
       background: #ffffff;
       border: 2px solid #dce4f0;
       border-right-color: #8090b0;
@@ -105,14 +107,14 @@
       text-decoration: none;
       color: #0e1420;
       font-family: 'Bungee', cursive;
-      font-size: 16px;
+      font-size: 14px;
       letter-spacing: 2px;
       box-shadow: 0 4px 18px rgba(0,0,0,.7);
     }
 
     .brand img {
-      width: 28px;
-      height: 28px;
+      width: 22px;
+      height: 22px;
       border-radius: 3px;
       opacity: .92;
     }
@@ -144,23 +146,23 @@
       border: 1px solid rgba(255,255,255,.09);
       border-radius: 4px;
       box-shadow: var(--shadow);
-      margin-bottom: 8px;
-      margin-top: 4px;
+      margin-bottom: 6px;
+      margin-top: 3px;
     }
 
     .hero-rainbow {
       display: flex;
-      height: 7px;
+      height: 5px; /* slightly thinner on mobile */
       width: 100%;
     }
     .hero-rainbow span { flex: 1; }
 
     .hero-body {
-      padding: 10px 14px 10px;
+      padding: 7px 10px;
       position: relative;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .hero-body::after {
@@ -182,8 +184,8 @@
     }
 
     .hero-brand-img {
-      width: 36px;
-      height: 36px;
+      width: 28px;
+      height: 28px;
       border-radius: 4px;
       opacity: .92;
       flex: 0 0 auto;
@@ -198,17 +200,17 @@
 
     .eyebrow {
       font-family: 'Barlow', sans-serif;
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 600;
       letter-spacing: 2.5px;
       color: var(--cyan);
       text-transform: uppercase;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
 
     .hero h1 {
       font-family: 'Bungee', cursive;
-      font-size: 22px;
+      font-size: 17px;
       line-height: 1.04;
       color: #ffffff;
       text-shadow: 1px 1px 0 rgba(0,0,0,.8);
@@ -216,10 +218,12 @@
 
     .hero-sub {
       font-family: 'Barlow', sans-serif;
-      font-size: 13px;
-      line-height: 1.5;
+      font-size: 11px;
+      line-height: 1.4;
       color: #7080a0;
       margin-top: 2px;
+      /* hidden on small screens to give chat more room */
+      display: none;
     }
 
     .hero-sub a {
@@ -230,7 +234,7 @@
 
     .hero-rainbow-bottom {
       display: flex;
-      height: 4px;
+      height: 3px;
       width: 100%;
     }
     .hero-rainbow-bottom span { flex: 1; }
@@ -245,7 +249,7 @@
       box-shadow: 0 4px 16px rgba(0,0,0,.45);
       display: flex;
       flex-direction: column;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .block-header {
@@ -253,17 +257,16 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 9px 14px;
+      padding: 7px 12px;
       background: var(--cyan);
       border-bottom: 1px solid rgba(255,255,255,.06);
     }
 
-    /* cyan header — distinct from blue/yellow/green/indigo used elsewhere */
     .block-header.teal { background: #0e7080; }
 
     .block-label {
       font-family: 'Bungee', cursive;
-      font-size: 15px;
+      font-size: 13px;
       letter-spacing: .5px;
       text-transform: uppercase;
       color: #ffffff;
@@ -272,7 +275,7 @@
 
     .block-label-sub {
       font-family: 'Barlow', sans-serif;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 600;
       letter-spacing: 1px;
       color: rgba(255,255,255,.5);
@@ -304,7 +307,7 @@
       border-top: 1px solid rgba(255,255,255,.08) !important;
       color: #7080a0 !important;
       text-align: center !important;
-      padding: 12px 18px 20px !important;
+      padding: 8px 18px 14px !important;
     }
 
     #footerMount a { color: #4d8fdf !important; text-decoration: none !important; }
@@ -313,7 +316,7 @@
     #footerMount * {
       color: inherit;
       font-family: 'Barlow', sans-serif !important;
-      font-size: 13px !important;
+      font-size: 12px !important;
       letter-spacing: .3px !important;
       text-align: center !important;
     }
@@ -328,9 +331,58 @@
       margin: 0 auto !important;
     }
 
+    /* ── DESKTOP BREAKPOINT ── */
     @media (min-width: 600px) {
-      body { padding-left: 18px; padding-right: 18px; }
+      body {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .site-header {
+        padding: calc(10px + env(safe-area-inset-top)) 0 10px;
+      }
+
+      .brand {
+        font-size: 16px;
+        padding: 9px 18px;
+        gap: 10px;
+      }
+
+      .brand img {
+        width: 28px;
+        height: 28px;
+      }
+
+      .hero {
+        margin-bottom: 8px;
+        margin-top: 4px;
+      }
+
+      .hero-rainbow { height: 7px; }
+      .hero-rainbow-bottom { height: 4px; }
+
+      .hero-body {
+        padding: 10px 14px;
+        gap: 12px;
+      }
+
+      .hero-brand-img {
+        width: 36px;
+        height: 36px;
+      }
+
+      .eyebrow { font-size: 10px; }
+
       .hero h1 { font-size: 26px; }
+
+      /* show subtitle on desktop */
+      .hero-sub { display: block; }
+
+      .block-header { padding: 9px 14px; }
+      .block-label { font-size: 15px; }
+      .block-label-sub { font-size: 11px; }
+
+      .block { margin-bottom: 8px; }
     }
   </style>
 </head>
