@@ -139,11 +139,29 @@
       font-weight:800;
     }
 
-    .placeholder-note{
-      margin-top:12px;
-      font-size:12px;
-      line-height:1.55;
-      color:#64748b;
+    .news-content ul,
+    .news-content ol{
+      margin:0 0 14px 20px;
+      padding:0;
+    }
+
+    .news-content li{
+      margin:0 0 8px 0;
+    }
+
+    .news-content a{
+      color:var(--blue-dark);
+      font-weight:700;
+    }
+
+    .loading,
+    .empty,
+    .error{
+      margin-top:14px;
+      font-size:14px;
+      line-height:1.6;
+      color:var(--muted);
+      font-weight:700;
     }
 
     .poster-preview{
@@ -251,16 +269,6 @@
       white-space:nowrap;
     }
 
-    .loading,
-    .empty,
-    .error{
-      margin-top:14px;
-      font-size:14px;
-      line-height:1.6;
-      color:var(--muted);
-      font-weight:700;
-    }
-
     .cta-row{
       display:grid;
       grid-template-columns:1fr;
@@ -329,7 +337,7 @@
       <div class="eyebrow">AG Plex Monthly Update</div>
       <h1>AG Plex News, Updates & Additions</h1>
       <p>
-        Monthly AG Plex news, server updates, fixes, recent additions, and a look at what is coming up next.
+        Monthly AG Plex news, server updates, recent additions, and a look at what is coming up next.
       </p>
     </section>
 
@@ -337,18 +345,14 @@
       <div class="pill">AG Plex News</div>
       <h2>Latest AG Plex Updates</h2>
       <p class="section-intro">
-        This section is for your monthly written update. For now, paste your text here manually if you want to keep bold formatting.
+        Monthly notes pulled from the AG Plex News sheet.
       </p>
 
       <div class="news-box">
-        <div class="news-content" id="newsContent">
-          <p><strong>Paste your monthly news here.</strong></p>
-          <p>You can write anything in this section: server changes, bug fixes, invite updates, cleanup notes, new community stuff, or whatever else people should know.</p>
-        </div>
-      </div>
-
-      <div class="placeholder-note">
-        If you want bold text from Google Sheets to carry over automatically, this needs an Apps Script or another HTML source. A normal published sheet/CSV will not reliably preserve rich text formatting.
+        <div class="loading" id="newsLoading">Loading news…</div>
+        <div class="news-content" id="newsContent" style="display:none;"></div>
+        <div class="empty" id="newsEmpty" style="display:none;">No news posted right now.</div>
+        <div class="error" id="newsError" style="display:none;">Could not load the news section.</div>
       </div>
     </section>
 
@@ -360,14 +364,8 @@
       </p>
 
       <!--
-        PREVIEW MODE:
-        These are placeholders so the page looks good on your site.
-
-        LATER FOR TAUTULLI:
-        Replace the entire .poster-preview block below with your Tautulli variable,
-        such as:
-        {recently_added_movies}
-        or whatever newsletter block you decide to use.
+        PREVIEW MODE ONLY.
+        Later, replace this whole block with your Tautulli newsletter variable.
       -->
       <div class="poster-preview">
         <a class="poster-card" href="#">
@@ -429,10 +427,18 @@
   </div>
 
   <script>
+    const NEWS_CSV_URL =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTtK9WGWZSlSJi58mOOBA01RBJ3OKeXeY9VyT4nnWFAKNL8C6SeoD8nz_srBPHupiqFr3_0Na53Y4Za/pub?gid=3812856&single=true&output=csv";
+
     const COMING_SOON_CSV_URL =
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vTtK9WGWZSlSJi58mOOBA01RBJ3OKeXeY9VyT4nnWFAKNL8C6SeoD8nz_srBPHupiqFr3_0Na53Y4Za/pub?gid=1263928559&single=true&output=csv";
 
     const TMDB_API_KEY = "5bbfc2b05c0d49eea2032b35324ebc81";
+
+    const newsLoading = document.getElementById("newsLoading");
+    const newsContent = document.getElementById("newsContent");
+    const newsEmpty = document.getElementById("newsEmpty");
+    const newsError = document.getElementById("newsError");
 
     const comingGrid = document.getElementById("comingGrid");
     const comingStatus = document.getElementById("comingStatus");
@@ -489,18 +495,18 @@
       });
     }
 
-    function parseISODate(s) {
-      if (!s) return null;
-      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
-      if (!m) return null;
-      return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
-    }
-
     async function fetchCSV(url) {
       const res = await fetch(url);
       if (!res.ok) throw new Error("Failed to load CSV");
       const text = await res.text();
       return parseCSV(text);
+    }
+
+    function parseISODate(s) {
+      if (!s) return null;
+      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
+      if (!m) return null;
+      return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
     }
 
     async function tmdbExternalIds(movieId) {
@@ -520,6 +526,40 @@
         if (externals.imdb_id) return `https://www.imdb.com/title/${externals.imdb_id}/`;
       } catch {}
       return `https://www.themoviedb.org/movie/${tmdbId}`;
+    }
+
+    async function loadNews() {
+      try {
+        const rows = await fetchCSV(NEWS_CSV_URL);
+
+        let html = "";
+
+        for (const row of rows) {
+          const values = Object.values(row).map(v => (v || "").trim()).filter(Boolean);
+          if (!values.length) continue;
+
+          const joined = values.join(" ").trim();
+
+          if (joined.toUpperCase() === "NEWS") continue;
+
+          html = values[0];
+          break;
+        }
+
+        newsLoading.style.display = "none";
+
+        if (!html) {
+          newsEmpty.style.display = "block";
+          return;
+        }
+
+        newsContent.innerHTML = html;
+        newsContent.style.display = "block";
+      } catch (err) {
+        console.error(err);
+        newsLoading.style.display = "none";
+        newsError.style.display = "block";
+      }
     }
 
     async function buildComingCard(row, today) {
@@ -611,14 +651,14 @@
 
         const finalItems = built.slice(0, LIMIT);
 
+        comingStatus.style.display = "none";
+
         if (!finalItems.length) {
-          comingStatus.style.display = "none";
           comingEmpty.style.display = "block";
           return;
         }
 
         comingGrid.replaceChildren(...finalItems.map(renderComingCard));
-        comingStatus.textContent = `Showing ${finalItems.length} upcoming titles`;
       } catch (err) {
         console.error(err);
         comingStatus.style.display = "none";
@@ -626,6 +666,7 @@
       }
     }
 
+    loadNews();
     loadComingSoon();
   </script>
 </body>
