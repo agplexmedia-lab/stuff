@@ -612,11 +612,12 @@
 
       if (bucket !== "COMING_SOON") return null;
 
-      const d = parseISODate(milestone);
-      const hasFutureDate = !!(d && d > today);
-      const dateText = hasFutureDate ? milestone : "??";
-      const est = milestoneSource.startsWith("estimate") || !has_future_date; // typo fixed below
-      let safeEst = milestoneSource.startsWith("estimate") || !hasFutureDate;
+const d = parseISODate(milestone);
+const hasFutureDate = !!(d && d > today);
+const dateText = hasFutureDate
+  ? new Date(milestone).toLocaleDateString("en-US")
+  : "??";
+const safeEst = milestoneSource.startsWith("estimate") || !hasFutureDate;
 
       let href = "#";
       let poster = "https://placehold.co/342x513?text=No+Poster";
