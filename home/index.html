@@ -111,7 +111,7 @@
     .wrap {
       max-width: 860px;
       margin: 0 auto;
-      padding: 12px 14px 42px;
+      padding: 12px 14px 90px; /* extra bottom padding so FAB doesn't cover content */
     }
 
     /* ── PANELS — flat VHS label blocks ── */
@@ -360,7 +360,7 @@
 
     /* active maintenance override — shown during window */
     .maintenance-active {
-      display: none; /* toggled by JS */
+      display: none;
       align-items: flex-start;
       gap: 10px;
       padding: 11px 14px;
@@ -409,9 +409,46 @@
       );
     }
 
+    /* ── FLOATING REPORT BUTTON ── */
+    .fab {
+      position: fixed;
+      bottom: calc(20px + env(safe-area-inset-bottom));
+      right: 16px;
+      z-index: 9980;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 14px;
+      background: #ffffff;
+      border: 2px solid #dce4f0;
+      border-right-color: #8090b0;
+      border-bottom-color: #8090b0;
+      border-radius: 4px;
+      text-decoration: none;
+      color: #0e1420;
+      font-family: 'Bungee', cursive;
+      font-size: 13px;
+      letter-spacing: 1.5px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.7);
+      transition: transform .15s ease, box-shadow .15s ease;
+      white-space: nowrap;
+    }
+
+    .fab:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,.8);
+    }
+
+    .fab:active {
+      transform: translateY(0);
+      box-shadow: 0 3px 10px rgba(0,0,0,.6);
+    }
+
     @media (max-width: 520px) {
       body { padding-left: 0; padding-right: 0; }
-      .wrap { padding: 8px 10px 36px; }
+      .wrap { padding: 8px 10px 90px; }
+      /* on very small screens, shrink the label a touch */
+      .fab { font-size: 11px; padding: 7px 11px; }
     }
   </style>
 </head>
@@ -518,6 +555,17 @@
 
   </main>
 
+  <!-- FLOATING REPORT BUTTON -->
+  <a
+    href="https://docs.google.com/forms/d/e/1FAIpQLScUSTxNo0ZRSBOt0GjUksD_AG00lTeC4SQ_yseqZfjAF4grAQ/viewform"
+    target="_blank"
+    rel="noopener"
+    class="fab"
+    aria-label="Report a Problem"
+  >
+    ⚠️ Report a Problem
+  </a>
+
   <!-- GLOBAL BANNER LOADER -->
   <script>
   (async () => {
@@ -548,7 +596,7 @@
   <script>
   (function () {
     const MONITOR_ID   = "798398580";
-    const API_KEY      = "YOUR_READ_ONLY_API_KEY"; // ← paste your UptimeRobot read-only key here
+    const API_KEY      = "ur2802074-45c719cc47ea1514e9890823";
 
     const dot      = document.getElementById("status-dot");
     const headline = document.getElementById("status-headline");
@@ -556,14 +604,12 @@
     const updated  = document.getElementById("status-updated");
     const activeNotice = document.getElementById("maintenance-active");
 
-    // ── Is it currently Tuesday maintenance window? (4–5 AM ET) ──
     function isMaintenanceWindow() {
       const now = new Date();
-      // Convert to Eastern Time
       const etStr = now.toLocaleString("en-US", { timeZone: "America/New_York" });
       const et    = new Date(etStr);
-      const day   = et.getDay();   // 2 = Tuesday
-      const hour  = et.getHours(); // 4 = 4 AM
+      const day   = et.getDay();
+      const hour  = et.getHours();
       return day === 2 && hour === 4;
     }
 
@@ -584,7 +630,6 @@
     }
 
     async function checkStatus() {
-      // Show/hide the active maintenance banner
       if (isMaintenanceWindow()) {
         activeNotice.style.display = "flex";
       } else {
@@ -605,7 +650,6 @@
         }
 
         const monitor = data.monitors[0];
-        // UptimeRobot status: 2 = up, 8 = seems down, 9 = down
         const isUp = monitor.status === 2;
         setStatus(isUp);
 
@@ -617,7 +661,7 @@
     }
 
     checkStatus();
-    setInterval(checkStatus, 5 * 60 * 1000); // refresh every 5 minutes
+    setInterval(checkStatus, 5 * 60 * 1000);
   })();
   </script>
 
