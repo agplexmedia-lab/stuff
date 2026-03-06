@@ -614,7 +614,7 @@
 
       const d = parseISODate(milestone);
       const hasFutureDate = !!(d && d > today);
-      const dateText = hasFutureDate ? milestone : "??";
+      const dateText = hasFutureDate   ? new Date(milestone).toLocaleDateString("en-US")   : "??";
       const est = milestoneSource.startsWith("estimate") || !has_future_date; // typo fixed below
       let safeEst = milestoneSource.startsWith("estimate") || !hasFutureDate;
 
