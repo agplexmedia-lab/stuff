@@ -7,226 +7,249 @@
 
   <link rel="apple-touch-icon" href="../assets/favicon-180.png">
   <link rel="icon" type="image/png" href="../assets/favicon-180.png">
-
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --aqua:#28f2ff;
-      --white:#ffffff;
-      --shadow:0 9px 28px rgba(0,0,0,.35);
-      --glass:rgba(0,0,0,.25);
-      --glass2:rgba(0,0,0,.35);
-      --radius:22px;
+    :root {
+      --aqua:   #1898a8;
+      --white:  #ffffff;
+      --shadow: 0 9px 28px rgba(0,0,0,.5);
 
-      /* ===== GLOBAL BANNER OFFSET (JS sets dynamically) ===== */
+      --red:    #c83228;
+      --orange: #d4682a;
+      --yellow: #d4a820;
+      --green:  #28985a;
+      --indigo: #3848b0;
+      --cyan:   #1898a8;
+
+      --border: rgba(255,255,255,.10);
       --banner-offset: 0px;
     }
 
-    /* ===== GLOBAL BANNER (fixed + safe header offset) ===== */
-.global-banner{
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 9999;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  width: 100%;
-background: #10b981; /* emerald-500 */
-color: #ffffff;      
-padding: 10px 14px;
-text-align: center;
-font-weight: 700;
-font-size: 14px;
-line-height: 1.25;
-}
-
-.global-banner a{
-  color: #111827;
-  text-decoration: underline;
-  font-weight: 900;
-}
-    /* Push your sticky header down under the banner */
-    .topbar{
-      top: var(--banner-offset);
-    }
-
-    /* Push the whole page content down so nothing hides under the banner */
-    body{
+    body {
+      font-family: 'Barlow', system-ui, sans-serif;
+      color: var(--white);
+      min-height: 100vh;
       padding-top: var(--banner-offset);
-    }
-
-    *{ box-sizing:border-box; }
-
-    body{
-      margin:0;
-      font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      color:var(--white);
-      min-height:100vh;
       background:
-        linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.55)),
+        linear-gradient(180deg, rgba(0,0,0,.60), rgba(0,0,0,.60)),
         url("../assets/bgphoto.png") center/cover no-repeat fixed;
     }
 
-    /* ===== HEADER ===== */
-    .topbar{
-      position:sticky;
-      z-index:10;
-      padding: calc(14px + env(safe-area-inset-top)) 14px 12px;
-      display:flex;
-      justify-content:center;
-      background: linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,0));
+    /* ── GRAIN over everything ── */
+    #vhs-grain {
+      position: fixed;
+      inset: 0;
+      z-index: 9990;
+      pointer-events: none;
+      opacity: 0.06;
+      mix-blend-mode: screen;
+    }
+
+    /* horizontal wear lines */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 9989;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        180deg,
+        transparent            0px,
+        transparent            60px,
+        rgba(255,255,255,.010) 60px,
+        rgba(255,255,255,.010) 61px,
+        transparent            61px,
+        transparent            130px,
+        rgba(255,255,255,.007) 130px,
+        rgba(255,255,255,.007) 131px,
+        transparent            131px,
+        transparent            220px
+      );
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      position: sticky;
+      top: var(--banner-offset);
+      z-index: 100;
+      padding: calc(12px + env(safe-area-inset-top)) 14px 10px;
+      display: flex;
+      justify-content: center;
+      background: linear-gradient(180deg, rgba(0,0,0,.5), rgba(0,0,0,0));
       backdrop-filter: blur(6px);
     }
 
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       padding: 8px 18px;
-      border-radius: 18px;
-      border:1px solid rgba(255,255,255,.18);
-      background: rgba(0,0,0,.25);
+      background: rgba(0,0,0,.45);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 4px;
+      text-decoration: none;
+      color: #ffffff;
+      font-family: 'Bungee', cursive;
+      font-size: 16px;
+      letter-spacing: 2px;
       box-shadow: var(--shadow);
-      text-decoration:none;
-      color:#ffffff;
-      font-weight:900;
-      letter-spacing:1px;
-      position:relative;
-      overflow:hidden;
     }
 
-    .brand img{
-      width:32px;
-      height:32px;
-      object-fit:contain;
-      filter: drop-shadow(0 2px 6px rgba(0,0,0,.55));
+    .brand img {
+      width: 30px;
+      height: 30px;
+      border-radius: 3px;
+      opacity: .92;
     }
 
-    .brand::after{
-      content:"";
-      position:absolute;
-      left:18px;
-      right:18px;
-      bottom:6px;
-      height:3px;
-      background: linear-gradient(90deg, transparent, var(--aqua), transparent);
-      transform: scaleX(0);
-      transition: transform .35s ease;
-      border-radius:999px;
-    }
-
-    .brand:hover::after,
-    .brand:focus-visible::after{
-      transform: scaleX(1);
-    }
-
-    /* ===== CONTENT ===== */
-    .wrap{
+    /* ── LAYOUT ── */
+    .wrap {
       max-width: 860px;
       margin: 0 auto;
-      padding: 12px 18px 42px;
+      padding: 12px 14px 42px;
     }
 
-    .panel{
-      margin-top: 14px;
-      padding: 12px;
-      background: linear-gradient(180deg, var(--glass2), var(--glass));
-      border:1px solid rgba(255,255,255,.14);
-      border-radius: var(--radius);
+    /* ── PANELS — flat VHS label blocks ── */
+    .panel {
+      margin-top: 12px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 4px;
+      overflow: hidden;
       box-shadow: var(--shadow);
     }
 
-    .title{
-      font-size: clamp(28px, 4vw, 42px);
-      font-weight: 900;
-      margin-bottom: 12px;
-      text-shadow: 0 2px 18px rgba(0,0,0,.55);
+    /* rainbow top stripe on first panel */
+    .panel-rainbow {
+      display: flex;
+      height: 6px;
+    }
+    .panel-rainbow span { flex: 1; }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.65);
     }
 
-    .links{
-      list-style:none;
-      padding:0;
-      margin:0;
+    .panel-title {
+      font-family: 'Bungee', cursive;
+      font-size: 18px;
+      letter-spacing: .04em;
+      color: #ffffff;
+      line-height: 1;
     }
 
-    .links li{
-      display:flex;
-      align-items:flex-start;
-      gap:12px;
-      padding: 8px 3px;
-    }
-
-    .sq{
-      width:8px; height:8px;
-      background:#fff;
-      border-radius:2px;
-      margin-top:12px;
-      flex:0 0 auto;
-    }
-
-    .linkline{
-      display:flex;
-      gap:10px;
-      flex:1;
-      flex-wrap:wrap;
-      align-items:flex-start;
-    }
-
-    a.biglink{
-      color: var(--aqua);
-      font-weight: 900;
-      font-style: italic;
-      font-size: clamp(16px, 2vw, 24px);
-      text-decoration: underline;
-      text-underline-offset: 6px;
-      text-decoration-thickness: 3px;
-      white-space: normal;
-    }
-
-    .emoji{
-      font-size: 22px;
-      margin-top: 2px;
-    }
-
-    /* ===== STATUS EMBED (more native) ===== */
-    .status-wrap{
-      margin-top: 18px;
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(255,255,255,.14);
-      overflow:hidden;
-
-      /* "native card" feel */
+    .panel-body {
       background: rgba(0,0,0,.35);
       backdrop-filter: blur(8px);
+      padding: 14px 16px 16px;
     }
 
-    /* Use aspect-ratio so it scales cleanly across devices */
-    .status-frame{
-      width:100%;
-      aspect-ratio: 16 / 9;     /* desktop-friendly */
-      min-height: 320px;        /* prevents squished frame */
-      max-height: 640px;        /* stops it from being absurdly tall */
+    /* ── QUICK LINKS LIST ── */
+    .links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .links li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255,255,255,.06);
+      background: rgba(0,0,0,.25);
+      transition: background .1s ease;
+    }
+
+    .links li:hover {
+      background: rgba(255,255,255,.07);
+    }
+
+    /* color tab on left — cycles through VHS colors */
+    .links li:nth-child(1) { border-left: 3px solid var(--red); }
+    .links li:nth-child(2) { border-left: 3px solid var(--orange); }
+    .links li:nth-child(3) { border-left: 3px solid var(--yellow); }
+    .links li:nth-child(4) { border-left: 3px solid var(--green); }
+    .links li:nth-child(5) { border-left: 3px solid var(--indigo); }
+    .links li:nth-child(6) { border-left: 3px solid var(--cyan); }
+    .links li:nth-child(7) { border-left: 3px solid var(--red); }
+
+    .link-emoji {
+      font-size: 20px;
+      flex: 0 0 auto;
+      line-height: 1;
+    }
+
+    a.biglink {
+      font-family: 'Bungee', cursive;
+      font-size: clamp(15px, 2.2vw, 20px);
+      letter-spacing: .03em;
+      color: #ffffff;
+      text-decoration: none;
+      flex: 1;
+      line-height: 1.2;
+    }
+
+    a.biglink:hover {
+      color: #a8d0f8;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    /* ── STATUS EMBED ── */
+    .status-wrap {
+      margin-top: 4px;
+      border: 1px solid rgba(255,255,255,.08);
+      overflow: hidden;
+      background: rgba(0,0,0,.3);
+    }
+
+    .status-frame {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      min-height: 320px;
+      max-height: 640px;
       position: relative;
     }
 
-    .status-frame iframe{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      border:0;
-      background:#000;
-
-      /* Try to avoid inner scrollbars when possible */
-      overflow:hidden;
+    .status-frame iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #000;
     }
 
-    /* Give it more vertical room on phones */
-    @media (max-width: 520px){
-      .status-frame{
-        aspect-ratio: 10 / 10;  /* taller card on mobile */
+    /* ── TAPE DIVIDER ── */
+    .tape-divider {
+      height: 2px;
+      margin-top: 12px;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(255,255,255,.08) 0px,
+        rgba(255,255,255,.08) 3px,
+        transparent           3px,
+        transparent           6px
+      );
+    }
+
+    @media (max-width: 520px) {
+      body { padding-left: 0; padding-right: 0; }
+      .wrap { padding: 8px 10px 36px; }
+      .status-frame {
+        aspect-ratio: 10 / 10;
         min-height: 420px;
         max-height: 760px;
       }
@@ -234,75 +257,111 @@ line-height: 1.25;
   </style>
 </head>
 <body>
-<header class="topbar">
-  <a href="https://agplexhub.com/home/" class="brand">
-    <img src="../assets/favicon-180.png" alt="AG Plex Icon">
-    <span>AG PLEX</span>
-  </a>
-</header>
-<main class="wrap">
-  <!-- QUICK LINKS -->
-  <section class="panel">
-    <div class="title">📌 Quick Links:</div>
-    <ul class="links">
-      <li><span class="sq"></span><div class="linkline"><a class="biglink" href="https://agplexhub.com/request/">Make a Request for the Plex!</a><span class="emoji">✌️</span></div></li>
-      <li><span class="sq"></span><div class="linkline"><a class="biglink" href="https://agplexhub.com/tek/">Plex Support Bot</a><span class="emoji">🐵</span></div></li>
-      <li><span class="sq"></span><div class="linkline"><a class="biglink" href="https://agplexhub.com/coming-soon/">COMING SOON</a><span class="emoji">🍿</span></div></li>
-      <li><span class="sq"></span><div class="linkline"><a class="biglink" href="https://plex-recs-rex.fly.dev/">Plex Recommendations</a><span class="emoji">🦖</span></div></li>
-      <li><span class="sq"></span><div class="linkline"><a class="biglink" href="https://agplexhub.com/gallery/">AG PLEXclusives Gallery</a><span class="emoji">⭐</span></div></li>
-      <li><span class="sq"></span><div class="linkline"><a class="biglink" href="https://agplexhub.com/AG-ARCADE/">AG ARCADE</a><span class="emoji">🕹️</span></div></li>
-      <li><span class="sq"></span><div class="linkline"><a class="biglink" href="https://agplexhub.com/FAQ/">FAQ</a><span class="emoji">❓</span></div></li>
-    </ul>
-  </section>
-  <!-- STATUS PANEL -->
-  <section class="panel">
-    <div class="title">📡 Server Status</div>
-    <div class="status-wrap">
-      <div class="status-frame">
-        <iframe
-          src="https://earnest-rugelach-35fda3.netlify.app/"
-          title="AG Plex Server Status"
-          loading="lazy"
-          scrolling="no">
-        </iframe>
+  <canvas id="vhs-grain"></canvas>
+
+  <header class="topbar">
+    <a href="https://agplexhub.com/home/" class="brand">
+      <img src="../assets/favicon-180.png" alt="AG Plex Icon">
+      AG PLEX
+    </a>
+  </header>
+
+  <main class="wrap">
+
+    <!-- QUICK LINKS -->
+    <section class="panel">
+      <div class="panel-rainbow">
+        <span style="background:#c83228"></span>
+        <span style="background:#d4682a"></span>
+        <span style="background:#d4a820"></span>
+        <span style="background:#28985a"></span>
+        <span style="background:#3848b0"></span>
+        <span style="background:#1898a8"></span>
       </div>
-    </div>
-  </section>
-</main>
-<!-- ===== GLOBAL BANNER LOADER (put at end so body definitely exists) ===== -->
-<script>
-(async () => {
-  try {
-    if (document.body.dataset.noBanner === "true") return;
+      <div class="panel-header">
+        <span class="panel-title">📌 Quick Links</span>
+      </div>
+      <div class="panel-body">
+        <ul class="links">
+          <li><a class="biglink" href="https://agplexhub.com/request/">Make a Request for the Plex!</a><span class="link-emoji">✌️</span></li>
+          <li><a class="biglink" href="https://agplexhub.com/tek/">Plex Support Bot</a><span class="link-emoji">🐵</span></li>
+          <li><a class="biglink" href="https://agplexhub.com/coming-soon/">Coming Soon</a><span class="link-emoji">🍿</span></li>
+          <li><a class="biglink" href="https://plex-recs-rex.fly.dev/">Plex Recommendations</a><span class="link-emoji">🦖</span></li>
+          <li><a class="biglink" href="https://agplexhub.com/gallery/">AG PLEXclusives Gallery</a><span class="link-emoji">⭐</span></li>
+          <li><a class="biglink" href="https://agplexhub.com/AG-ARCADE/">AG Arcade</a><span class="link-emoji">🕹️</span></li>
+          <li><a class="biglink" href="https://agplexhub.com/FAQ/">FAQ</a><span class="link-emoji">❓</span></li>
+        </ul>
+        <div class="tape-divider"></div>
+      </div>
+    </section>
 
-    const cfgRes = await fetch("/assets/banner-config.json", { cache: "no-store" });
-    if (!cfgRes.ok) return;
-    const cfg = await cfgRes.json();
-    if (!cfg.enabled) return;
+    <!-- SERVER STATUS -->
+    <section class="panel">
+      <div class="panel-header">
+        <span class="panel-title">📡 Server Status</span>
+      </div>
+      <div class="panel-body" style="padding: 12px;">
+        <div class="status-wrap">
+          <div class="status-frame">
+            <iframe
+              src="https://earnest-rugelach-35fda3.netlify.app/"
+              title="AG Plex Server Status"
+              loading="lazy"
+              scrolling="no">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    const htmlPath = cfg.html_path || "/assets/banner.html";
-    const bannerRes = await fetch(htmlPath, { cache: "no-store" });
-    if (!bannerRes.ok) return;
+  </main>
 
-    const html = await bannerRes.text();
-    const mount = document.createElement("div");
-    mount.innerHTML = html;
+  <!-- GLOBAL BANNER LOADER -->
+  <script>
+  (async () => {
+    try {
+      if (document.body.dataset.noBanner === "true") return;
+      const cfgRes = await fetch("/assets/banner-config.json", { cache: "no-store" });
+      if (!cfgRes.ok) return;
+      const cfg = await cfgRes.json();
+      if (!cfg.enabled) return;
+      const bannerRes = await fetch(cfg.html_path || "/assets/banner.html", { cache: "no-store" });
+      if (!bannerRes.ok) return;
+      const html = await bannerRes.text();
+      const mount = document.createElement("div");
+      mount.innerHTML = html;
+      document.body.insertBefore(mount, document.body.firstChild);
+      function setOffset(){
+        const el = document.querySelector(".global-banner");
+        const h = el ? Math.ceil(el.getBoundingClientRect().height) : 0;
+        document.documentElement.style.setProperty("--banner-offset", h + "px");
+      }
+      setOffset();
+      window.addEventListener("resize", setOffset);
+    } catch {}
+  })();
+  </script>
 
-    // Insert at top of body
-    document.body.insertBefore(mount, document.body.firstChild);
-
-    function setOffset(){
-      const bannerEl = document.querySelector(".global-banner");
-      const h = bannerEl ? Math.ceil(bannerEl.getBoundingClientRect().height) : 0;
-      document.documentElement.style.setProperty("--banner-offset", h + "px");
+  <!-- GRAIN -->
+  <script>
+  (function(){
+    const canvas = document.getElementById("vhs-grain");
+    const ctx = canvas.getContext("2d");
+    function resize(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener("resize", resize);
+    function draw(){
+      const w=canvas.width, h=canvas.height, img=ctx.createImageData(w,h), d=img.data;
+      for(let i=0;i<d.length;i+=4){
+        const v=Math.random()*255|0;
+        d[i]=d[i+1]=d[i+2]=v; d[i+3]=16;
+      }
+      ctx.putImageData(img,0,0);
+      requestAnimationFrame(draw);
     }
+    draw();
+  })();
+  </script>
 
-    setOffset();
-    window.addEventListener("resize", setOffset);
-  } catch {
-    // fail silently
-  }
-})();
-</script>
 </body>
 </html>
