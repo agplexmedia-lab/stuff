@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>AG Plex Weekly</title>
+
+  <link rel="apple-touch-icon" href="../assets/favicon-180.png">
+  <link rel="icon" type="image/png" href="../assets/favicon-180.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#f3f6fb;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#475569;
+      --blue:#1f78c8;
+      --blue-dark:#155a96;
+      --border:#dbe5f0;
+      --shadow:0 10px 28px rgba(15, 23, 42, 0.10);
+      --radius:20px;
+      --maxw:680px;
+    }
+
+    *{box-sizing:border-box;}
+
+    html,body{
+      margin:0;
+      padding:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:'Poppins',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    }
+
+    body{
+      padding:14px;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:var(--maxw);
+      margin:0 auto;
+    }
+
+    .hero{
+      background:linear-gradient(135deg, #1f78c8 0%, #3aa0ff 100%);
+      color:#fff;
+      border-radius:24px;
+      padding:22px 18px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .eyebrow{
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      opacity:.9;
+      margin:0 0 8px 0;
+    }
+
+    .hero h1{
+      font-size:30px;
+      line-height:1.02;
+      margin:0 0 10px 0;
+      font-weight:900;
+      letter-spacing:-0.03em;
+    }
+
+    .hero p{
+      margin:0;
+      font-size:14px;
+      line-height:1.55;
+      color:rgba(255,255,255,.95);
+    }
+
+    .section{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:18px 16px;
+      margin-top:14px;
+      box-shadow:var(--shadow);
+    }
+
+    .section h2{
+      margin:0 0 10px 0;
+      font-size:20px;
+      line-height:1.1;
+      font-weight:800;
+      letter-spacing:-0.02em;
+    }
+
+    .section p{
+      margin:0;
+      font-size:14px;
+      line-height:1.6;
+      color:var(--muted);
+    }
+
+    .pill{
+      display:inline-block;
+      background:#e8f2fc;
+      color:var(--blue-dark);
+      font-size:12px;
+      font-weight:700;
+      padding:7px 10px;
+      border-radius:999px;
+      margin-bottom:10px;
+    }
+
+    .poster-grid{
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:12px;
+      margin-top:14px;
+    }
+
+    .poster-card{
+      text-decoration:none;
+      color:inherit;
+      display:block;
+    }
+
+    .poster{
+      width:100%;
+      aspect-ratio:2 / 3;
+      border-radius:16px;
+      object-fit:cover;
+      display:block;
+      background:#dbe5f0;
+      box-shadow:0 6px 18px rgba(15, 23, 42, 0.12);
+    }
+
+    .poster-title{
+      margin:8px 2px 0 2px;
+      font-size:13px;
+      line-height:1.35;
+      font-weight:700;
+      color:var(--text);
+    }
+
+    .poster-meta{
+      margin:4px 2px 0 2px;
+      font-size:12px;
+      line-height:1.35;
+      color:var(--muted);
+    }
+
+    .cta-row{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-top:14px;
+    }
+
+    .btn{
+      display:block;
+      width:100%;
+      text-align:center;
+      text-decoration:none;
+      background:var(--blue);
+      color:#fff;
+      font-weight:800;
+      font-size:14px;
+      padding:14px 16px;
+      border-radius:14px;
+      transition:background .15s ease;
+    }
+
+    .btn.secondary{
+      background:#e8f2fc;
+      color:var(--blue-dark);
+    }
+
+    .small-list{
+      margin:12px 0 0 0;
+      padding-left:18px;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.65;
+    }
+
+    .footer{
+      text-align:center;
+      padding:20px 10px 32px;
+      color:#64748b;
+      font-size:12px;
+      line-height:1.6;
+    }
+
+    .footer a{
+      color:var(--blue-dark);
+      text-decoration:none;
+      font-weight:700;
+    }
+
+    @media (min-width: 600px){
+      body{
+        padding:20px;
+      }
+
+      .hero{
+        padding:28px 24px;
+      }
+
+      .hero h1{
+        font-size:38px;
+      }
+
+      .section{
+        padding:22px 20px;
+      }
+
+      .poster-grid{
+        grid-template-columns:repeat(4, 1fr);
+      }
+
+      .cta-row{
+        grid-template-columns:repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <section class="hero">
+      <div class="eyebrow">AG Plex Newsletter</div>
+      <h1>What’s New on AG Plex</h1>
+      <p>
+        Fresh additions, featured picks, and a few reasons to open Plex instead of scrolling for 40 minutes.
+      </p>
+    </section>
+
+    <section class="section">
+      <div class="pill">Recently Added</div>
+      <h2>New Movies This Week</h2>
+      <p>
+        A quick look at some of the newest additions now available on AG Plex.
+      </p>
+
+      <div class="poster-grid">
+        <a class="poster-card" href="#">
+          <img class="poster" src="https://placehold.co/400x600?text=Poster+1" alt="Movie poster 1">
+          <div class="poster-title">Movie Title One</div>
+          <div class="poster-meta">2025 • Thriller</div>
+        </a>
+
+        <a class="poster-card" href="#">
+          <img class="poster" src="https://placehold.co/400x600?text=Poster+2" alt="Movie poster 2">
+          <div class="poster-title">Movie Title Two</div>
+          <div class="poster-meta">2024 • Comedy</div>
+        </a>
+
+        <a class="poster-card" href="#">
+          <img class="poster" src="https://placehold.co/400x600?text=Poster+3" alt="Movie poster 3">
+          <div class="poster-title">Movie Title Three</div>
+          <div class="poster-meta">2023 • Sci-Fi</div>
+        </a>
+
+        <a class="poster-card" href="#">
+          <img class="poster" src="https://placehold.co/400x600?text=Poster+4" alt="Movie poster 4">
+          <div class="poster-title">Movie Title Four</div>
+          <div class="poster-meta">2022 • Horror</div>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="pill">Also Added</div>
+      <h2>New TV & Other Stuff</h2>
+      <p>
+        Fresh episodes, weird finds, and whatever else Andrew decided needed to exist on the server.
+      </p>
+
+      <ul class="small-list">
+        <li>New season drops</li>
+        <li>Random cult movies</li>
+        <li>Plexclusive oddities</li>
+        <li>Stuff you probably ignored the first time I mentioned it</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <div class="pill">Need Something?</div>
+      <h2>Use the Hub</h2>
+      <p>
+        Want to request something, troubleshoot playback, or poke around the AG Plex universe? Start here.
+      </p>
+
+      <div class="cta-row">
+        <a class="btn" href="https://agplexmediahub.com/">Open AG Plex Hub</a>
+        <a class="btn secondary" href="https://sites.google.com/view/ag-plex/make-a-request-for-the-plex">Make a Request</a>
+      </div>
+    </section>
+
+    <div class="footer">
+      You’re getting this because you’re on AG Plex.<br>
+      Watch something good already.
+    </div>
+
+  </div>
+</body>
+</html>
