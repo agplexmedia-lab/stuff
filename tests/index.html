@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Make a Request for the Plex</title>
+
+  <link rel="apple-touch-icon" href="../assets/favicon-180.png">
+  <link rel="icon" type="image/png" href="../assets/favicon-180.png">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:        #12161f;
+      --bg-2:      #0e1119;
+      --card:      #181d28;
+      --text:      #dce4f0;
+      --muted:     #7080a0;
+
+      --blue:      #2d6bbf;
+      --blue-lt:   #4d8fdf;
+
+      --red:       #c83228;
+      --orange:    #d4682a;
+      --yellow:    #d4a820;
+      --green:     #28985a;
+      --indigo:    #3848b0;
+      --cyan:      #1898a8;
+
+      --border:    rgba(255,255,255,.07);
+      --shadow:    0 8px 28px rgba(0,0,0,.6);
+      --maxw:      720px;
+
+      --banner-offset: 0px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Barlow', system-ui, sans-serif;
+      min-height: 100vh;
+    }
+
+    body {
+      padding-top: var(--banner-offset);
+      padding-left: 12px;
+      padding-right: 12px;
+      padding-bottom: 0;
+    }
+
+    /* ── GRAIN ── */
+    #vhs-grain {
+      position: fixed;
+      inset: 0;
+      z-index: 9990;
+      pointer-events: none;
+      opacity: 0.07;
+      mix-blend-mode: screen;
+    }
+
+    /* horizontal wear lines */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 9989;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        180deg,
+        transparent              0px,
+        transparent              60px,
+        rgba(255,255,255,.012)   60px,
+        rgba(255,255,255,.012)   61px,
+        transparent              61px,
+        transparent              120px,
+        rgba(255,255,255,.008)   120px,
+        rgba(255,255,255,.008)   121px,
+        transparent              121px,
+        transparent              200px
+      );
+    }
+
+    /* ── LAYOUT ── */
+    .wrap {
+      width: 100%;
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding-bottom: 30px;
+    }
+
+    /* ── UNIVERSAL HEADER ── */
+    .site-header {
+      position: sticky;
+      top: var(--banner-offset);
+      z-index: 100;
+      padding: calc(10px + env(safe-area-inset-top)) 0 10px;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 18px;
+      background: #ffffff;
+      border: 2px solid #dce4f0;
+      border-right-color: #8090b0;
+      border-bottom-color: #8090b0;
+      border-radius: 4px;
+      text-decoration: none;
+      color: #0e1420;
+      font-family: 'Bungee', cursive;
+      font-size: 16px;
+      letter-spacing: 2px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.7);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .brand img {
+      width: 28px;
+      height: 28px;
+      border-radius: 3px;
+      opacity: .92;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: #0d1220;
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 4px;
+      padding: 0;
+      box-shadow: var(--shadow);
+      margin-bottom: 10px;
+    }
+
+    .hero-rainbow {
+      display: flex;
+      height: 10px;
+      width: 100%;
+    }
+    .hero-rainbow span { flex: 1; }
+
+    .hero-body {
+      padding: 20px 20px 16px;
+      position: relative;
+    }
+
+    .hero-body::after {
+      content: "";
+      position: absolute;
+      top: 0; right: 0;
+      width: 50%;
+      height: 100%;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        -52deg,
+        transparent          0px,
+        transparent          28px,
+        rgba(45,107,191,.07) 28px,
+        rgba(45,107,191,.07) 34px,
+        transparent          34px,
+        transparent          62px
+      );
+    }
+
+    .hero-brand {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .hero-brand img {
+      width: 40px;
+      height: 40px;
+      border-radius: 4px;
+      opacity: .92;
+    }
+
+    .eyebrow {
+      font-family: 'Barlow', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      color: var(--cyan);
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      position: relative;
+      z-index: 1;
+      font-family: 'Bungee', cursive;
+      font-size: 34px;
+      line-height: 1.04;
+      color: #ffffff;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 0 rgba(0,0,0,.8);
+    }
+
+    .hero-sub {
+      position: relative;
+      z-index: 1;
+      font-family: 'Barlow', sans-serif;
+      font-size: 14px;
+      line-height: 1.7;
+      color: #8898b8;
+      margin-bottom: 4px;
+    }
+
+    .hero-sub a {
+      color: var(--blue-lt);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(77,143,223,.3);
+    }
+
+    .hero-sub strong { color: #c8d8e8; font-weight: 700; }
+
+    .hero-rainbow-bottom {
+      display: flex;
+      height: 7px;
+      width: 100%;
+    }
+    .hero-rainbow-bottom span { flex: 1; }
+
+    /* ── SEARCH BLOCK ── */
+    .block {
+      margin-top: 10px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,.45);
+    }
+
+    .block-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .block-header.blue   { background: var(--blue); }
+    .block-header.green  { background: #1a5830; }
+
+    .block-label {
+      font-family: 'Bungee', cursive;
+      font-size: 15px;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      color: #ffffff;
+      line-height: 1;
+    }
+
+    .block-label-sub {
+      font-family: 'Barlow', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,.5);
+      text-transform: uppercase;
+      margin-left: auto;
+    }
+
+    .block-body {
+      background: var(--card);
+      padding: 16px;
+    }
+
+    /* ── INPUTS ── */
+    .error-message {
+      display: none;
+      margin: 0 0 10px;
+      color: #e05050;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 14px;
+      margin: 0 0 10px;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 0;
+      font-size: 15px;
+      font-family: 'Barlow', sans-serif;
+      background: #0e1420;
+      color: var(--text);
+      outline: none;
+    }
+
+    input[type="text"]::placeholder { color: #3a4a60; }
+
+    input[type="text"]:focus {
+      border-color: rgba(45,107,191,.6);
+      box-shadow: 0 0 0 3px rgba(45,107,191,.15);
+    }
+
+    /* ── RESULTS ── */
+    #results { margin-top: 4px; }
+
+    .result-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #111825;
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 0;
+      padding: 10px 12px;
+      margin: 6px 0;
+      animation: fadeIn .2s ease-in;
+    }
+
+    .result-item img {
+      width: 44px;
+      height: 66px;
+      object-fit: cover;
+      flex: 0 0 auto;
+      background: #0d1825;
+      filter: saturate(.85) contrast(1.05);
+    }
+
+    .info {
+      flex: 1;
+      min-width: 0;
+      font-size: 14px;
+      line-height: 1.3;
+      color: #c8d8e8;
+    }
+
+    .info strong {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      white-space: normal;
+      overflow: hidden;
+      font-weight: 700;
+      font-family: 'Barlow', sans-serif;
+    }
+
+    .title-link {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .title-link:hover strong { text-decoration: underline; }
+
+    .info .meta {
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      font-family: 'Barlow', sans-serif;
+    }
+
+    .buttons { flex: 0 0 auto; }
+
+    /* ── RESULT BUTTONS ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 12px;
+      border: 2px solid #4888d8;
+      border-right-color: #1a3a78;
+      border-bottom-color: #1a3a78;
+      border-radius: 0;
+      background: #2d6bbf;
+      color: #ffffff;
+      font-family: 'Bungee', cursive;
+      font-size: 13px;
+      letter-spacing: .04em;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+
+    .btn:hover { filter: brightness(1.1); }
+
+    .btn[disabled], .btn-grey {
+      background: #2a3040;
+      border-color: #3a4060;
+      border-right-color: #1a2030;
+      border-bottom-color: #1a2030;
+      color: #506080;
+      cursor: not-allowed;
+      filter: none;
+    }
+
+    .btn-orange {
+      background: #8a4010;
+      border-color: #c86020;
+      border-right-color: #501808;
+      border-bottom-color: #501808;
+      color: #f0c080;
+    }
+
+    .btn-green {
+      background: #1a6838;
+      border-color: #28985a;
+      border-right-color: #0a3018;
+      border-bottom-color: #0a3018;
+      color: #80e8a8;
+    }
+
+    /* ── BADGES ── */
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      font-family: 'Barlow', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+
+    .badge-coming  { background: rgba(212,104,42,.2);  color: #d4a060; border: 1px solid rgba(212,104,42,.3); }
+    .badge-onplex  { background: rgba(40,152,90,.2);   color: #60c888; border: 1px solid rgba(40,152,90,.3); }
+    .badge-requested { background: rgba(255,255,255,.06); color: #7080a0; border: 1px solid rgba(255,255,255,.1); }
+
+    /* ── SUBMITTED STATE ── */
+    .submitted-container {
+      display: none;
+      margin-top: 10px;
+    }
+
+    .submitted-container .block-body {
+      text-align: center;
+      padding: 24px 16px;
+    }
+
+    .submitted-container h2 {
+      font-family: 'Bungee', cursive;
+      font-size: 22px;
+      color: var(--green);
+      margin-bottom: 14px;
+      letter-spacing: .04em;
+    }
+
+    .submit-another {
+      appearance: none;
+      border: 2px solid #4888d8;
+      border-right-color: #1a3a78;
+      border-bottom-color: #1a3a78;
+      border-radius: 0;
+      padding: 12px 20px;
+      font-family: 'Bungee', cursive;
+      font-size: 15px;
+      letter-spacing: .06em;
+      cursor: pointer;
+      background: #2d6bbf;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+
+    .submit-another:hover { filter: brightness(1.1); }
+
+    /* ── TAPE DIVIDER ── */
+    .tape-divider {
+      height: 2px;
+      margin-top: 14px;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(255,255,255,.06)  0px,
+        rgba(255,255,255,.06)  3px,
+        transparent            3px,
+        transparent            6px
+      );
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── UNIVERSAL FOOTER OVERRIDES ── */
+    #footerMount { margin-top: 24px; }
+
+    #footerMount .site-footer,
+    #footerMount footer,
+    #footerMount [class*="footer"] {
+      background: #0e1119 !important;
+      border-top: 1px solid rgba(255,255,255,.08) !important;
+      color: #7080a0 !important;
+      text-align: center !important;
+      padding: 20px 18px 32px !important;
+    }
+
+    #footerMount a { color: #4d8fdf !important; text-decoration: none !important; }
+    #footerMount a:hover { color: #7aacdc !important; text-decoration: underline !important; }
+
+    #footerMount * {
+      color: inherit;
+      font-family: 'Barlow', sans-serif !important;
+      font-size: 14px !important;
+      letter-spacing: .3px !important;
+      text-align: center !important;
+    }
+
+    #footerMount nav,
+    #footerMount ul,
+    #footerMount ol {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      justify-content: center !important;
+      gap: 6px 14px !important;
+      list-style: none !important;
+      padding: 0 !important;
+      margin: 0 auto !important;
+    }
+
+    @media (min-width: 600px) {
+      body { padding-left: 18px; padding-right: 18px; }
+      .hero h1 { font-size: 42px; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="vhs-grain"></canvas>
+
+  <!-- UNIVERSAL HEADER -->
+  <header class="site-header">
+    <a href="https://agplexhub.com/home/" class="brand">
+      <img src="../assets/favicon-180.png" alt="AG Plex Home">
+      AG PLEX
+    </a>
+  </header>
+
+  <div class="wrap">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-rainbow">
+        <span style="background:#c83228"></span>
+        <span style="background:#d4682a"></span>
+        <span style="background:#d4a820"></span>
+        <span style="background:#28985a"></span>
+        <span style="background:#3848b0"></span>
+        <span style="background:#1898a8"></span>
+      </div>
+      <div class="hero-body">
+        <div class="hero-brand">
+          <img src="../assets/favicon-180.png" alt="AG Plex logo">
+          <div class="eyebrow">AG Plex</div>
+        </div>
+        <h1>Make a Request</h1>
+        <p class="hero-sub">
+          I typically add stuff <strong>within 24 hours.</strong><br>
+          Not listed? <a href="https://docs.google.com/forms/d/e/1FAIpQLScUSTxNo0ZRSBOt0GjUksD_AG00lTeC4SQ_yseqZfjAF4grAQ/viewform">Submit it as a Plex problem.</a><br>
+          <strong>COMING SOON</strong> = Requested but not ready &nbsp;|&nbsp; <strong>REQUESTED</strong> = Working on it already!
+        </p>
+      </div>
+      <div class="hero-rainbow-bottom">
+        <span style="background:#c83228"></span>
+        <span style="background:#d4682a"></span>
+        <span style="background:#d4a820"></span>
+        <span style="background:#28985a"></span>
+        <span style="background:#3848b0"></span>
+        <span style="background:#1898a8"></span>
+      </div>
+    </div>
+
+    <!-- SEARCH BLOCK -->
+    <div class="block" id="formContainer">
+      <div class="block-header blue">
+        <span class="block-label">Search &amp; Request</span>
+        <span class="block-label-sub">Movies &amp; TV</span>
+      </div>
+      <div class="block-body">
+        <p class="error-message" id="errorMessage">⚠ Please enter your name before requesting.</p>
+        <input type="text" id="requesterName" placeholder="Your Name (Required)" oninput="resetError(); saveName();">
+        <input type="text" id="searchInput" onkeyup="searchMedia()" placeholder="Search for a movie or show...">
+        <div id="results"></div>
+        <div class="tape-divider"></div>
+      </div>
+    </div>
+
+    <!-- SUBMITTED STATE -->
+    <div class="submitted-container block" id="submittedContainer">
+      <div class="block-header green">
+        <span class="block-label">Request Submitted</span>
+      </div>
+      <div class="block-body" style="text-align:center; padding: 24px 16px;">
+        <h2 style="font-family:'Bungee',cursive; font-size:20px; color:var(--green); margin-bottom:14px; letter-spacing:.04em;">✓ Request Received!</h2>
+        <button class="submit-another" onclick="resetForm()">Submit Another</button>
+      </div>
+    </div>
+
+    <!-- Hidden Google Form -->
+    <form id="googleForm"
+          action="https://docs.google.com/forms/d/e/1FAIpQLSetYfWx5aqyYwVWYwHwLQqsL6d4uNSYPcVKQ_qezFY0K5b9PQ/formResponse"
+          method="POST"
+          target="hidden_iframe">
+      <input type="hidden" name="entry.1137128154" id="movieField">
+      <input type="hidden" name="entry.893781466" id="nameField">
+      <input type="hidden" name="entry.1525231893" id="tmdbField">
+      <input type="hidden" name="entry.264336961" id="typeField">
+    </form>
+    <iframe name="hidden_iframe" style="display:none;"></iframe>
+
+  </div><!-- /.wrap -->
+
+  <div id="footerMount"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+  <!-- GLOBAL BANNER LOADER -->
+  <script>
+  (async () => {
+    try {
+      if (document.body.dataset.noBanner === "true") return;
+      const cfgRes = await fetch("/assets/banner-config.json", { cache: "no-store" });
+      if (!cfgRes.ok) return;
+      const cfg = await cfgRes.json();
+      if (!cfg.enabled) return;
+      const bannerRes = await fetch(cfg.html_path || "/assets/banner.html", { cache: "no-store" });
+      if (!bannerRes.ok) return;
+      const html = await bannerRes.text();
+      const mount = document.createElement("div");
+      mount.innerHTML = html;
+      document.body.insertBefore(mount, document.body.firstChild);
+      function setOffset(){
+        const el = document.querySelector(".global-banner");
+        const h = el ? Math.ceil(el.getBoundingClientRect().height) : 0;
+        document.documentElement.style.setProperty("--banner-offset", h + "px");
+      }
+      setOffset();
+      window.addEventListener("resize", setOffset);
+    } catch {}
+  })();
+  </script>
+
+  <!-- GLOBAL FOOTER LOADER -->
+  <script>
+  (async () => {
+    try {
+      if (document.body.dataset.noFooter === "true") return;
+      const cfgRes = await fetch("/assets/footer-config.json", { cache: "no-store" });
+      if (!cfgRes.ok) return;
+      const cfg = await cfgRes.json();
+      if (!cfg.enabled) return;
+      const footerRes = await fetch(cfg.html_path || "/assets/footer.html", { cache: "no-store" });
+      if (!footerRes.ok) return;
+      const html = await footerRes.text();
+      const mount = document.getElementById("footerMount") || document.body;
+      const wrap = document.createElement("div");
+      wrap.innerHTML = html;
+      if (mount === document.body) document.body.appendChild(wrap);
+      else mount.replaceChildren(wrap);
+    } catch {}
+  })();
+  </script>
+
+  <!-- GRAIN -->
+  <script>
+  (function(){
+    const canvas = document.getElementById("vhs-grain");
+    const ctx = canvas.getContext("2d");
+    function resize(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener("resize", resize);
+    function draw(){
+      const w=canvas.width, h=canvas.height, img=ctx.createImageData(w,h), d=img.data;
+      for(let i=0;i<d.length;i+=4){
+        const v=Math.random()*255|0;
+        d[i]=d[i+1]=d[i+2]=v; d[i+3]=18;
+      }
+      ctx.putImageData(img,0,0);
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
+  </script>
+
+  <!-- APP LOGIC -->
+  <script>
+    const TMDB_API_KEY = "5bbfc2b05c0d49eea2032b35324ebc81";
+    const NAME_STORAGE_KEY = "agplex_requester_name";
+
+    let plexTitles = [];
+    let comingSoonKeys = new Set();
+    let requestedKeys = new Set();
+
+    const COMING_SOON_CSV =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTtK9WGWZSlSJi58mOOBA01RBJ3OKeXeY9VyT4nnWFAKNL8C6SeoD8nz_srBPHupiqFr3_0Na53Y4Za/pub?gid=1263928559&single=true&output=csv";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const saved = localStorage.getItem(NAME_STORAGE_KEY);
+      if (saved) requesterName.value = saved;
+    });
+
+    function saveName() {
+      localStorage.setItem(NAME_STORAGE_KEY, requesterName.value);
+    }
+
+    Promise.all([
+      fetch("https://apag104.github.io/ag-json/recently_added_movies.json").then(r => r.json()).catch(() => []),
+      fetch("https://apag104.github.io/ag-json/recently_added_tv.json").then(r => r.json()).catch(() => [])
+    ]).then(([movies, tv]) => {
+      plexTitles = [...movies, ...tv].map(i => `${i.title.toLowerCase()} (${i.year})`);
+    });
+
+    fetch(COMING_SOON_CSV)
+      .then(r => r.text())
+      .then(csv => {
+        Papa.parse(csv, { header: true, skipEmptyLines: true })
+          .data.forEach(row => {
+            const tmdb = (row.TMDB_ID || "").toString().trim();
+            const bucket = (row.Bucket || "").toString().trim().toUpperCase();
+            if (!tmdb) return;
+            const key = `movie:${tmdb}`;
+            if (bucket === "COMING_SOON") comingSoonKeys.add(key);
+            else requestedKeys.add(key);
+          });
+      })
+      .catch(() => {});
+
+    async function searchMedia() {
+      const q = searchInput.value.trim();
+      const out = results;
+      if (!q) return out.innerHTML = "";
+
+      const m = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(q)}`).then(r => r.json());
+      const t = await fetch(`https://api.themoviedb.org/3/search/tv?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(q)}`).then(r => r.json());
+
+      out.innerHTML = "";
+      [...(m.results || []), ...(t.results || [])].forEach(item => {
+        const type = item.title ? "movie" : "tv";
+        const name = item.title || item.name;
+        const year = (item.release_date || item.first_air_date || "N/A").split("-")[0];
+        const poster = item.poster_path ? `https://image.tmdb.org/t/p/w200${item.poster_path}` : "https://placehold.co/44x66?text=?";
+
+        const isInPlex = plexTitles.includes(`${name.toLowerCase()} (${year})`);
+        const key = `${type}:${item.id}`;
+        const isComingSoon = comingSoonKeys.has(key);
+        const isRequested = requestedKeys.has(key);
+
+        let button = "";
+        let badge = "";
+
+        if (isInPlex) {
+          button = `<a href="https://agplexhub.com/library/" class="btn btn-green" rel="noopener">On Plex</a>`;
+          badge = `<span class="badge badge-onplex">On Plex</span>`;
+        } else if (isComingSoon) {
+          button = `<a href="https://agplexhub.com/coming-soon/" class="btn btn-orange" rel="noopener">Coming Soon</a>`;
+          badge = `<span class="badge badge-coming">Coming Soon</span>`;
+        } else if (isRequested) {
+          button = `<button class="btn btn-grey" disabled>Requested</button>`;
+          badge = `<span class="badge badge-requested">Requested</span>`;
+        } else {
+          button = `<button class="btn request-btn"
+                      data-id="${item.id}"
+                      data-type="${type}"
+                      data-name="${encodeURIComponent(name)}"
+                      data-year="${year}">Request</button>`;
+        }
+
+        out.innerHTML += `
+          <div class="result-item">
+            <img src="${poster}" alt="Poster">
+            <div class="info">
+              <a href="#" class="title-link" data-type="${type}" data-tmdb="${item.id}" aria-label="Open IMDb page">
+                <strong>${name}</strong>
+              </a>
+              <div class="meta">(${year}) ${badge}</div>
+            </div>
+            <div class="buttons">${button}</div>
+          </div>`;
+      });
+
+      document.querySelectorAll(".request-btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+          submitRequest(this.dataset.id, this.dataset.type, this.dataset.name, this.dataset.year);
+        });
+      });
+
+      document.querySelectorAll(".title-link").forEach(a => {
+        a.addEventListener("click", async (e) => {
+          e.preventDefault();
+          try {
+            const ext = await fetch(`https://api.themoviedb.org/3/${a.dataset.type}/${a.dataset.tmdb}/external_ids?api_key=${TMDB_API_KEY}`).then(r => r.json());
+            if (ext && ext.imdb_id) { window.open(`https://www.imdb.com/title/${ext.imdb_id}/`, "_blank", "noopener"); return; }
+          } catch {}
+          window.open(`https://www.themoviedb.org/${a.dataset.type}/${a.dataset.tmdb}`, "_blank", "noopener");
+        });
+      });
+    }
+
+    function submitRequest(id, type, encName, year) {
+      const name = requesterName.value.trim();
+      if (!name) { errorMessage.style.display = "block"; return; }
+      saveName();
+      movieField.value = `${decodeURIComponent(encName)} (${year})`;
+      nameField.value = name;
+      tmdbField.value = id;
+      typeField.value = type;
+      googleForm.submit();
+      requestSubmitted();
+    }
+
+    function requestSubmitted() {
+      formContainer.style.display = "none";
+      submittedContainer.style.display = "block";
+    }
+
+    function resetForm() {
+      formContainer.style.display = "block";
+      submittedContainer.style.display = "none";
+      searchInput.value = "";
+      results.innerHTML = "";
+      resetError();
+    }
+
+    function resetError() {
+      errorMessage.style.display = "none";
+    }
+  </script>
+</body>
+</html>
