@@ -3,113 +3,129 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Tech Support Bot — Tek</title>
+  <title>Tek Tech Support Bot</title>
 
-  <!-- Favicon -->
   <link rel="apple-touch-icon" href="../assets/favicon-180.png">
   <link rel="icon" type="image/png" href="../assets/favicon-180.png">
-
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --site-blue:#1f78c8;
-      --panel-bg:#dff0ff;
-      --page-bg:#f3f6fb;
-      --card-bg:#ffffff;
-      --text:#1f2937;
-      --link:#1f78c8;
-      --shadow:0 10px 25px rgba(15, 23, 42, 0.12);
-      --shadow-soft:0 6px 18px rgba(15, 23, 42, 0.10);
-      --radius-xl:26px;
-      --radius-lg:18px;
-      --aqua:#28f2ff;
+    :root {
+      --bg:        #12161f;
+      --bg-2:      #0e1119;
+      --card:      #181d28;
+      --text:      #dce4f0;
+      --muted:     #7080a0;
+
+      --blue:      #2d6bbf;
+      --blue-lt:   #4d8fdf;
+
+      --red:       #c83228;
+      --orange:    #d4682a;
+      --yellow:    #d4a820;
+      --green:     #28985a;
+      --indigo:    #3848b0;
+      --cyan:      #1898a8;
+
+      --border:    rgba(255,255,255,.07);
+      --shadow:    0 8px 28px rgba(0,0,0,.6);
+      --banner-offset: 0px;
     }
 
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html, body{
+    html, body {
       height: 100%;
-      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Barlow', system-ui, sans-serif;
+      overflow: hidden;
     }
 
-    body{
-      font-family:'Poppins',sans-serif;
-      background: var(--page-bg);
-      color: var(--text);
+    body {
       display: flex;
       flex-direction: column;
-      padding: 0 18px;
-      overflow: hidden;
-      text-align: center;
+      padding-top: var(--banner-offset);
+      padding-left: 12px;
+      padding-right: 12px;
     }
 
-    /* =========================
-       HEADER
-    ========================== */
-    .site-header{
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      padding: calc(10px + env(safe-area-inset-top)) 10px 8px;
-      display:flex;
-      justify-content:center;
-      background: linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,0));
-      backdrop-filter: blur(6px);
+    /* ── GRAIN ── */
+    #vhs-grain {
+      position: fixed;
+      inset: 0;
+      z-index: 9990;
+      pointer-events: none;
+      opacity: 0.07;
+      mix-blend-mode: screen;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 9989;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        180deg,
+        transparent              0px,
+        transparent              60px,
+        rgba(255,255,255,.012)   60px,
+        rgba(255,255,255,.012)   61px,
+        transparent              61px,
+        transparent              120px,
+        rgba(255,255,255,.008)   120px,
+        rgba(255,255,255,.008)   121px,
+        transparent              121px,
+        transparent              200px
+      );
+    }
+
+    /* ── HEADER ── */
+    .site-header {
       flex: 0 0 auto;
+      position: sticky;
+      top: var(--banner-offset);
+      z-index: 100;
+      padding: calc(10px + env(safe-area-inset-top)) 0 10px;
+      display: flex;
+      justify-content: center;
     }
 
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding: 6px 14px;
-      border-radius: 16px;
-      border:1px solid rgba(0,0,0,.10);
-      background: rgba(255,255,255,.75);
-      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.10);
-      text-decoration:none;
-      color:#111827;
-      font-weight:900;
-      letter-spacing:1px;
-      position:relative;
-      overflow:hidden;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 18px;
+      background: #ffffff;
+      border: 2px solid #dce4f0;
+      border-right-color: #8090b0;
+      border-bottom-color: #8090b0;
+      border-radius: 4px;
+      text-decoration: none;
+      color: #0e1420;
+      font-family: 'Bungee', cursive;
+      font-size: 16px;
+      letter-spacing: 2px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.7);
     }
 
-    .brand img{
-      width:28px;
-      height:28px;
-      object-fit:contain;
+    .brand img {
+      width: 28px;
+      height: 28px;
+      border-radius: 3px;
+      opacity: .92;
     }
 
-    .brand::after{
-      content:"";
-      position:absolute;
-      left:14px;
-      right:14px;
-      bottom:4px;
-      height:3px;
-      background: linear-gradient(90deg, transparent, var(--aqua), transparent);
-      transform: scaleX(0);
-      transition: transform .35s ease;
-      border-radius:999px;
-    }
-
-    .brand:hover::after{
-      transform: scaleX(1);
-    }
-
-    /* =========================
-       MAIN LAYOUT
-    ========================== */
-    main{
+    /* ── MAIN ── */
+    main {
       flex: 1 1 auto;
       min-height: 0;
       display: flex;
       flex-direction: column;
     }
 
-    .wrap{
+    .wrap {
       max-width: 980px;
       width: 100%;
       margin: 0 auto;
@@ -119,167 +135,255 @@
       min-height: 0;
     }
 
-    /* ULTRA-COMPACT HERO */
-    .hero{
-      margin-top: 8px;
-      background: var(--panel-bg);
-      border-radius: var(--radius-lg);
-      padding: 10px 12px;
-      box-shadow: var(--shadow-soft);
+    /* ── HERO (compact) ── */
+    .hero {
       flex: 0 0 auto;
-    }
-
-    h1{
-      margin: 0;
-      font-size: clamp(18px, 3vw, 24px);
-      color: var(--site-blue);
-      letter-spacing: -0.3px;
-    }
-
-    .subtext{
-      margin-top: 4px;
-      font-size: 13px;
-      line-height: 1.25;
-      color: #111827;
-    }
-
-    .subtext a{
-      color: var(--link);
-      font-weight: 700;
-      text-decoration: underline;
-    }
-
-    /* TEK EMBED */
-    .card{
-      margin-top: 8px;
-      background: var(--card-bg);
-      border-radius: var(--radius-xl);
+      position: relative;
+      overflow: hidden;
+      background: #0d1220;
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 4px;
       box-shadow: var(--shadow);
+      margin-bottom: 8px;
+      margin-top: 4px;
+    }
+
+    .hero-rainbow {
+      display: flex;
+      height: 7px;
       width: 100%;
-      max-width: 980px;
+    }
+    .hero-rainbow span { flex: 1; }
+
+    .hero-body {
+      padding: 10px 14px 10px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-body::after {
+      content: "";
+      position: absolute;
+      top: 0; right: 0;
+      width: 40%;
+      height: 100%;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        -52deg,
+        transparent          0px,
+        transparent          28px,
+        rgba(45,107,191,.07) 28px,
+        rgba(45,107,191,.07) 34px,
+        transparent          34px,
+        transparent          62px
+      );
+    }
+
+    .hero-brand-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 4px;
+      opacity: .92;
+      flex: 0 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      font-family: 'Barlow', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .hero h1 {
+      font-family: 'Bungee', cursive;
+      font-size: 22px;
+      line-height: 1.04;
+      color: #ffffff;
+      text-shadow: 1px 1px 0 rgba(0,0,0,.8);
+    }
+
+    .hero-sub {
+      font-family: 'Barlow', sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #7080a0;
+      margin-top: 2px;
+    }
+
+    .hero-sub a {
+      color: var(--blue-lt);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(77,143,223,.3);
+    }
+
+    .hero-rainbow-bottom {
+      display: flex;
+      height: 4px;
+      width: 100%;
+    }
+    .hero-rainbow-bottom span { flex: 1; }
+
+    /* ── CHAT BLOCK ── */
+    .block {
       flex: 1 1 auto;
       min-height: 0;
+      border: 1px solid var(--border);
+      border-radius: 4px;
       overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,.45);
       display: flex;
       flex-direction: column;
+      margin-bottom: 8px;
     }
 
-    .card-inner{
+    .block-header {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      background: var(--cyan);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    /* cyan header — distinct from blue/yellow/green/indigo used elsewhere */
+    .block-header.teal { background: #0e7080; }
+
+    .block-label {
+      font-family: 'Bungee', cursive;
+      font-size: 15px;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      color: #ffffff;
+      line-height: 1;
+    }
+
+    .block-label-sub {
+      font-family: 'Barlow', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,.5);
+      text-transform: uppercase;
+      margin-left: auto;
+    }
+
+    /* ── IFRAME ── */
+    .iframe-wrap {
       flex: 1 1 auto;
       min-height: 0;
-      overflow: hidden;
-      border-radius: var(--radius-xl);
+      background: #000;
     }
 
-    iframe{
+    iframe {
       width: 100%;
       height: 100%;
       border: 0;
       display: block;
-      background: #000;
     }
 
-    /* =========================
-       FOOTER (styles stay local; HTML is injected)
-    ========================== */
-    .site-footer{
-      padding: 18px 12px 24px;
-      background:#ffffff;
-      border-top: 1px solid rgba(15, 23, 42, 0.08);
-      flex: 0 0 auto;
+    /* ── FOOTER OVERRIDES ── */
+    #footerMount { flex: 0 0 auto; }
+
+    #footerMount .site-footer,
+    #footerMount footer,
+    #footerMount [class*="footer"] {
+      background: #0e1119 !important;
+      border-top: 1px solid rgba(255,255,255,.08) !important;
+      color: #7080a0 !important;
+      text-align: center !important;
+      padding: 12px 18px 20px !important;
     }
 
-    .footer-nav{
-      display:flex;
-      flex-wrap:wrap;
-      justify-content:center;
-      gap:8px;
-      font-weight:600;
-      font-size:14px;
+    #footerMount a { color: #4d8fdf !important; text-decoration: none !important; }
+    #footerMount a:hover { color: #7aacdc !important; text-decoration: underline !important; }
+
+    #footerMount * {
+      color: inherit;
+      font-family: 'Barlow', sans-serif !important;
+      font-size: 13px !important;
+      letter-spacing: .3px !important;
+      text-align: center !important;
     }
 
-    .footer-nav a{
-      color:#007b8a;
-      text-decoration: underline;
+    #footerMount nav, #footerMount ul, #footerMount ol {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      justify-content: center !important;
+      gap: 6px 14px !important;
+      list-style: none !important;
+      padding: 0 !important;
+      margin: 0 auto !important;
     }
 
-    .footer-nav span{
-      color:#007b8a;
-      opacity:.6;
-    }
-
-    .footer-coming{
-      margin-top: 10px;
-    }
-
-    .footer-coming a{
-      font-weight:900;
-      font-size:16px;
-      color:#007b8a;
-      text-decoration: underline;
-      letter-spacing:1px;
-    }
-
-    /* MOBILE: Tek-first */
-    @media (max-width: 520px){
-      body{ padding: 0 14px; }
-
-      .hero{
-        padding: 8px 10px;
-      }
-
-      h1{
-        font-size: 17px;
-      }
-
-      .subtext{
-        font-size: 12.5px;
-      }
-
-      .card{
-        margin-top: 6px;
-      }
-
-      .site-footer{
-        padding: 14px 10px 18px;
-      }
-
-      .footer-nav{
-        font-size:13px;
-        gap:6px;
-      }
-
-      .footer-coming a{
-        font-size:15px;
-      }
+    @media (min-width: 600px) {
+      body { padding-left: 18px; padding-right: 18px; }
+      .hero h1 { font-size: 26px; }
     }
   </style>
 </head>
-
 <body>
+  <canvas id="vhs-grain"></canvas>
 
-  <!-- HEADER -->
   <header class="site-header">
     <a href="https://agplexhub.com/home/" class="brand">
       <img src="../assets/favicon-180.png" alt="AG Plex Home">
-      <span>AG PLEX</span>
+      AG PLEX
     </a>
   </header>
 
   <main>
     <div class="wrap">
 
+      <!-- COMPACT HERO -->
       <div class="hero">
-        <h1>Tek — Tech Support Bot</h1>
-        <div class="subtext">
-          Tek is an AI with Plex knowledge. Ask him anything!
-          Or <a href="https://docs.google.com/forms/d/e/1FAIpQLScUSTxNo0ZRSBOt0GjUksD_AG00lTeC4SQ_yseqZfjAF4grAQ/viewform" rel="noopener">Report a Problem</a>.
+        <div class="hero-rainbow">
+          <span style="background:#c83228"></span>
+          <span style="background:#d4682a"></span>
+          <span style="background:#d4a820"></span>
+          <span style="background:#28985a"></span>
+          <span style="background:#3848b0"></span>
+          <span style="background:#1898a8"></span>
+        </div>
+        <div class="hero-body">
+          <img class="hero-brand-img" src="../assets/favicon-180.png" alt="AG Plex logo">
+          <div class="hero-text">
+            <div class="eyebrow">AG Plex</div>
+            <h1>Tek — Tech Support Bot</h1>
+            <div class="hero-sub">
+              Tek is an AI with Plex knowledge. Ask him anything! Or <a href="https://docs.google.com/forms/d/e/1FAIpQLScUSTxNo0ZRSBOt0GjUksD_AG00lTeC4SQ_yseqZfjAF4grAQ/viewform" rel="noopener">Report a Problem</a>.
+            </div>
+          </div>
+        </div>
+        <div class="hero-rainbow-bottom">
+          <span style="background:#c83228"></span>
+          <span style="background:#d4682a"></span>
+          <span style="background:#d4a820"></span>
+          <span style="background:#28985a"></span>
+          <span style="background:#3848b0"></span>
+          <span style="background:#1898a8"></span>
         </div>
       </div>
 
-      <!-- TEK EMBED -->
-      <section class="card" aria-label="Tek Support Chat">
-        <div class="card-inner">
+      <!-- CHAT BLOCK -->
+      <div class="block">
+        <div class="block-header teal">
+          <span class="block-label">Tek Support Chat</span>
+          <span class="block-label-sub">AI Assistant</span>
+        </div>
+        <div class="iframe-wrap">
           <iframe
             src="https://tek-support.fly.dev/"
             title="Tek Support"
@@ -289,43 +393,78 @@
             allowfullscreen
           ></iframe>
         </div>
-      </section>
+      </div>
 
     </div>
   </main>
 
-  <!-- UNIVERSAL FOOTER MOUNT (footer.html gets injected here) -->
   <div id="footerMount"></div>
 
-  <!-- ===== GLOBAL FOOTER LOADER (drop before </body>) ===== -->
+  <!-- GLOBAL BANNER LOADER -->
+  <script>
+  (async () => {
+    try {
+      if (document.body.dataset.noBanner === "true") return;
+      const cfgRes = await fetch("/assets/banner-config.json", { cache: "no-store" });
+      if (!cfgRes.ok) return;
+      const cfg = await cfgRes.json();
+      if (!cfg.enabled) return;
+      const bannerRes = await fetch(cfg.html_path || "/assets/banner.html", { cache: "no-store" });
+      if (!bannerRes.ok) return;
+      const html = await bannerRes.text();
+      const mount = document.createElement("div");
+      mount.innerHTML = html;
+      document.body.insertBefore(mount, document.body.firstChild);
+      function setOffset(){
+        const el = document.querySelector(".global-banner");
+        const h = el ? Math.ceil(el.getBoundingClientRect().height) : 0;
+        document.documentElement.style.setProperty("--banner-offset", h + "px");
+      }
+      setOffset();
+      window.addEventListener("resize", setOffset);
+    } catch {}
+  })();
+  </script>
+
+  <!-- GLOBAL FOOTER LOADER -->
   <script>
   (async () => {
     try {
       if (document.body.dataset.noFooter === "true") return;
-
       const cfgRes = await fetch("/assets/footer-config.json", { cache: "no-store" });
       if (!cfgRes.ok) return;
       const cfg = await cfgRes.json();
       if (!cfg.enabled) return;
-
-      const htmlPath = cfg.html_path || "/assets/footer.html";
-      const footerRes = await fetch(htmlPath, { cache: "no-store" });
+      const footerRes = await fetch(cfg.html_path || "/assets/footer.html", { cache: "no-store" });
       if (!footerRes.ok) return;
-
       const html = await footerRes.text();
       const mount = document.getElementById("footerMount") || document.body;
-
       const wrap = document.createElement("div");
       wrap.innerHTML = html;
+      if (mount === document.body) document.body.appendChild(wrap);
+      else mount.replaceChildren(wrap);
+    } catch {}
+  })();
+  </script>
 
-      if (mount === document.body) {
-        document.body.appendChild(wrap);
-      } else {
-        mount.replaceChildren(wrap);
+  <!-- GRAIN -->
+  <script>
+  (function(){
+    const canvas = document.getElementById("vhs-grain");
+    const ctx = canvas.getContext("2d");
+    function resize(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener("resize", resize);
+    function draw(){
+      const w=canvas.width, h=canvas.height, img=ctx.createImageData(w,h), d=img.data;
+      for(let i=0;i<d.length;i+=4){
+        const v=Math.random()*255|0;
+        d[i]=d[i+1]=d[i+2]=v; d[i+3]=18;
       }
-    } catch {
-      // fail silently
+      ctx.putImageData(img,0,0);
+      requestAnimationFrame(draw);
     }
+    draw();
   })();
   </script>
 
