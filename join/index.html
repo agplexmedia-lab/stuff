@@ -423,6 +423,52 @@
       body { padding: 18px; }
       .hero h1 { font-size: 44px; }
     }
+    /* ── UNIVERSAL FOOTER OVERRIDES ── */
+    /* Force injected footer to be readable on dark background */
+    #footerMount {
+      margin-top: 24px;
+    }
+
+    #footerMount .site-footer,
+    #footerMount footer,
+    #footerMount [class*="footer"] {
+      background: #0e1119 !important;
+      border-top: 1px solid rgba(255,255,255,.08) !important;
+      color: #7080a0 !important;
+      text-align: center !important;
+      padding: 20px 18px 32px !important;
+    }
+
+    #footerMount a {
+      color: #4d8fdf !important;
+      text-decoration: none !important;
+    }
+
+    #footerMount a:hover {
+      color: #7aacdc !important;
+      text-decoration: underline !important;
+    }
+
+    #footerMount * {
+      color: inherit;
+      font-family: 'Abril Fatface', Georgia, serif !important;
+      font-size: 13px !important;
+      letter-spacing: .3px !important;
+      text-align: center !important;
+    }
+
+    #footerMount nav,
+    #footerMount ul,
+    #footerMount ol {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      justify-content: center !important;
+      gap: 6px 14px !important;
+      list-style: none !important;
+      padding: 0 !important;
+      margin: 0 auto !important;
+    }
+
   </style>
 </head>
 <body>
@@ -566,12 +612,7 @@
       </div>
     </div>
 
-    <div class="footer">
-      You're getting this because you're on AG Plex.<br>
-      Watch something good already.
-    </div>
-
-  </div><!-- /.wrap -->
+    </div><!-- /.wrap -->
 
   <div id="footerMount"></div>
 
