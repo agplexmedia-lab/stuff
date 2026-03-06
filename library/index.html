@@ -906,18 +906,25 @@
     let currentPage = 1;
 
     // ── LOAD DATA ──
-    fetch(JSON_URL)
-      .then(r => r.json())
-      .then(data => {
-        allMovies = data;
-        document.getElementById("totalCount").textContent = data.length.toLocaleString() + " titles";
+    async function loadLibrary() {
+      try {
+        const [moviesRes, tvRes] = await Promise.allSettled([
+          fetch(MOVIES_URL).then(r => r.json()),
+          fetch(TV_URL).then(r => r.json())
+        ]);
+        const movies = moviesRes.status === "fulfilled" ? moviesRes.value : [];
+        const tv     = tvRes.status     === "fulfilled" ? tvRes.value     : [];
+        allMovies = [...movies, ...tv];
+        if (allMovies.length === 0) throw new Error("No data");
+        document.getElementById("totalCount").textContent = allMovies.length.toLocaleString() + " titles";
         buildGenreChips();
         applyFilters();
-      })
-      .catch(() => {
+      } catch(e) {
         document.getElementById("library-grid").innerHTML =
           `<div class="empty-state"><div class="big">Failed to load library</div><div class="small">Could not reach the JSON source.</div></div>`;
-      });
+      }
+    }
+    loadLibrary();
 
     // ── GENRE CHIPS ──
     function buildGenreChips() {
