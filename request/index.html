@@ -407,6 +407,14 @@
       color: #f0c080;
     }
 
+    .btn-green {
+      background: #1a6838;
+      border-color: #28985a;
+      border-right-color: #0a3018;
+      border-bottom-color: #0a3018;
+      color: #80e8a8;
+    }
+
     /* ── BADGES ── */
     .badge {
       display: inline-block;
@@ -676,7 +684,7 @@
   })();
   </script>
 
-  <!-- APP LOGIC (unchanged from original) -->
+  <!-- APP LOGIC -->
   <script>
     const TMDB_API_KEY = "5bbfc2b05c0d49eea2032b35324ebc81";
     const NAME_STORAGE_KEY = "agplex_requester_name";
@@ -741,7 +749,7 @@
         let badge = "";
 
         if (isInPlex) {
-          button = `<button class="btn" disabled>On Plex</button>`;
+          button = `<a href="https://agplexhub.com/library/" class="btn btn-green" rel="noopener">On Plex</a>`;
           badge = `<span class="badge badge-onplex">On Plex</span>`;
         } else if (isComingSoon) {
           button = `<a href="https://agplexhub.com/coming-soon/" class="btn btn-orange" rel="noopener">Coming Soon</a>`;
