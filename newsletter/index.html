@@ -194,7 +194,8 @@
       text-transform:uppercase;
     }
 
-    text-shadow:0 1px 0 rgba(255,255,255,.5),             0 0 6px rgba(47,134,214,.15);
+    .section h2 {
+      text-shadow:0 1px 0 rgba(255,255,255,.5), 0 0 6px rgba(47,134,214,.15);
       margin:0 0 10px 0;
       font-family:'Bungee', cursive;
       font-size:22px;
@@ -423,7 +424,7 @@
 
       <h1>AG Plex Updates &amp; Additions</h1>
       <p>
-        News from AG Plex, a look at what’s coming soon, and the easiest ways to jump back in.
+        News from AG Plex, a look at what's coming soon, and the easiest ways to jump back in.
       </p>
     </section>
 
@@ -469,7 +470,7 @@
     </section>
 
     <div class="footer">
-      You’re getting this because you’re on AG Plex.<br>
+      You're getting this because you're on AG Plex.<br>
       Watch something good already.
     </div>
   </div>
@@ -619,12 +620,12 @@
 
       if (bucket !== "COMING_SOON") return null;
 
-const d = parseISODate(milestone);
-const hasFutureDate = !!(d && d > today);
-const dateText = hasFutureDate
-  ? new Date(milestone).toLocaleDateString("en-US")
-  : "??";
-const safeEst = milestoneSource.startsWith("estimate") || !hasFutureDate;
+      const d = parseISODate(milestone);
+      const hasFutureDate = !!(d && d > today);
+      const dateText = hasFutureDate
+        ? new Date(milestone).toLocaleDateString("en-US")
+        : "??";
+      const safeEst = milestoneSource.startsWith("estimate") || !hasFutureDate;
 
       let href = "#";
       let poster = "https://placehold.co/342x513?text=No+Poster";
