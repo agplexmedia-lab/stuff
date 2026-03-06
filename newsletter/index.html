@@ -58,6 +58,36 @@
   font-family:'Rubik',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 }
 
+    /* ── VHS EFFECTS ─────────────────────────────── */
+
+    /* Scanlines + grain fixed overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      pointer-events: none;
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          rgba(0,0,0,.06) 0px,
+          rgba(0,0,0,.06) 1px,
+          transparent 1px,
+          transparent 3px
+        );
+      mix-blend-mode: multiply;
+    }
+
+    /* Grain noise canvas overlay */
+    #vhs-grain {
+      position: fixed;
+      inset: 0;
+      z-index: 9997;
+      pointer-events: none;
+      opacity: 0.06;
+      mix-blend-mode: screen;
+    }
+
     body{
       padding:14px;
     }
@@ -414,6 +444,7 @@
   </style>
 </head>
 <body>
+  <canvas id="vhs-grain"></canvas>
   <div class="wrap">
 
     <section class="hero">
@@ -422,7 +453,7 @@
         <div class="eyebrow">AG Plex Monthly Update</div>
       </div>
 
-      <h1>AG Plex Updates &amp; Additions</h1>
+      <h1 data-text="AG Plex Updates & Additions">AG Plex Updates &amp; Additions</h1>
       <p>
         News from AG Plex, a look at what's coming soon, and the easiest ways to jump back in.
       </p>
@@ -430,7 +461,6 @@
 
     <section class="section">
       <div class="pill">AG Plex News</div>
-      <h2>AG Plex News</h2>
       <p class="section-intro">
         Monthly notes, fixes, changes, and whatever else people should actually know.
       </p>
@@ -445,7 +475,6 @@
 
     <section class="section">
       <div class="pill">Coming Soon to AG Plex</div>
-      <h2>Coming Soon to AG Plex</h2>
       <p class="section-intro">
         Upcoming titles already lined up for AG Plex.
       </p>
@@ -458,7 +487,6 @@
 
     <section class="section">
       <div class="pill">Open the Hub</div>
-      <h2>Open the Hub</h2>
       <p class="section-intro">
         Browse AG Plex or send in a request.
       </p>
@@ -718,6 +746,36 @@
 
     loadNews();
     loadComingSoon();
+  </script>
+
+  <script>
+    // VHS grain noise
+    (function(){
+      const canvas = document.getElementById("vhs-grain");
+      const ctx = canvas.getContext("2d");
+
+      function resize(){
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener("resize", resize);
+
+      function drawGrain(){
+        const w = canvas.width;
+        const h = canvas.height;
+        const img = ctx.createImageData(w, h);
+        const d = img.data;
+        for(let i = 0; i < d.length; i += 4){
+          const v = Math.random() * 255 | 0;
+          d[i] = d[i+1] = d[i+2] = v;
+          d[i+3] = 20;
+        }
+        ctx.putImageData(img, 0, 0);
+        requestAnimationFrame(drawGrain);
+      }
+      drawGrain();
+    })();
   </script>
 </body>
 </html>
