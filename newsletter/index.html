@@ -10,436 +10,442 @@
   <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Rubik:wght@400;500;700;800&family=VT323&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --bg:#edf3f9;
-      --bg-2:#e7eef6;
-      --card:#f8fbff;
-      --card-2:#ffffff;
-      --text:#102033;
-      --muted:#556579;
+    :root {
+      --bg:          #0b1120;
+      --bg-2:        #0e1628;
+      --card:        #111c30;
+      --card-2:      #0f192b;
+      --text:        #ddeeff;
+      --muted:       #7a9ab8;
 
-      --blue:#2f86d6;
-      --blue-dark:#1f5f9b;
-      --blue-deep:#173b6b;
-      --blue-soft:#dceaf8;
-      --blue-pale:#edf5fd;
+      --teal:        #00c8c8;
+      --teal-dark:   #008f8f;
+      --teal-deep:   #004f5a;
+      --teal-soft:   rgba(0,200,200,.12);
+      --teal-pale:   rgba(0,200,200,.07);
 
-      --sticker:#fff3b8;
-      --sticker-border:#d5c36b;
+      --red:         #e03030;
+      --yellow:      #f0c040;
+      --green:       #3db870;
 
-      --border:#d3dfeb;
-      --border-dark:#b6c8da;
+      --border:      rgba(0,200,200,.18);
+      --border-dark: rgba(0,200,200,.30);
 
-      --shadow:0 10px 28px rgba(20, 45, 80, 0.14);
-      --shadow-soft:0 6px 18px rgba(20, 45, 80, 0.10);
+      --shadow:      0 10px 32px rgba(0,0,0,.55);
+      --shadow-soft: 0 6px 20px rgba(0,0,0,.40);
 
-      --radius-xl:24px;
-      --radius-lg:18px;
-      --radius-md:14px;
-      --maxw:780px;
+      --radius-xl:   20px;
+      --radius-lg:   16px;
+      --radius-md:   12px;
+      --maxw:        780px;
     }
 
-    *{ box-sizing:border-box; }
+    * { box-sizing: border-box; }
 
-    html, body{
-  margin:0;
-  padding:0;
-  background:
-    repeating-linear-gradient(
-      0deg,
-      rgba(255,255,255,.025) 0px,
-      rgba(255,255,255,.025) 1px,
-      transparent 1px,
-      transparent 4px
-    ),
-    radial-gradient(circle at top, rgba(255,255,255,.6), transparent 32%),
-    linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
-  color:var(--text);
-  font-family:'Rubik',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-}
-
-    /* ── VHS EFFECTS ─────────────────────────────── */
-
-    /* Scanlines + grain fixed overlay */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: 9998;
-      pointer-events: none;
-      background-image:
+    html, body {
+      margin: 0;
+      padding: 0;
+      background:
         repeating-linear-gradient(
           0deg,
-          rgba(0,0,0,.06) 0px,
-          rgba(0,0,0,.06) 1px,
+          rgba(0,200,200,.018) 0px,
+          rgba(0,200,200,.018) 1px,
           transparent 1px,
-          transparent 3px
-        );
-      mix-blend-mode: multiply;
+          transparent 4px
+        ),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+      color: var(--text);
+      font-family: 'Rubik', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
 
-    /* Grain noise canvas overlay */
+    body { padding: 14px; }
+
+
+
+    /* ── GRAIN ── */
     #vhs-grain {
       position: fixed;
       inset: 0;
       z-index: 9997;
       pointer-events: none;
-      opacity: 0.06;
+      opacity: 0.055;
       mix-blend-mode: screen;
     }
 
-    body{
-      padding:14px;
+    /* ── LAYOUT ── */
+    .wrap {
+      width: 100%;
+      max-width: var(--maxw);
+      margin: 0 auto;
     }
 
-    .wrap{
-      width:100%;
-      max-width:var(--maxw);
-      margin:0 auto;
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: 24px 20px;
+      box-shadow: var(--shadow);
+      background: linear-gradient(135deg, #060e1e 0%, #0b2040 45%, #0d3050 100%);
+      border: 1px solid var(--border-dark);
     }
 
-    .hero{
-      position:relative;
-      overflow:hidden;
-      color:#f7fbff;
-      border-radius:var(--radius-xl);
-      padding:22px 18px;
-      box-shadow:var(--shadow);
-      background:
-        linear-gradient(135deg,#0e2f57 0%,#2f86d6 55%,#6bc3ff 100%);
-      border:1px solid rgba(255,255,255,.18);
+    /* top rainbow stripe */
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--red) 0%, var(--yellow) 33%, var(--green) 66%, var(--teal) 100%);
     }
 
-    .hero::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      background:
-        repeating-linear-gradient(
-          0deg,
-          rgba(255,255,255,.03) 0px,
-          rgba(255,255,255,.03) 1px,
-          transparent 1px,
-          transparent 4px
-        );
-      opacity:.45;
-      mix-blend-mode:screen;
+    /* dot-grid watermark */
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: radial-gradient(circle, rgba(0,200,200,.12) 1px, transparent 1px);
+      background-size: 18px 18px;
+      mask-image: linear-gradient(180deg, transparent 30%, rgba(0,0,0,.6) 100%);
+      -webkit-mask-image: linear-gradient(180deg, transparent 30%, rgba(0,0,0,.6) 100%);
     }
 
-    .hero::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      background:
-        radial-gradient(circle at 14% 18%, rgba(255,255,255,.16), transparent 18%),
-        radial-gradient(circle at 88% 12%, rgba(255,255,255,.10), transparent 18%);
-      mix-blend-mode:screen;
+    .hero-brand {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
     }
 
-    .hero-brand{
-      position:relative;
-      z-index:1;
-      display:flex;
-      align-items:center;
-      gap:12px;
-      margin-bottom:14px;
+    .hero-brand img {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      padding: 3px;
+      flex: 0 0 auto;
+      box-shadow: 0 0 0 1px var(--teal-dark), 0 6px 14px rgba(0,0,0,.4);
+      background: rgba(0,200,200,.08);
     }
 
-    .hero-brand img{
-      width:48px;
-      height:48px;
-      border-radius:12px;
-      background:rgba(255,255,255,.12);
-      padding:4px;
-      flex:0 0 auto;
-      box-shadow:0 6px 14px rgba(0,0,0,.16);
+    .eyebrow {
+      font-family: 'VT323', monospace;
+      font-size: 20px;
+      letter-spacing: 2px;
+      color: var(--teal);
+      margin: 0;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px rgba(0,200,200,.5);
     }
 
-    .eyebrow{
-      font-family:'VT323', monospace;
-      font-size:20px;
-      letter-spacing:1px;
-      color:#dff1ff;
-      margin:0;
-      text-transform:uppercase;
+    .hero h1 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 12px 0;
+      font-family: 'Bungee', cursive;
+      font-size: 30px;
+      line-height: 1.06;
+      letter-spacing: .02em;
+      color: #ffffff;
+      text-shadow: 0 0 20px rgba(0,200,200,.35), 0 3px 0 rgba(0,0,0,.5);
     }
 
-    .hero h1{
-      position:relative;
-      z-index:1;
-      margin:0 0 12px 0;
-      font-family:'Bungee', cursive;
-      font-size:28px;
-      line-height:1.06;
-      letter-spacing:.01em;
-      color:#ffffff;
-      text-shadow:0 3px 0 rgba(19,55,98,.28);
+    .hero p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.65;
+      color: rgba(180,220,255,.88);
+      max-width: 580px;
     }
 
-    .hero p{
-      position:relative;
-      z-index:1;
-      margin:0;
-      font-size:15px;
-      line-height:1.6;
-      color:rgba(247,251,255,.94);
-      max-width:580px;
+    /* rainbow bar at bottom of hero */
+    .hero-bar {
+      position: relative;
+      z-index: 1;
+      margin-top: 20px;
+      display: flex;
+      gap: 3px;
+      height: 6px;
     }
 
-    .section{
-      position:relative;
-      background:linear-gradient(180deg, var(--card) 0%, var(--card-2) 100%);
-      border:1px solid var(--border);
-      border-radius:var(--radius-xl);
-      padding:18px 16px;
-      margin-top:14px;
-      box-shadow:var(--shadow-soft);
-      overflow:hidden;
+    .hero-bar span {
+      flex: 1;
+      border-radius: 2px;
     }
 
-    .section::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      border-radius:inherit;
-      pointer-events:none;
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.65);
+    /* ── SECTIONS ── */
+    .section {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 18px 16px;
+      margin-top: 14px;
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
     }
 
-    .pill{
-      display:inline-block;
-      background:var(--blue-soft);
-      color:var(--blue-deep);
-      border:1px solid #bcd4ea;
-      box-shadow:0 2px 0 rgba(73,119,164,.10);
-      font-family:'VT323', monospace;
-      font-size:20px;
-      line-height:1;
-      letter-spacing:.6px;
-      padding:7px 11px 8px;
-      border-radius:999px;
-      margin-bottom:10px;
-      text-transform:uppercase;
+    /* left teal glow bar */
+    .section::before {
+      content: "";
+      position: absolute;
+      top: 16px; bottom: 16px; left: 0;
+      width: 3px;
+      border-radius: 0 3px 3px 0;
+      background: linear-gradient(180deg, var(--teal) 0%, var(--teal-dark) 100%);
+      box-shadow: 0 0 8px rgba(0,200,200,.5);
     }
 
-    .section h2 {
-      text-shadow:0 1px 0 rgba(255,255,255,.5), 0 0 6px rgba(47,134,214,.15);
-      margin:0 0 10px 0;
-      font-family:'Bungee', cursive;
-      font-size:22px;
-      line-height:1.08;
-      letter-spacing:.01em;
-      color:var(--blue-deep);
+    /* ── PILLS ── */
+    .pill {
+      display: inline-block;
+      font-family: 'VT323', monospace;
+      font-size: 20px;
+      line-height: 1;
+      letter-spacing: 1.5px;
+      padding: 6px 12px 7px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
     }
 
-    .section-intro{
-      margin:0;
-      font-size:14px;
-      line-height:1.7;
-      color:var(--muted);
+    .pill-teal {
+      background: var(--teal-soft);
+      color: var(--teal);
+      border: 1px solid var(--teal-dark);
+      box-shadow: 0 0 8px rgba(0,200,200,.2), inset 0 1px 0 rgba(0,200,200,.15);
+      text-shadow: 0 0 8px rgba(0,200,200,.6);
     }
 
-    .news-box{
-      margin-top:14px;
-      padding:16px;
-      border:1px solid #d8e4ef;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.75), rgba(255,255,255,.45)),
-        var(--blue-pale);
-      border-radius:16px;
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.5);
+    .pill-yellow {
+      background: rgba(240,192,64,.12);
+      color: var(--yellow);
+      border: 1px solid rgba(240,192,64,.4);
+      box-shadow: 0 0 8px rgba(240,192,64,.15);
+      text-shadow: 0 0 8px rgba(240,192,64,.5);
     }
 
-    .news-content{
-      font-size:15px;
-      line-height:1.75;
-      color:var(--text);
+    .pill-green {
+      background: rgba(61,184,112,.10);
+      color: var(--green);
+      border: 1px solid rgba(61,184,112,.35);
+      box-shadow: 0 0 8px rgba(61,184,112,.15);
+      text-shadow: 0 0 8px rgba(61,184,112,.5);
     }
 
-    .news-content p{
-      margin:0 0 14px 0;
+    .section-intro {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--muted);
     }
 
-    .news-content p:last-child{
-      margin-bottom:0;
+    /* ── NEWS BOX ── */
+    .news-box {
+      margin-top: 14px;
+      padding: 16px;
+      border: 1px solid rgba(0,200,200,.2);
+      background: var(--teal-pale);
+      border-radius: 14px;
+      box-shadow: inset 0 1px 0 rgba(0,200,200,.1);
     }
 
-    .news-content strong{
-      font-weight:800;
-      color:#102745;
+    .news-content {
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--text);
+    }
+
+    .news-content p { margin: 0 0 14px 0; }
+    .news-content p:last-child { margin-bottom: 0; }
+
+    .news-content strong {
+      font-weight: 800;
+      color: var(--teal);
     }
 
     .news-content ul,
-    .news-content ol{
-      margin:0 0 14px 22px;
-      padding:0;
+    .news-content ol {
+      margin: 0 0 14px 22px;
+      padding: 0;
     }
 
-    .news-content li{
-      margin:0 0 8px 0;
+    .news-content li { margin: 0 0 8px 0; }
+
+    .news-content a {
+      color: var(--teal);
+      font-weight: 700;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(0,200,200,.3);
     }
 
-    .news-content a{
-      color:var(--blue-dark);
-      font-weight:700;
+    .loading, .empty, .error {
+      margin-top: 14px;
+      color: var(--muted);
+      font-weight: 700;
+      font-family: 'VT323', monospace;
+      font-size: 20px;
+      letter-spacing: 1px;
     }
 
-    .loading,
-    .empty,
-    .error{
-      margin-top:14px;
-      font-size:14px;
-      line-height:1.6;
-      color:var(--muted);
-      font-weight:700;
+    /* ── COMING SOON GRID ── */
+    .coming-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 14px;
     }
 
-    .coming-grid{
-      display:grid;
-      grid-template-columns:repeat(2, 1fr);
-      gap:12px;
-      margin-top:14px;
+    .coming-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: linear-gradient(180deg, #131f33, #0e1828);
+      border: 1px solid rgba(0,200,200,.2);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,.4);
+      transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
     }
 
-    .coming-card{
-      display:block;
-      text-decoration:none;
-      color:inherit;
-      background:linear-gradient(180deg,#f4f8fc,#eaf2fa);
-      border:1px solid #d5e0eb;
-      border-radius:16px;
-      overflow:hidden;
-      box-shadow:0 6px 16px rgba(20, 45, 80, 0.08);
-      transition:transform .12s ease, box-shadow .12s ease;
+    .coming-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0,0,0,.55), 0 0 0 1px var(--teal-dark);
+      border-color: rgba(0,200,200,.45);
     }
 
-    .coming-card:hover{
-      transform:translateY(-2px);
-      box-shadow:0 10px 22px rgba(20, 45, 80, 0.14);
+    .coming-card img {
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      object-fit: cover;
+      background: #0d1825;
+      display: block;
+      filter: saturate(.9) contrast(1.05);
     }
 
-    .coming-card img{
-      width:100%;
-      aspect-ratio:2 / 3;
-      object-fit:cover;
-      background:#d3dee8;
-      display:block;
-      filter:saturate(.97) contrast(1.03);
+    .coming-card-body {
+      padding: 10px 10px 12px;
     }
 
-    .coming-card-body{
-      padding:10px 10px 12px;
+    .coming-title {
+      font-size: 13px;
+      line-height: 1.35;
+      font-weight: 800;
+      color: var(--text);
+      margin: 0 0 7px 0;
     }
 
-    .coming-title{
-      font-size:13px;
-      line-height:1.35;
-      font-weight:800;
-      color:#13263c;
-      margin:0 0 7px 0;
+    .coming-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
     }
 
-    .coming-meta{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:8px;
-      font-size:12px;
-      color:#5b6d80;
-      font-weight:700;
+    .coming-date {
+      font-family: 'VT323', monospace;
+      font-size: 22px;
+      line-height: 1;
+      color: var(--teal);
+      letter-spacing: .4px;
+      text-shadow: 0 0 6px rgba(0,200,200,.4);
     }
 
-    .coming-date{
-      font-family:'VT323', monospace;
-      font-size:22px;
-      line-height:1;
-      color:var(--blue-deep);
-      letter-spacing:.4px;
+    /* post-it sticker style preserved */
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 8px 5px;
+      border-radius: 4px;
+      font-family: 'VT323', monospace;
+      font-size: 18px;
+      line-height: 1;
+      letter-spacing: .4px;
+      border: 1px solid #d5c36b;
+      color: #4d3a18;
+      background: #fff3b8;
+      box-shadow: 0 2px 0 rgba(104,88,28,.15);
+      white-space: nowrap;
+      transform: rotate(-2deg);
     }
 
-    .tag{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:4px 8px 5px;
-      border-radius:4px;
-      font-family:'VT323', monospace;
-      font-size:18px;
-      line-height:1;
-      letter-spacing:.4px;
-      border:1px solid var(--sticker-border);
-      color:#4d3a18;
-      background:var(--sticker);
-      box-shadow:0 2px 0 rgba(104,88,28,.10);
-      white-space:nowrap;
-      transform:rotate(-2deg);
+    /* ── CTA ── */
+    .cta-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 14px;
     }
 
-    .cta-row{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:10px;
-      margin-top:14px;
+    .btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      text-decoration: none;
+      font-family: 'VT323', monospace;
+      font-size: 22px;
+      font-weight: 800;
+      padding: 14px 16px;
+      border-radius: 12px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      transition: filter .12s ease, transform .1s ease;
     }
 
-    .btn{
-      display:block;
-      width:100%;
-      text-align:center;
-      text-decoration:none;
-      background:linear-gradient(180deg, #3b95ea 0%, #246cb4 100%);
-      color:#fffaf2;
-      font-weight:800;
-      font-size:14px;
-      padding:14px 16px;
-      border-radius:14px;
-      border:1px solid rgba(18,58,98,.32);
-      box-shadow:0 4px 0 rgba(20,56,94,.22);
-      text-transform:uppercase;
-      letter-spacing:.04em;
+    .btn:hover {
+      filter: brightness(1.15);
+      transform: translateY(-1px);
     }
 
-    .btn.secondary{
-      background:linear-gradient(180deg, #eaf4fe 0%, #d7e9fb 100%);
-      color:var(--blue-deep);
-      border:1px solid #b8d1ea;
-      box-shadow:0 4px 0 rgba(73,119,164,.12);
+    .btn.primary {
+      background: linear-gradient(180deg, #00b8b8 0%, #007a7a 100%);
+      color: #001a1a;
+      border: 1px solid #00c8c8;
+      box-shadow: 0 4px 0 rgba(0,80,80,.4), 0 0 16px rgba(0,200,200,.25);
     }
 
-    .footer{
-      text-align:center;
-      padding:20px 10px 32px;
-      color:#6a7888;
-      font-size:12px;
-      line-height:1.7;
+    .btn.secondary {
+      background: linear-gradient(180deg, #1a2a3a 0%, #121e2e 100%);
+      color: var(--teal);
+      border: 1px solid var(--teal-dark);
+      box-shadow: 0 4px 0 rgba(0,0,0,.3), 0 0 10px rgba(0,200,200,.1);
     }
 
-    @media (min-width: 600px){
-      body{
-        padding:20px;
-      }
+    /* ── STRIPE DIVIDER ── */
+    .stripe-divider {
+      height: 3px;
+      margin: 14px 0 0 0;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--red), var(--yellow) 40%, var(--green) 70%, var(--teal));
+      opacity: .45;
+    }
 
-      .hero{
-        padding:28px 24px;
-      }
+    /* ── FOOTER ── */
+    .footer {
+      text-align: center;
+      padding: 20px 10px 36px;
+      color: #3a5570;
+      font-family: 'VT323', monospace;
+      font-size: 18px;
+      letter-spacing: .5px;
+      line-height: 1.7;
+    }
 
-      .hero h1{
-        font-size:36px;
-      }
-
-      .section{
-        padding:22px 20px;
-      }
-
-      .coming-grid{
-        grid-template-columns:repeat(4, 1fr);
-      }
-
-      .cta-row{
-        grid-template-columns:repeat(2, 1fr);
-      }
+    @media (min-width: 600px) {
+      body { padding: 20px; }
+      .hero { padding: 30px 26px; }
+      .hero h1 { font-size: 38px; }
+      .section { padding: 22px 20px; }
+      .coming-grid { grid-template-columns: repeat(4, 1fr); }
+      .cta-row { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -452,47 +458,47 @@
         <img src="../assets/favicon-180.png" alt="AG Plex logo">
         <div class="eyebrow">AG Plex Monthly Update</div>
       </div>
-
-      <h1 data-text="AG Plex Updates & Additions">AG Plex Updates &amp; Additions</h1>
-      <p>
-        News from AG Plex, a look at what's coming soon, and the easiest ways to jump back in.
-      </p>
+      <h1>AG Plex Updates &amp; Additions</h1>
+      <p>News from AG Plex, a look at what's coming soon, and the easiest ways to jump back in.</p>
+      <div class="hero-bar">
+        <span style="background:var(--red)"></span>
+        <span style="background:var(--yellow)"></span>
+        <span style="background:var(--green)"></span>
+        <span style="background:var(--teal)"></span>
+        <span style="background:var(--teal)"></span>
+        <span style="background:var(--green)"></span>
+        <span style="background:var(--yellow)"></span>
+        <span style="background:var(--red)"></span>
+      </div>
     </section>
 
     <section class="section">
-      <div class="pill">AG Plex News</div>
-      <p class="section-intro">
-        Monthly notes, fixes, changes, and whatever else people should actually know.
-      </p>
-
+      <div class="pill pill-teal">AG Plex News</div>
+      <p class="section-intro">Monthly notes, fixes, changes, and whatever else people should actually know.</p>
       <div class="news-box">
         <div class="loading" id="newsLoading">Loading news…</div>
         <div class="news-content" id="newsContent" style="display:none;"></div>
         <div class="empty" id="newsEmpty" style="display:none;">No news posted right now.</div>
         <div class="error" id="newsError" style="display:none;">Could not load the news section.</div>
       </div>
+      <div class="stripe-divider"></div>
     </section>
 
     <section class="section">
-      <div class="pill">Coming Soon to AG Plex</div>
-      <p class="section-intro">
-        Upcoming titles already lined up for AG Plex.
-      </p>
-
+      <div class="pill pill-yellow">Coming Soon to AG Plex</div>
+      <p class="section-intro">Upcoming titles already lined up for AG Plex.</p>
       <div class="loading" id="comingStatus">Loading coming soon titles…</div>
       <div class="coming-grid" id="comingGrid"></div>
       <div class="empty" id="comingEmpty" style="display:none;">Nothing queued right now.</div>
       <div class="error" id="comingError" style="display:none;">Could not load the coming soon list.</div>
+      <div class="stripe-divider"></div>
     </section>
 
     <section class="section">
-      <div class="pill">Open the Hub</div>
-      <p class="section-intro">
-        Browse AG Plex or send in a request.
-      </p>
-
+      <div class="pill pill-green">Open the Hub</div>
+      <p class="section-intro">Browse AG Plex or send in a request.</p>
       <div class="cta-row">
-        <a class="btn" href="https://agplexhub.com/home/">Open AG Plex Hub</a>
+        <a class="btn primary" href="https://agplexhub.com/home/">Open AG Plex Hub</a>
         <a class="btn secondary" href="https://agplexhub.com/request/">Make a Request</a>
       </div>
     </section>
@@ -501,6 +507,7 @@
       You're getting this because you're on AG Plex.<br>
       Watch something good already.
     </div>
+
   </div>
 
   <script>
@@ -512,15 +519,14 @@
 
     const TMDB_API_KEY = "5bbfc2b05c0d49eea2032b35324ebc81";
 
-    const newsLoading = document.getElementById("newsLoading");
-    const newsContent = document.getElementById("newsContent");
-    const newsEmpty = document.getElementById("newsEmpty");
-    const newsError = document.getElementById("newsError");
-
-    const comingGrid = document.getElementById("comingGrid");
+    const newsLoading  = document.getElementById("newsLoading");
+    const newsContent  = document.getElementById("newsContent");
+    const newsEmpty    = document.getElementById("newsEmpty");
+    const newsError    = document.getElementById("newsError");
+    const comingGrid   = document.getElementById("comingGrid");
     const comingStatus = document.getElementById("comingStatus");
-    const comingEmpty = document.getElementById("comingEmpty");
-    const comingError = document.getElementById("comingError");
+    const comingEmpty  = document.getElementById("comingEmpty");
+    const comingError  = document.getElementById("comingError");
 
     function escapeHtml(s) {
       return (s ?? "").toString()
@@ -532,37 +538,21 @@
     }
 
     function parseCSVLine(line) {
-      const out = [];
-      let cur = "";
-      let inQuotes = false;
-
+      const out = []; let cur = ""; let inQuotes = false;
       for (let i = 0; i < line.length; i++) {
-        const ch = line[i];
-        const next = line[i + 1];
-
+        const ch = line[i]; const next = line[i + 1];
         if (ch === '"') {
-          if (inQuotes && next === '"') {
-            cur += '"';
-            i++;
-          } else {
-            inQuotes = !inQuotes;
-          }
-        } else if (ch === "," && !inQuotes) {
-          out.push(cur);
-          cur = "";
-        } else {
-          cur += ch;
-        }
+          if (inQuotes && next === '"') { cur += '"'; i++; }
+          else { inQuotes = !inQuotes; }
+        } else if (ch === "," && !inQuotes) { out.push(cur); cur = ""; }
+        else { cur += ch; }
       }
-
-      out.push(cur);
-      return out;
+      out.push(cur); return out;
     }
 
     function parseCSV(text) {
       const lines = text.replace(/\r/g, "").split("\n").filter(Boolean);
       if (!lines.length) return [];
-
       const headers = parseCSVLine(lines[0]).map(h => h.trim().toLowerCase());
       return lines.slice(1).map(line => {
         const values = parseCSVLine(line);
@@ -575,8 +565,7 @@
     async function fetchCSV(url) {
       const res = await fetch(url);
       if (!res.ok) throw new Error("Failed to load CSV");
-      const text = await res.text();
-      return parseCSV(text);
+      return parseCSV(await res.text());
     }
 
     function parseISODate(s) {
@@ -599,8 +588,8 @@
     async function buildLink(tmdbId) {
       if (!tmdbId || !/^\d+$/.test(tmdbId)) return "#";
       try {
-        const externals = await tmdbExternalIds(tmdbId);
-        if (externals.imdb_id) return `https://www.imdb.com/title/${externals.imdb_id}/`;
+        const ext = await tmdbExternalIds(tmdbId);
+        if (ext.imdb_id) return `https://www.imdb.com/title/${ext.imdb_id}/`;
       } catch {}
       return `https://www.themoviedb.org/movie/${tmdbId}`;
     }
@@ -608,27 +597,15 @@
     async function loadNews() {
       try {
         const rows = await fetchCSV(NEWS_CSV_URL);
-
         let html = "";
-
         for (const row of rows) {
           const values = Object.values(row).map(v => (v || "").trim()).filter(Boolean);
           if (!values.length) continue;
-
-          const joined = values.join(" ").trim();
-          if (joined.toUpperCase() === "NEWS") continue;
-
-          html = values[0];
-          break;
+          if (values.join(" ").trim().toUpperCase() === "NEWS") continue;
+          html = values[0]; break;
         }
-
         newsLoading.style.display = "none";
-
-        if (!html) {
-          newsEmpty.style.display = "block";
-          return;
-        }
-
+        if (!html) { newsEmpty.style.display = "block"; return; }
         newsContent.innerHTML = html;
         newsContent.style.display = "block";
       } catch (err) {
@@ -639,44 +616,31 @@
     }
 
     async function buildComingCard(row, today) {
-      const title = row.title || "Untitled";
-      const year = row.year || "";
-      const tmdbId = row.tmdb_id || "";
-      const milestone = row.nextmilestone || "";
+      const title           = row.title || "Untitled";
+      const year            = row.year || "";
+      const tmdbId          = row.tmdb_id || "";
+      const milestone       = row.nextmilestone || "";
       const milestoneSource = (row.milestonesource || "").toLowerCase();
-      const bucket = (row.bucket || "").toUpperCase();
-
+      const bucket          = (row.bucket || "").toUpperCase();
       if (bucket !== "COMING_SOON") return null;
 
-      const d = parseISODate(milestone);
+      const d             = parseISODate(milestone);
       const hasFutureDate = !!(d && d > today);
-      const dateText = hasFutureDate
-        ? new Date(milestone).toLocaleDateString("en-US")
-        : "??";
-      const safeEst = milestoneSource.startsWith("estimate") || !hasFutureDate;
+      const dateText      = hasFutureDate ? new Date(milestone).toLocaleDateString("en-US") : "??";
+      const safeEst       = milestoneSource.startsWith("estimate") || !hasFutureDate;
 
-      let href = "#";
+      let href   = "#";
       let poster = "https://placehold.co/342x513?text=No+Poster";
 
       if (tmdbId && /^\d+$/.test(tmdbId)) {
         href = await buildLink(tmdbId);
         try {
           const details = await tmdbDetails(tmdbId);
-          if (details.poster_path) {
-            poster = `https://image.tmdb.org/t/p/w342${details.poster_path}`;
-          }
+          if (details.poster_path) poster = `https://image.tmdb.org/t/p/w342${details.poster_path}`;
         } catch {}
       }
 
-      return {
-        title,
-        year,
-        href,
-        poster,
-        dateText,
-        est: safeEst,
-        sortKey: hasFutureDate ? d.getTime() : Infinity
-      };
+      return { title, year, href, poster, dateText, est: safeEst, sortKey: hasFutureDate ? d.getTime() : Infinity };
     }
 
     function renderComingCard(item) {
@@ -684,7 +648,6 @@
       a.className = "coming-card";
       a.href = item.href || "#";
       a.rel = "noopener";
-
       a.innerHTML = `
         <img src="${item.poster}" alt="${escapeHtml(item.title)} poster">
         <div class="coming-card-body">
@@ -693,49 +656,26 @@
             <span class="coming-date">${escapeHtml(item.dateText)}</span>
             <span class="tag">${item.est ? "Est." : "On Plex"}</span>
           </div>
-        </div>
-      `;
-
+        </div>`;
       return a;
     }
 
     async function loadComingSoon() {
       try {
         const rows = await fetchCSV(COMING_SOON_CSV_URL);
-
-        const today = new Date();
-        today.setHours(0,0,0,0);
-
-        const comingRows = rows.filter(r => ((r.bucket || "").toUpperCase() === "COMING_SOON"));
-
-        if (!comingRows.length) {
-          comingStatus.style.display = "none";
-          comingEmpty.style.display = "block";
-          return;
-        }
+        const today = new Date(); today.setHours(0,0,0,0);
+        const comingRows = rows.filter(r => (r.bucket || "").toUpperCase() === "COMING_SOON");
+        if (!comingRows.length) { comingStatus.style.display = "none"; comingEmpty.style.display = "block"; return; }
 
         const built = [];
-        const LIMIT = 8;
-
         for (const row of comingRows) {
           const item = await buildComingCard(row, today);
           if (item) built.push(item);
         }
-
-        built.sort((a, b) => {
-          if (a.sortKey !== b.sortKey) return a.sortKey - b.sortKey;
-          return a.title.localeCompare(b.title);
-        });
-
-        const finalItems = built.slice(0, LIMIT);
-
+        built.sort((a, b) => a.sortKey !== b.sortKey ? a.sortKey - b.sortKey : a.title.localeCompare(b.title));
+        const finalItems = built.slice(0, 8);
         comingStatus.style.display = "none";
-
-        if (!finalItems.length) {
-          comingEmpty.style.display = "block";
-          return;
-        }
-
+        if (!finalItems.length) { comingEmpty.style.display = "block"; return; }
         comingGrid.replaceChildren(...finalItems.map(renderComingCard));
       } catch (err) {
         console.error(err);
@@ -749,24 +689,17 @@
   </script>
 
   <script>
-    // VHS grain noise
-    (function(){
+    (function () {
       const canvas = document.getElementById("vhs-grain");
       const ctx = canvas.getContext("2d");
-
-      function resize(){
-        canvas.width  = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
+      function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
       resize();
       window.addEventListener("resize", resize);
-
-      function drawGrain(){
-        const w = canvas.width;
-        const h = canvas.height;
+      function drawGrain() {
+        const w = canvas.width, h = canvas.height;
         const img = ctx.createImageData(w, h);
         const d = img.data;
-        for(let i = 0; i < d.length; i += 4){
+        for (let i = 0; i < d.length; i += 4) {
           const v = Math.random() * 255 | 0;
           d[i] = d[i+1] = d[i+2] = v;
           d[i+3] = 20;
