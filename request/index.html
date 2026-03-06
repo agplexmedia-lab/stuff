@@ -690,6 +690,7 @@
     const NAME_STORAGE_KEY = "agplex_requester_name";
 
     let plexTitles = [];
+    let plexTmdbIds = new Set();
     let comingSoonKeys = new Set();
     let requestedKeys = new Set();
 
@@ -705,10 +706,14 @@
       localStorage.setItem(NAME_STORAGE_KEY, requesterName.value);
     }
 
-    fetch("https://apag104.github.io/ag-json/recently_added_movies.json")
-      .then(r => r.json())
-      .then(d => plexTitles = d.map(i => `${i.title.toLowerCase()} (${i.year})`))
-      .catch(() => {});
+    Promise.all([
+      fetch("https://apag104.github.io/ag-json/recently_added_movies.json").then(r => r.json()).catch(() => []),
+      fetch("https://apag104.github.io/ag-json/recently_added_tv.json").then(r => r.json()).catch(() => [])
+    ]).then(([movies, tv]) => {
+      const all = [...movies, ...tv];
+      plexTitles = all.map(i => `${i.title.toLowerCase()} (${i.year})`);
+      all.forEach(i => { if (i.tmdb_id) plexTmdbIds.add(String(i.tmdb_id)); });
+    });
 
     fetch(COMING_SOON_CSV)
       .then(r => r.text())
@@ -740,7 +745,8 @@
         const year = (item.release_date || item.first_air_date || "N/A").split("-")[0];
         const poster = item.poster_path ? `https://image.tmdb.org/t/p/w200${item.poster_path}` : "https://placehold.co/44x66?text=?";
 
-        const isInPlex = plexTitles.includes(`${name.toLowerCase()} (${year})`);
+        const isInPlex = plexTitles.includes(`${name.toLowerCase()} (${year})`) ||
+                          plexTmdbIds.has(String(item.id));
         const key = `${type}:${item.id}`;
         const isComingSoon = comingSoonKeys.has(key);
         const isRequested = requestedKeys.has(key);
