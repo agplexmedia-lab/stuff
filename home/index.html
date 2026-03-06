@@ -210,30 +210,134 @@
       text-underline-offset: 4px;
     }
 
-    /* ── STATUS EMBED ── */
-    .status-wrap {
+    /* ── STATUS WIDGET ── */
+    .status-widget {
       margin-top: 4px;
       border: 1px solid rgba(255,255,255,.08);
-      overflow: hidden;
       background: rgba(0,0,0,.3);
+      padding: 20px 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
     }
 
-    .status-frame {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      min-height: 320px;
-      max-height: 640px;
-      position: relative;
+    .status-main {
+      display: flex;
+      align-items: center;
+      gap: 14px;
     }
 
-    .status-frame iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-      background: #000;
+    .status-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: #555;
+      transition: background .4s ease, box-shadow .4s ease;
     }
+    .status-dot.up {
+      background: #28985a;
+      animation: pulse-green 2.2s infinite;
+    }
+    .status-dot.down {
+      background: #c83228;
+      animation: pulse-red 2.2s infinite;
+    }
+    .status-dot.loading {
+      background: #666;
+      animation: pulse-grey 1.4s infinite;
+    }
+
+    @keyframes pulse-green {
+      0%   { box-shadow: 0 0 0 0 rgba(40,152,90,.7); }
+      70%  { box-shadow: 0 0 0 10px rgba(40,152,90,0); }
+      100% { box-shadow: 0 0 0 0 rgba(40,152,90,0); }
+    }
+    @keyframes pulse-red {
+      0%   { box-shadow: 0 0 0 0 rgba(200,50,40,.8); }
+      70%  { box-shadow: 0 0 0 10px rgba(200,50,40,0); }
+      100% { box-shadow: 0 0 0 0 rgba(200,50,40,0); }
+    }
+    @keyframes pulse-grey {
+      0%, 100% { opacity: 1; } 50% { opacity: .35; }
+    }
+
+    .status-text-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .status-headline {
+      font-family: 'Bungee', cursive;
+      font-size: clamp(16px, 2.4vw, 22px);
+      letter-spacing: .04em;
+      line-height: 1;
+      color: #fff;
+      transition: color .4s ease;
+    }
+    .status-headline.up   { color: #4ac880; }
+    .status-headline.down { color: #e05048; }
+
+    .status-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,.40);
+      letter-spacing: .03em;
+    }
+
+    /* maintenance banner — always visible */
+    .maintenance-notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 13px;
+      background: rgba(212,168,32,.09);
+      border: 1px solid rgba(212,168,32,.25);
+      border-left: 3px solid #d4a820;
+      font-size: 12.5px;
+      color: rgba(255,255,255,.68);
+      line-height: 1.55;
+    }
+    .maintenance-notice .m-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+    .maintenance-notice strong { color: #d4c860; }
+
+    /* active maintenance override — shown during window */
+    .maintenance-active {
+      display: none; /* toggled by JS */
+      align-items: flex-start;
+      gap: 10px;
+      padding: 11px 14px;
+      background: rgba(212,168,32,.20);
+      border: 1px solid rgba(212,168,32,.55);
+      border-left: 3px solid #d4a820;
+      font-size: 13px;
+      color: #fff8cc;
+      line-height: 1.5;
+    }
+    .maintenance-active .m-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .maintenance-active strong {
+      font-family: 'Bungee', cursive;
+      letter-spacing: .04em;
+      color: #ffe060;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .status-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: rgba(255,255,255,.28);
+      letter-spacing: .04em;
+      padding-top: 2px;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+    .status-footer a {
+      color: rgba(255,255,255,.28);
+      text-decoration: none;
+    }
+    .status-footer a:hover { color: var(--cyan); }
 
     /* ── TAPE DIVIDER ── */
     .tape-divider {
@@ -251,11 +355,6 @@
     @media (max-width: 520px) {
       body { padding-left: 0; padding-right: 0; }
       .wrap { padding: 8px 10px 36px; }
-      .status-frame {
-        aspect-ratio: 10 / 10;
-        min-height: 420px;
-        max-height: 760px;
-      }
     }
   </style>
 </head>
@@ -305,16 +404,43 @@
         <span class="panel-title">📡 Server Status</span>
       </div>
       <div class="panel-body" style="padding: 12px;">
-        <div class="status-wrap">
-          <div class="status-frame">
-            <iframe
-              src="https://earnest-rugelach-35fda3.netlify.app/"
-              title="AG Plex Server Status"
-              loading="lazy"
-              scrolling="no">
-            </iframe>
+
+        <div class="status-widget">
+
+          <!-- Main status row -->
+          <div class="status-main">
+            <div class="status-dot loading" id="status-dot"></div>
+            <div class="status-text-group">
+              <div class="status-headline" id="status-headline">Checking status…</div>
+              <div class="status-sub" id="status-sub">Contacting UptimeRobot…</div>
+            </div>
           </div>
+
+          <!-- Active maintenance notice (shown only Tue 4–5 AM ET) -->
+          <div class="maintenance-active" id="maintenance-active">
+            <span class="m-icon">🔧</span>
+            <div>
+              <strong>🛠 Scheduled Maintenance in Progress</strong>
+              The server is currently down for its weekly Tuesday maintenance window (approx. 4–5 AM ET). It should be back shortly — no action needed!
+            </div>
+          </div>
+
+          <!-- Permanent standing notice -->
+          <div class="maintenance-notice" id="maintenance-notice">
+            <span class="m-icon">🕓</span>
+            <div>
+              <strong>Weekly maintenance:</strong> Every Tuesday from approx. <strong>4 AM – 5 AM ET</strong>, the server goes offline briefly for scheduled upkeep. If it shows as DOWN during that window, that's expected — it'll be back shortly.
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div class="status-footer">
+            <span id="status-updated">—</span>
+            <span>via <a href="https://uptimerobot.com" target="_blank" rel="noopener">UptimeRobot</a> · refreshes every 5 min</span>
+          </div>
+
         </div>
+
       </div>
     </section>
 
@@ -343,6 +469,83 @@
       setOffset();
       window.addEventListener("resize", setOffset);
     } catch {}
+  })();
+  </script>
+
+  <!-- STATUS CHECKER -->
+  <script>
+  (function () {
+    const MONITOR_ID   = "798398580";
+    const API_KEY      = "YOUR_READ_ONLY_API_KEY"; // ← paste your UptimeRobot read-only key here
+
+    const dot      = document.getElementById("status-dot");
+    const headline = document.getElementById("status-headline");
+    const sub      = document.getElementById("status-sub");
+    const updated  = document.getElementById("status-updated");
+    const activeNotice = document.getElementById("maintenance-active");
+
+    // ── Is it currently Tuesday maintenance window? (4–5 AM ET) ──
+    function isMaintenanceWindow() {
+      const now = new Date();
+      // Convert to Eastern Time
+      const etStr = now.toLocaleString("en-US", { timeZone: "America/New_York" });
+      const et    = new Date(etStr);
+      const day   = et.getDay();   // 2 = Tuesday
+      const hour  = et.getHours(); // 4 = 4 AM
+      return day === 2 && hour === 4;
+    }
+
+    function setStatus(isUp) {
+      dot.className      = "status-dot " + (isUp ? "up" : "down");
+      headline.className = "status-headline " + (isUp ? "up" : "down");
+      headline.textContent = isUp ? "✅ AG Plex Server is UP" : "🔴 AG Plex Server is DOWN";
+      sub.textContent    = isUp
+        ? "Everything should be working normally."
+        : "AG Movies and AG TV sections may be missing.";
+    }
+
+    function setError() {
+      dot.className      = "status-dot loading";
+      headline.className = "status-headline";
+      headline.textContent = "⚠️ Status Unavailable";
+      sub.textContent    = "Could not reach UptimeRobot. Check back soon.";
+    }
+
+    async function checkStatus() {
+      // Show/hide the active maintenance banner
+      if (isMaintenanceWindow()) {
+        activeNotice.style.display = "flex";
+      } else {
+        activeNotice.style.display = "none";
+      }
+
+      try {
+        const res = await fetch("https://api.uptimerobot.com/v2/getMonitors", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: `api_key=${API_KEY}&monitors=${MONITOR_ID}&format=json`
+        });
+        const data = await res.json();
+
+        if (data.stat !== "ok" || !data.monitors || !data.monitors.length) {
+          setError();
+          return;
+        }
+
+        const monitor = data.monitors[0];
+        // UptimeRobot status: 2 = up, 8 = seems down, 9 = down
+        const isUp = monitor.status === 2;
+        setStatus(isUp);
+
+        const now = new Date();
+        updated.textContent = "Last checked: " + now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      } catch (err) {
+        setError();
+      }
+    }
+
+    checkStatus();
+    setInterval(checkStatus, 5 * 60 * 1000); // refresh every 5 minutes
   })();
   </script>
 
