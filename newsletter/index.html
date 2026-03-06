@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>AG Plex Weekly</title>
+  <title>AG Plex Monthly Update</title>
 
   <link rel="apple-touch-icon" href="../assets/favicon-180.png">
   <link rel="icon" type="image/png" href="../assets/favicon-180.png">
@@ -17,15 +17,18 @@
       --muted:#475569;
       --blue:#1f78c8;
       --blue-dark:#155a96;
+      --blue-soft:#e8f2fc;
       --border:#dbe5f0;
       --shadow:0 10px 28px rgba(15, 23, 42, 0.10);
-      --radius:20px;
-      --maxw:680px;
+      --shadow-soft:0 6px 18px rgba(15, 23, 42, 0.08);
+      --radius-xl:24px;
+      --radius-lg:18px;
+      --maxw:760px;
     }
 
-    *{box-sizing:border-box;}
+    *{ box-sizing:border-box; }
 
-    html,body{
+    html, body{
       margin:0;
       padding:0;
       background:var(--bg);
@@ -46,10 +49,9 @@
     .hero{
       background:linear-gradient(135deg, #1f78c8 0%, #3aa0ff 100%);
       color:#fff;
-      border-radius:24px;
+      border-radius:var(--radius-xl);
       padding:22px 18px;
       box-shadow:var(--shadow);
-      overflow:hidden;
     }
 
     .eyebrow{
@@ -57,14 +59,14 @@
       font-weight:700;
       letter-spacing:.08em;
       text-transform:uppercase;
-      opacity:.9;
+      opacity:.92;
       margin:0 0 8px 0;
     }
 
     .hero h1{
+      margin:0 0 10px 0;
       font-size:30px;
       line-height:1.02;
-      margin:0 0 10px 0;
       font-weight:900;
       letter-spacing:-0.03em;
     }
@@ -73,16 +75,27 @@
       margin:0;
       font-size:14px;
       line-height:1.55;
-      color:rgba(255,255,255,.95);
+      color:rgba(255,255,255,.96);
     }
 
     .section{
       background:var(--card);
       border:1px solid var(--border);
-      border-radius:var(--radius);
+      border-radius:var(--radius-xl);
       padding:18px 16px;
       margin-top:14px;
-      box-shadow:var(--shadow);
+      box-shadow:var(--shadow-soft);
+    }
+
+    .pill{
+      display:inline-block;
+      background:var(--blue-soft);
+      color:var(--blue-dark);
+      font-size:12px;
+      font-weight:700;
+      padding:7px 10px;
+      border-radius:999px;
+      margin-bottom:10px;
     }
 
     .section h2{
@@ -93,25 +106,47 @@
       letter-spacing:-0.02em;
     }
 
-    .section p{
+    .section-intro{
       margin:0;
       font-size:14px;
-      line-height:1.6;
+      line-height:1.65;
       color:var(--muted);
     }
 
-    .pill{
-      display:inline-block;
-      background:#e8f2fc;
-      color:var(--blue-dark);
-      font-size:12px;
-      font-weight:700;
-      padding:7px 10px;
-      border-radius:999px;
-      margin-bottom:10px;
+    .news-box{
+      margin-top:14px;
+      padding:16px;
+      border:1px solid #e5eef8;
+      background:#f8fbff;
+      border-radius:16px;
     }
 
-    .poster-grid{
+    .news-content{
+      font-size:14px;
+      line-height:1.7;
+      color:var(--text);
+    }
+
+    .news-content p{
+      margin:0 0 14px 0;
+    }
+
+    .news-content p:last-child{
+      margin-bottom:0;
+    }
+
+    .news-content strong{
+      font-weight:800;
+    }
+
+    .placeholder-note{
+      margin-top:12px;
+      font-size:12px;
+      line-height:1.55;
+      color:#64748b;
+    }
+
+    .poster-preview{
       display:grid;
       grid-template-columns:repeat(2, 1fr);
       gap:12px;
@@ -119,9 +154,9 @@
     }
 
     .poster-card{
+      display:block;
       text-decoration:none;
       color:inherit;
-      display:block;
     }
 
     .poster{
@@ -149,6 +184,83 @@
       color:var(--muted);
     }
 
+    .coming-grid{
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:12px;
+      margin-top:14px;
+    }
+
+    .coming-card{
+      display:block;
+      text-decoration:none;
+      color:inherit;
+      background:#f8fafc;
+      border:1px solid #e5e7eb;
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow:0 6px 18px rgba(15, 23, 42, 0.06);
+    }
+
+    .coming-card img{
+      width:100%;
+      aspect-ratio:2 / 3;
+      object-fit:cover;
+      background:#e5e7eb;
+      display:block;
+    }
+
+    .coming-card-body{
+      padding:10px 10px 12px;
+    }
+
+    .coming-title{
+      font-size:13px;
+      line-height:1.3;
+      font-weight:800;
+      color:#0f172a;
+      margin:0 0 6px 0;
+    }
+
+    .coming-meta{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      font-size:12px;
+      color:#475569;
+      font-weight:700;
+    }
+
+    .coming-date{
+      color:#0f172a;
+      font-weight:900;
+    }
+
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:2px 8px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:900;
+      border:1px solid #cbd5e1;
+      color:#0f172a;
+      background:#ffffff;
+      white-space:nowrap;
+    }
+
+    .loading,
+    .empty,
+    .error{
+      margin-top:14px;
+      font-size:14px;
+      line-height:1.6;
+      color:var(--muted);
+      font-weight:700;
+    }
+
     .cta-row{
       display:grid;
       grid-template-columns:1fr;
@@ -167,20 +279,11 @@
       font-size:14px;
       padding:14px 16px;
       border-radius:14px;
-      transition:background .15s ease;
     }
 
     .btn.secondary{
-      background:#e8f2fc;
+      background:var(--blue-soft);
       color:var(--blue-dark);
-    }
-
-    .small-list{
-      margin:12px 0 0 0;
-      padding-left:18px;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.65;
     }
 
     .footer{
@@ -189,12 +292,6 @@
       color:#64748b;
       font-size:12px;
       line-height:1.6;
-    }
-
-    .footer a{
-      color:var(--blue-dark);
-      text-decoration:none;
-      font-weight:700;
     }
 
     @media (min-width: 600px){
@@ -214,7 +311,8 @@
         padding:22px 20px;
       }
 
-      .poster-grid{
+      .poster-preview,
+      .coming-grid{
         grid-template-columns:repeat(4, 1fr);
       }
 
@@ -228,41 +326,70 @@
   <div class="wrap">
 
     <section class="hero">
-      <div class="eyebrow">AG Plex Newsletter</div>
-      <h1>What’s New on AG Plex</h1>
+      <div class="eyebrow">AG Plex Monthly Update</div>
+      <h1>AG Plex News, Updates & Additions</h1>
       <p>
-        Fresh additions, featured picks, and a few reasons to open Plex instead of scrolling for 40 minutes.
+        Monthly AG Plex news, server updates, fixes, recent additions, and a look at what is coming up next.
       </p>
     </section>
 
     <section class="section">
-      <div class="pill">Recently Added</div>
-      <h2>New Movies This Week</h2>
-      <p>
-        A quick look at some of the newest additions now available on AG Plex.
+      <div class="pill">AG Plex News</div>
+      <h2>Latest AG Plex Updates</h2>
+      <p class="section-intro">
+        This section is for your monthly written update. For now, paste your text here manually if you want to keep bold formatting.
       </p>
 
-      <div class="poster-grid">
+      <div class="news-box">
+        <div class="news-content" id="newsContent">
+          <p><strong>Paste your monthly news here.</strong></p>
+          <p>You can write anything in this section: server changes, bug fixes, invite updates, cleanup notes, new community stuff, or whatever else people should know.</p>
+        </div>
+      </div>
+
+      <div class="placeholder-note">
+        If you want bold text from Google Sheets to carry over automatically, this needs an Apps Script or another HTML source. A normal published sheet/CSV will not reliably preserve rich text formatting.
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="pill">Recent AG Plex Additions</div>
+      <h2>Fresh Stuff Added to the Server</h2>
+      <p class="section-intro">
+        This section is where Tautulli will later inject your recently added posters and titles.
+      </p>
+
+      <!--
+        PREVIEW MODE:
+        These are placeholders so the page looks good on your site.
+
+        LATER FOR TAUTULLI:
+        Replace the entire .poster-preview block below with your Tautulli variable,
+        such as:
+        {recently_added_movies}
+        or whatever newsletter block you decide to use.
+      -->
+      <div class="poster-preview">
         <a class="poster-card" href="#">
-          <img class="poster" src="https://placehold.co/400x600?text=Poster+1" alt="Movie poster 1">
+          <img class="poster" src="https://placehold.co/400x600?text=Poster+1" alt="Poster 1">
           <div class="poster-title">Movie Title One</div>
           <div class="poster-meta">2025 • Thriller</div>
         </a>
 
         <a class="poster-card" href="#">
-          <img class="poster" src="https://placehold.co/400x600?text=Poster+2" alt="Movie poster 2">
+          <img class="poster" src="https://placehold.co/400x600?text=Poster+2" alt="Poster 2">
           <div class="poster-title">Movie Title Two</div>
           <div class="poster-meta">2024 • Comedy</div>
         </a>
 
         <a class="poster-card" href="#">
-          <img class="poster" src="https://placehold.co/400x600?text=Poster+3" alt="Movie poster 3">
+          <img class="poster" src="https://placehold.co/400x600?text=Poster+3" alt="Poster 3">
           <div class="poster-title">Movie Title Three</div>
           <div class="poster-meta">2023 • Sci-Fi</div>
         </a>
 
         <a class="poster-card" href="#">
-          <img class="poster" src="https://placehold.co/400x600?text=Poster+4" alt="Movie poster 4">
+          <img class="poster" src="https://placehold.co/400x600?text=Poster+4" alt="Poster 4">
           <div class="poster-title">Movie Title Four</div>
           <div class="poster-meta">2022 • Horror</div>
         </a>
@@ -270,30 +397,28 @@
     </section>
 
     <section class="section">
-      <div class="pill">Also Added</div>
-      <h2>New TV & Other Stuff</h2>
-      <p>
-        Fresh episodes, weird finds, and whatever else Andrew decided needed to exist on the server.
+      <div class="pill">Coming Up on AG Plex</div>
+      <h2>What’s Coming Soon</h2>
+      <p class="section-intro">
+        Upcoming titles pulled from the same source as your Coming Soon page.
       </p>
 
-      <ul class="small-list">
-        <li>New season drops</li>
-        <li>Random cult movies</li>
-        <li>Plexclusive oddities</li>
-        <li>Stuff you probably ignored the first time I mentioned it</li>
-      </ul>
+      <div class="loading" id="comingStatus">Loading coming soon titles…</div>
+      <div class="coming-grid" id="comingGrid"></div>
+      <div class="empty" id="comingEmpty" style="display:none;">Nothing queued right now.</div>
+      <div class="error" id="comingError" style="display:none;">Could not load the coming soon list.</div>
     </section>
 
     <section class="section">
-      <div class="pill">Need Something?</div>
-      <h2>Use the Hub</h2>
-      <p>
-        Want to request something, troubleshoot playback, or poke around the AG Plex universe? Start here.
+      <div class="pill">Use AG Plex</div>
+      <h2>Open the Hub</h2>
+      <p class="section-intro">
+        Browse the hub or send in a request.
       </p>
 
       <div class="cta-row">
-        <a class="btn" href="https://agplexmediahub.com/">Open AG Plex Hub</a>
-        <a class="btn secondary" href="https://sites.google.com/view/ag-plex/make-a-request-for-the-plex">Make a Request</a>
+        <a class="btn" href="https://agplexhub.com/home/">Open AG Plex Hub</a>
+        <a class="btn secondary" href="https://agplexhub.com/request/">Make a Request</a>
       </div>
     </section>
 
@@ -301,7 +426,207 @@
       You’re getting this because you’re on AG Plex.<br>
       Watch something good already.
     </div>
-
   </div>
+
+  <script>
+    const COMING_SOON_CSV_URL =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTtK9WGWZSlSJi58mOOBA01RBJ3OKeXeY9VyT4nnWFAKNL8C6SeoD8nz_srBPHupiqFr3_0Na53Y4Za/pub?gid=1263928559&single=true&output=csv";
+
+    const TMDB_API_KEY = "5bbfc2b05c0d49eea2032b35324ebc81";
+
+    const comingGrid = document.getElementById("comingGrid");
+    const comingStatus = document.getElementById("comingStatus");
+    const comingEmpty = document.getElementById("comingEmpty");
+    const comingError = document.getElementById("comingError");
+
+    function escapeHtml(s) {
+      return (s ?? "").toString()
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function parseCSVLine(line) {
+      const out = [];
+      let cur = "";
+      let inQuotes = false;
+
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        const next = line[i + 1];
+
+        if (ch === '"') {
+          if (inQuotes && next === '"') {
+            cur += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (ch === "," && !inQuotes) {
+          out.push(cur);
+          cur = "";
+        } else {
+          cur += ch;
+        }
+      }
+
+      out.push(cur);
+      return out;
+    }
+
+    function parseCSV(text) {
+      const lines = text.replace(/\r/g, "").split("\n").filter(Boolean);
+      if (!lines.length) return [];
+
+      const headers = parseCSVLine(lines[0]).map(h => h.trim().toLowerCase());
+      return lines.slice(1).map(line => {
+        const values = parseCSVLine(line);
+        const row = {};
+        headers.forEach((h, i) => row[h] = (values[i] || "").trim());
+        return row;
+      });
+    }
+
+    function parseISODate(s) {
+      if (!s) return null;
+      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
+      if (!m) return null;
+      return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+    }
+
+    async function fetchCSV(url) {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("Failed to load CSV");
+      const text = await res.text();
+      return parseCSV(text);
+    }
+
+    async function tmdbExternalIds(movieId) {
+      const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/external_ids?api_key=${TMDB_API_KEY}`);
+      return await res.json();
+    }
+
+    async function tmdbDetails(movieId) {
+      const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${TMDB_API_KEY}`);
+      return await res.json();
+    }
+
+    async function buildLink(tmdbId) {
+      if (!tmdbId || !/^\d+$/.test(tmdbId)) return "#";
+      try {
+        const externals = await tmdbExternalIds(tmdbId);
+        if (externals.imdb_id) return `https://www.imdb.com/title/${externals.imdb_id}/`;
+      } catch {}
+      return `https://www.themoviedb.org/movie/${tmdbId}`;
+    }
+
+    async function buildComingCard(row, today) {
+      const title = row.title || "Untitled";
+      const year = row.year || "";
+      const tmdbId = row.tmdb_id || "";
+      const milestone = row.nextmilestone || "";
+      const milestoneSource = (row.milestonesource || "").toLowerCase();
+      const bucket = (row.bucket || "").toUpperCase();
+
+      if (bucket !== "COMING_SOON") return null;
+
+      const d = parseISODate(milestone);
+      const hasFutureDate = !!(d && d > today);
+      const dateText = hasFutureDate ? milestone : "??";
+      const est = milestoneSource.startsWith("estimate") || !hasFutureDate;
+
+      let href = "#";
+      let poster = "https://placehold.co/342x513?text=No+Poster";
+
+      if (tmdbId && /^\d+$/.test(tmdbId)) {
+        href = await buildLink(tmdbId);
+        try {
+          const details = await tmdbDetails(tmdbId);
+          if (details.poster_path) {
+            poster = `https://image.tmdb.org/t/p/w342${details.poster_path}`;
+          }
+        } catch {}
+      }
+
+      return {
+        title,
+        year,
+        href,
+        poster,
+        dateText,
+        est,
+        sortKey: hasFutureDate ? d.getTime() : Infinity
+      };
+    }
+
+    function renderComingCard(item) {
+      const a = document.createElement("a");
+      a.className = "coming-card";
+      a.href = item.href || "#";
+      a.rel = "noopener";
+
+      a.innerHTML = `
+        <img src="${item.poster}" alt="${escapeHtml(item.title)} poster">
+        <div class="coming-card-body">
+          <div class="coming-title">${escapeHtml(item.title)}${item.year ? ` (${escapeHtml(item.year)})` : ""}</div>
+          <div class="coming-meta">
+            <span class="coming-date">${escapeHtml(item.dateText)}</span>
+            <span class="tag">${item.est ? "Est." : "On Plex"}</span>
+          </div>
+        </div>
+      `;
+
+      return a;
+    }
+
+    async function loadComingSoon() {
+      try {
+        const rows = await fetchCSV(COMING_SOON_CSV_URL);
+
+        const today = new Date();
+        today.setHours(0,0,0,0);
+
+        const comingRows = rows.filter(r => ((r.bucket || "").toUpperCase() === "COMING_SOON"));
+
+        if (!comingRows.length) {
+          comingStatus.style.display = "none";
+          comingEmpty.style.display = "block";
+          return;
+        }
+
+        const built = [];
+        const LIMIT = 8;
+
+        for (const row of comingRows) {
+          const item = await buildComingCard(row, today);
+          if (item) built.push(item);
+        }
+
+        built.sort((a, b) => {
+          if (a.sortKey !== b.sortKey) return a.sortKey - b.sortKey;
+          return a.title.localeCompare(b.title);
+        });
+
+        const finalItems = built.slice(0, LIMIT);
+
+        if (!finalItems.length) {
+          comingStatus.style.display = "none";
+          comingEmpty.style.display = "block";
+          return;
+        }
+
+        comingGrid.replaceChildren(...finalItems.map(renderComingCard));
+        comingStatus.textContent = `Showing ${finalItems.length} upcoming titles`;
+      } catch (err) {
+        console.error(err);
+        comingStatus.style.display = "none";
+        comingError.style.display = "block";
+      }
+    }
+
+    loadComingSoon();
+  </script>
 </body>
 </html>
