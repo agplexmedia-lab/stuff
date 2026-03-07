@@ -526,9 +526,8 @@
 
     async function loadBugs(){
       try{
-        // raw[3] = A4 (no header row, row 1 is "BUGS" label)
         const raw=await fetchCSVRaw(NEWS_CSV_URL);
-        const bugsRow=raw[3];
+        const bugsRow=raw[3]; // 0=NEWS, 1=A2 news, 2=BUGS header, 3=A4 bugs
         const html=(bugsRow&&bugsRow[0]?bugsRow[0]:"").trim();
         bugsLoading.style.display="none";
         if(!html){bugsEmpty.style.display="block";return;}
@@ -543,7 +542,7 @@
 
     async function loadTips(){
       try{
-        // raw[5] = A6 (no header row)
+        // 0=NEWS, 1=A2 news, 2=BUGS header, 3=A4 bugs, 4=TIPS header, 5=A6 tips
         const raw=await fetchCSVRaw(NEWS_CSV_URL);
         const tipsRow=raw[5];
         const html=(tipsRow&&tipsRow[0]?tipsRow[0]:"").trim();
