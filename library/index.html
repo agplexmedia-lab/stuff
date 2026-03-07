@@ -1171,7 +1171,7 @@
         ? `<a class="btn" href="https://www.imdb.com/title/${movie.imdb_id}/" target="_blank" rel="noopener">IMDb</a>`
         : "";
       const lbLink = movie.letterboxd_url
-  ? `<a class="btn" style="background:#00C030; border-color:#00e038; border-right-color:#007a1e; border-bottom-color:#007a1e; color:#fff;" href="https://letterboxd.com/film/${movie.letterboxd_slug}/" target="_blank" rel="noopener">Letterboxd</a>`
+  ? `<a class="btn" style="background:#00C030; border-color:#00e038; border-right-color:#007a1e; border-bottom-color:#007a1e; color:#fff;" href="https://letterboxd.com/film/${movie.letterboxd_url}/" target="_blank" rel="noopener">Letterboxd</a>`
   : "";
 
       inner.innerHTML = `
