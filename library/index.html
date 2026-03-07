@@ -1170,6 +1170,7 @@
       const imdbLink = movie.imdb_id
         ? `<a class="btn" href="https://www.imdb.com/title/${movie.imdb_id}/" target="_blank" rel="noopener">IMDb</a>`
         : "";
+      const lbLink = `<a class="btn btn-muted" href="https://letterboxd.com/search/${encodeURIComponent(movie.title)}/" target="_blank" rel="noopener">Letterboxd</a>`;
 
       inner.innerHTML = `
         <button class="detail-close" onclick="closeDetailBtn()">✕</button>
@@ -1190,9 +1191,10 @@
         ${movie.cast ? `<div class="detail-cast-label">Cast</div><div class="detail-cast">${escHtml(movie.cast)}</div>` : ""}
         ${movie.studio ? `<div class="detail-cast-label" style="margin-top:10px;">Studio</div><div class="detail-cast">${escHtml(movie.studio)}</div>` : ""}
         <div class="detail-actions">
-          ${imdbLink}
-          <button class="btn btn-muted" onclick="closeDetailBtn()">Close</button>
-        </div>`;
+  ${imdbLink}
+  ${lbLink}
+  <button class="btn btn-muted" onclick="closeDetailBtn()">Close</button>
+</div>
 
       overlay.classList.add("open");
       document.body.style.overflow = "hidden";
