@@ -438,8 +438,8 @@
       text-transform: uppercase;
     }
 
-    .badge-coming  { background: rgba(212,104,42,.2);  color: #d4a060; border: 1px solid rgba(212,104,42,.3); }
-    .badge-onplex  { background: rgba(40,152,90,.2);   color: #60c888; border: 1px solid rgba(40,152,90,.3); }
+    .badge-coming    { background: rgba(212,104,42,.2);  color: #d4a060; border: 1px solid rgba(212,104,42,.3); }
+    .badge-onplex    { background: rgba(40,152,90,.2);   color: #60c888; border: 1px solid rgba(40,152,90,.3); }
     .badge-requested { background: rgba(255,255,255,.06); color: #7080a0; border: 1px solid rgba(255,255,255,.1); }
 
     .submitted-container {
@@ -566,7 +566,7 @@
         <p class="hero-sub">
           I typically add stuff <strong>within 24 hours.</strong><br>
           Not listed? <a href="https://agplexhub.com/contact/">Submit it as a Plex problem.</a><br>
-          <strong>COMING SOON</strong> = Not available yet! Select for ETA<br>
+          <strong>COMING SOON</strong> = Not yet avalable! Shows the date or Est. if unknown.<br>
           <strong>REQUESTED</strong> = Actively downloading/looking!
         </p>
       </div>
@@ -700,7 +700,8 @@
 
     let plexTitles = [];
     let plexTmdbIds = new Set();
-    let comingSoonKeys = new Set();
+    // Map of "type:tmdbId" -> { dateText: string, est: bool }
+    let comingSoonDates = new Map();
     let requestedKeys = new Set();
 
     const COMING_SOON_CSV =
@@ -729,12 +730,30 @@
       .then(csv => {
         Papa.parse(csv, { header: true, skipEmptyLines: true })
           .data.forEach(row => {
-            const tmdb = (row.TMDB_ID || "").toString().trim();
-            const bucket = (row.Bucket || "").toString().trim().toUpperCase();
+            const tmdb   = (row.TMDB_ID || "").toString().trim();
+            const bucket = (row.Bucket  || "").toString().trim().toUpperCase();
             if (!tmdb) return;
+
             const key = `movie:${tmdb}`;
-            if (bucket === "COMING_SOON") comingSoonKeys.add(key);
-            else requestedKeys.add(key);
+
+            if (bucket === "COMING_SOON") {
+              // Pull date & source columns (case-insensitive key lookup)
+              const rawDate = (row.NextMilestone || row.nextmilestone || "").toString().trim();
+              const src     = (row.MilestoneSource || row.milestonesource || "").toString().trim().toLowerCase();
+
+              const today = new Date(); today.setHours(0, 0, 0, 0);
+              const d = rawDate ? new Date(rawDate + "T00:00:00") : null;
+              const hasFuture = !!(d && !isNaN(d) && d > today);
+
+              const est = !hasFuture || src.startsWith("estimate");
+              const dateText = hasFuture
+                ? d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+                : "??";
+
+              comingSoonDates.set(key, { dateText, est });
+            } else {
+              requestedKeys.add(key);
+            }
           });
       })
       .catch(() => {});
@@ -775,7 +794,8 @@
           const isInPlex = plexTitles.includes(`${name.toLowerCase()} (${year})`) ||
                             plexTmdbIds.has(String(item.id));
           const key = `${type}:${item.id}`;
-          const isComingSoon = comingSoonKeys.has(key);
+          const csInfo = comingSoonDates.get(key);
+          const isComingSoon = !!csInfo;
           const isRequested = requestedKeys.has(key);
 
           let button = "";
@@ -785,8 +805,10 @@
             button = `<a href="https://agplexhub.com/library/" class="btn btn-green" rel="noopener">On Plex</a>`;
             badge = `<span class="badge badge-onplex">On Plex</span>`;
           } else if (isComingSoon) {
+            // Show the arrival date (or Est. ??) in the badge instead of "COMING SOON"
+            const dateLabel = csInfo.est ? `Est. ${csInfo.dateText}` : csInfo.dateText;
             button = `<a href="https://agplexhub.com/coming-soon/" class="btn btn-orange" rel="noopener">Coming Soon</a>`;
-            badge = `<span class="badge badge-coming">Coming Soon</span>`;
+            badge = `<span class="badge badge-coming">${dateLabel}</span>`;
           } else if (isRequested) {
             button = `<button class="btn btn-grey" disabled>Requested</button>`;
             badge = `<span class="badge badge-requested">Requested</span>`;
