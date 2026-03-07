@@ -46,7 +46,6 @@
 
     body { padding: 12px; }
 
-    /* ── GRAIN / WEAR ── */
     #vhs-grain {
       position: fixed;
       inset: 0;
@@ -56,7 +55,6 @@
       mix-blend-mode: screen;
     }
 
-    /* horizontal wear lines — like a tape that's been rewound too many times */
     body::after {
       content: "";
       position: fixed;
@@ -78,16 +76,8 @@
       );
     }
 
-    /* ── LAYOUT ── */
-    .wrap {
-      width: 100%;
-      max-width: var(--maxw);
-      margin: 0 auto;
-    }
+    .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; }
 
-    /* ══════════════════════════════════
-       HERO — VHS cassette front label
-    ══════════════════════════════════ */
     .hero {
       position: relative;
       overflow: hidden;
@@ -98,101 +88,58 @@
       box-shadow: var(--shadow);
     }
 
-    /* thick rainbow bar across the top */
-    .hero-rainbow {
-      display: flex;
-      height: 10px;
-      width: 100%;
-    }
+    .hero-rainbow { display: flex; height: 10px; width: 100%; }
     .hero-rainbow span { flex: 1; }
 
-    .hero-body {
-      padding: 20px 20px 0;
-      position: relative;
-    }
+    .hero-body { padding: 20px 20px 0; position: relative; }
 
-    /* diagonal stripe watermark right side */
     .hero-body::after {
       content: "";
       position: absolute;
       top: 0; right: 0;
-      width: 55%;
-      height: 100%;
+      width: 55%; height: 100%;
       pointer-events: none;
       background: repeating-linear-gradient(
         -52deg,
-        transparent            0px,
-        transparent            28px,
-        rgba(45,107,191,.09)   28px,
-        rgba(45,107,191,.09)   34px,
-        transparent            34px,
-        transparent            62px
+        transparent          0px, transparent          28px,
+        rgba(45,107,191,.09) 28px, rgba(45,107,191,.09) 34px,
+        transparent          34px, transparent          62px
       );
     }
 
     .hero-brand {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 14px;
+      position: relative; z-index: 1;
+      display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
     }
 
-    .hero-brand img {
-      width: 44px;
-      height: 44px;
-      border-radius: 4px;
-      flex: 0 0 auto;
-      opacity: .92;
-      filter: contrast(1.05);
-    }
+    .hero-brand img { width: 44px; height: 44px; border-radius: 4px; flex: 0 0 auto; opacity: .92; filter: contrast(1.05); }
 
     .eyebrow {
       font-family: 'Barlow', sans-serif;
       font-size: 15px;
-      
       letter-spacing: 1px;
       color: var(--cyan);
       text-transform: uppercase;
     }
 
     .hero h1 {
-      position: relative;
-      z-index: 1;
+      position: relative; z-index: 1;
       font-family: 'Bungee', cursive;
-      font-size: 36px;
-      line-height: 1.04;
-      letter-spacing: .015em;
-      color: #ffffff;
-      margin-bottom: 10px;
+      font-size: 36px; line-height: 1.04; letter-spacing: .015em;
+      color: #ffffff; margin-bottom: 10px;
       text-shadow: 1px 1px 0 rgba(0,0,0,.8);
     }
 
     .hero-sub {
-      position: relative;
-      z-index: 1;
+      position: relative; z-index: 1;
       font-family: 'Barlow', sans-serif;
-      font-size: 16px;
-      line-height: 1.7;
-      letter-spacing: .3px;
-      color: #8898b8;
-      max-width: 520px;
-      margin-bottom: 18px;
+      font-size: 16px; line-height: 1.7; letter-spacing: .3px;
+      color: #8898b8; max-width: 520px; margin-bottom: 18px;
     }
 
-    /* bottom rainbow bar */
-    .hero-rainbow-bottom {
-      display: flex;
-      height: 7px;
-      width: 100%;
-      margin-top: 4px;
-    }
+    .hero-rainbow-bottom { display: flex; height: 7px; width: 100%; margin-top: 4px; }
     .hero-rainbow-bottom span { flex: 1; }
 
-    /* ══════════════════════════════════
-       SECTION BLOCKS — flat VHS label
-    ══════════════════════════════════ */
     .block {
       margin-top: 10px;
       border: 1px solid rgba(255,255,255,.07);
@@ -201,53 +148,38 @@
       box-shadow: 0 4px 16px rgba(0,0,0,.45);
     }
 
-    /* colored header bar — like the label strip on a VHS spine */
     .block-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      display: flex; align-items: center; gap: 10px;
       padding: 9px 14px;
       border-bottom: 1px solid rgba(255,255,255,.06);
     }
 
     .block-header.blue   { background: var(--blue); }
+    .block-header.red    { background: #7a1a14; }
+    .block-header.cyan   { background: #0e7080; }
     .block-header.yellow { background: #9a7010; }
     .block-header.green  { background: #1a6838; }
 
     .block-label {
       font-family: 'Barlow', sans-serif;
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: .5px;
-      text-transform: uppercase;
-      color: #ffffff;
-      line-height: 1;
+      font-size: 16px; font-weight: 700;
+      letter-spacing: .5px; text-transform: uppercase;
+      color: #ffffff; line-height: 1;
     }
 
     .block-label-sub {
       font-family: 'Barlow', sans-serif;
-      font-size: 16px;
-      
-      letter-spacing: 1px;
-      color: rgba(255,255,255,.55);
-      text-transform: uppercase;
+      font-size: 16px; letter-spacing: 1px;
+      color: rgba(255,255,255,.55); text-transform: uppercase;
       margin-left: auto;
     }
 
-    .block-body {
-      background: var(--card);
-      padding: 16px 16px 18px;
-    }
+    .block-body { background: var(--card); padding: 16px 16px 18px; }
 
-    /* VHS back-of-tape body text style */
     .vhs-text {
       font-family: 'Barlow', sans-serif;
-      font-size: 16px;
-      line-height: 1.75;
-      letter-spacing: .2px;
-      color: #a8bccc;
+      font-size: 16px; line-height: 1.75; letter-spacing: .2px; color: #a8bccc;
     }
-
     .vhs-text p { margin: 0 0 10px 0; }
     .vhs-text p:last-child { margin-bottom: 0; }
     .vhs-text strong { color: #d8e8f8; font-weight: 700; }
@@ -255,7 +187,6 @@
     .vhs-text li { margin: 0 0 5px 0; }
     .vhs-text a { color: var(--blue-lt); text-decoration: none; border-bottom: 1px solid rgba(77,143,223,.3); }
 
-    /* ── NEWS BOX ── */
     .news-box {
       border: 1px solid rgba(255,255,255,.06);
       border-radius: 2px;
@@ -265,12 +196,8 @@
 
     .news-content {
       font-family: 'Barlow', sans-serif;
-      font-size: 16px;
-      line-height: 1.8;
-      letter-spacing: .2px;
-      color: #b8ccd8;
+      font-size: 16px; line-height: 1.8; letter-spacing: .2px; color: #b8ccd8;
     }
-
     .news-content p { margin: 0 0 10px 0; }
     .news-content p:last-child { margin-bottom: 0; }
     .news-content strong { color: #e0eefc; }
@@ -280,13 +207,9 @@
 
     .loading, .empty, .error {
       font-family: 'Barlow', sans-serif;
-      font-size: 16px;
-      
-      letter-spacing: .5px;
-      color: var(--muted);
+      font-size: 16px; letter-spacing: .5px; color: var(--muted);
     }
 
-    /* ── COMING SOON GRID ── */
     .coming-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -295,27 +218,18 @@
     }
 
     .coming-card {
-      display: block;
-      text-decoration: none;
-      color: inherit;
+      display: block; text-decoration: none; color: inherit;
       background: #111825;
       border: 1px solid rgba(255,255,255,.08);
-      border-radius: 3px;
-      overflow: hidden;
+      border-radius: 3px; overflow: hidden;
       box-shadow: 0 4px 12px rgba(0,0,0,.5);
       transition: transform .1s ease, border-color .1s ease;
     }
 
-    .coming-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(45,107,191,.4);
-    }
+    .coming-card:hover { transform: translateY(-2px); border-color: rgba(45,107,191,.4); }
 
     .coming-card img {
-      width: 100%;
-      aspect-ratio: 2 / 3;
-      object-fit: cover;
-      display: block;
+      width: 100%; aspect-ratio: 2 / 3; object-fit: cover; display: block;
       filter: saturate(.85) contrast(1.05) brightness(.95);
     }
 
@@ -323,116 +237,59 @@
 
     .coming-title {
       font-family: 'Barlow', sans-serif;
-      font-size: 16px;
-      line-height: 1.4;
-      color: #c8d8e8;
-      margin: 0 0 6px 0;
-      letter-spacing: .2px;
+      font-size: 16px; line-height: 1.4; color: #c8d8e8;
+      margin: 0 0 6px 0; letter-spacing: .2px;
     }
 
-    .coming-meta {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 6px;
-    }
+    .coming-meta { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
 
     .coming-date {
       font-family: 'Barlow', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      line-height: 1;
-      color: var(--blue-lt);
-      letter-spacing: .3px;
+      font-size: 15px; font-weight: 700; line-height: 1;
+      color: var(--blue-lt); letter-spacing: .3px;
     }
 
-    /* keep the original post-it sticker */
     .tag {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 3px 7px 4px;
-      border-radius: 2px;
-      font-family: 'Barlow', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      line-height: 1;
-      letter-spacing: .5px;
-      text-transform: uppercase;
-      border: 1px solid #c8b858;
-      color: #3a2a08;
-      background: #f0e090;
-      box-shadow: 1px 1px 0 rgba(80,60,10,.3);
-      white-space: nowrap;
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 3px 7px 4px; border-radius: 2px;
+      font-family: 'Barlow', sans-serif; font-size: 15px; font-weight: 700;
+      line-height: 1; letter-spacing: .5px; text-transform: uppercase;
+      border: 1px solid #c8b858; color: #3a2a08; background: #f0e090;
+      box-shadow: 1px 1px 0 rgba(80,60,10,.3); white-space: nowrap;
       transform: rotate(-2deg);
     }
 
-    /* ── CTA BUTTONS ── */
-    .cta-row {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 8px;
-      margin-top: 4px;
-    }
+    .cta-row { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 4px; }
 
     .btn {
-      display: block;
-      width: 100%;
-      text-align: center;
-      text-decoration: none;
-      font-family: 'Bungee', cursive;
-      font-size: 16px;
-      letter-spacing: .06em;
-      padding: 13px 16px;
-      border-radius: 3px;
-      text-transform: uppercase;
+      display: block; width: 100%; text-align: center; text-decoration: none;
+      font-family: 'Bungee', cursive; font-size: 16px; letter-spacing: .06em;
+      padding: 13px 16px; border-radius: 3px; text-transform: uppercase;
       transition: filter .1s ease;
     }
-
     .btn:hover { filter: brightness(1.1); }
-
     .btn.primary {
-      background: #2d6bbf;
-      color: #ffffff;
-      border: 2px solid #4888d8;
-      border-right-color: #1a3a78;
-      border-bottom-color: #1a3a78;
-      border-radius: 0;
+      background: #2d6bbf; color: #ffffff;
+      border: 2px solid #4888d8; border-right-color: #1a3a78; border-bottom-color: #1a3a78; border-radius: 0;
     }
-
     .btn.secondary {
-      background: #161e2c;
-      color: #7aacdc;
-      border: 2px solid #2a3a58;
-      border-right-color: #0a1018;
-      border-bottom-color: #0a1018;
-      border-radius: 0;
+      background: #161e2c; color: #7aacdc;
+      border: 2px solid #2a3a58; border-right-color: #0a1018; border-bottom-color: #0a1018; border-radius: 0;
     }
 
-    /* ── WORN TAPE DIVIDER ── */
     .tape-divider {
-      height: 2px;
-      margin: 14px 0 0;
+      height: 2px; margin: 14px 0 0;
       background: repeating-linear-gradient(
         90deg,
-        rgba(255,255,255,.06)  0px,
-        rgba(255,255,255,.06)  3px,
-        transparent            3px,
-        transparent            6px
+        rgba(255,255,255,.06) 0px, rgba(255,255,255,.06) 3px,
+        transparent 3px, transparent 6px
       );
     }
 
-    /* ── FOOTER ── */
     .footer {
-      text-align: center;
-      padding: 18px 10px 32px;
-      font-family: 'Barlow', sans-serif;
-      font-size: 16px;
-      
-      letter-spacing: .5px;
-      color: #384858;
-      text-transform: uppercase;
-      line-height: 2;
+      text-align: center; padding: 18px 10px 32px;
+      font-family: 'Barlow', sans-serif; font-size: 16px;
+      letter-spacing: .5px; color: #384858; text-transform: uppercase; line-height: 2;
     }
 
     @media (min-width: 600px) {
@@ -492,6 +349,40 @@
       </div>
     </div>
 
+    <!-- BUGS & FIXES -->
+    <div class="block">
+      <div class="block-header red">
+        <span class="block-label">🛠️ Bugs & Fixes</span>
+        <span class="block-label-sub">Known Issues</span>
+      </div>
+      <div class="block-body">
+        <div class="news-box">
+          <div class="loading" id="bugsLoading">Loading bugs & fixes…</div>
+          <div class="news-content" id="bugsContent" style="display:none;"></div>
+          <div class="empty" id="bugsEmpty" style="display:none;">No known bugs right now.</div>
+          <div class="error" id="bugsError" style="display:none;">Could not load bugs & fixes.</div>
+        </div>
+        <div class="tape-divider"></div>
+      </div>
+    </div>
+
+    <!-- TIPS -->
+    <div class="block">
+      <div class="block-header cyan">
+        <span class="block-label">💡 Tips & Tricks</span>
+        <span class="block-label-sub">Did You Know?</span>
+      </div>
+      <div class="block-body">
+        <div class="news-box">
+          <div class="loading" id="tipsLoading">Loading tips…</div>
+          <div class="news-content" id="tipsContent" style="display:none;"></div>
+          <div class="empty" id="tipsEmpty" style="display:none;">No tips posted right now.</div>
+          <div class="error" id="tipsError" style="display:none;">Could not load tips.</div>
+        </div>
+        <div class="tape-divider"></div>
+      </div>
+    </div>
+
     <!-- COMING SOON -->
     <div class="block">
       <div class="block-header yellow">
@@ -522,9 +413,7 @@
       </div>
     </div>
 
-    <div class="footer">
-      Go watch something already.
-    </div>
+    <div class="footer">Go watch something already.</div>
 
   </div>
 
@@ -541,6 +430,14 @@
     const newsContent  = document.getElementById("newsContent");
     const newsEmpty    = document.getElementById("newsEmpty");
     const newsError    = document.getElementById("newsError");
+    const tipsLoading  = document.getElementById("tipsLoading");
+    const tipsContent  = document.getElementById("tipsContent");
+    const tipsEmpty    = document.getElementById("tipsEmpty");
+    const tipsError    = document.getElementById("tipsError");
+    const bugsLoading  = document.getElementById("bugsLoading");
+    const bugsContent  = document.getElementById("bugsContent");
+    const bugsEmpty    = document.getElementById("bugsEmpty");
+    const bugsError    = document.getElementById("bugsError");
     const comingGrid   = document.getElementById("comingGrid");
     const comingStatus = document.getElementById("comingStatus");
     const comingEmpty  = document.getElementById("comingEmpty");
@@ -580,6 +477,14 @@
       return parseCSV(await res.text());
     }
 
+    // Fetch raw CSV text and return rows as plain arrays (for index-based access)
+    async function fetchCSVRaw(url){
+      const res=await fetch(url);
+      if(!res.ok)throw new Error("Failed to load CSV");
+      const text=await res.text();
+      return text.replace(/\r/g,"").split("\n").filter(Boolean).map(parseCSVLine);
+    }
+
     function parseISODate(s){
       if(!s)return null;
       const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
@@ -611,7 +516,7 @@
           const vals=Object.values(row).map(v=>(v||"").trim()).filter(Boolean);
           if(!vals.length)continue;
           if(vals.join(" ").trim().toUpperCase()==="NEWS")continue;
-          html=vals[0];break;
+          html=vals[0];break; // A1 = first data row
         }
         newsLoading.style.display="none";
         if(!html){newsEmpty.style.display="block";return;}
@@ -621,6 +526,40 @@
         console.error(err);
         newsLoading.style.display="none";
         newsError.style.display="block";
+      }
+    }
+
+    async function loadBugs(){
+      try{
+        // raw[4] = A4
+        const raw=await fetchCSVRaw(NEWS_CSV_URL);
+        const bugsRow=raw[4];
+        const html=(bugsRow&&bugsRow[0]?bugsRow[0]:"").trim();
+        bugsLoading.style.display="none";
+        if(!html){bugsEmpty.style.display="block";return;}
+        bugsContent.innerHTML=html;
+        bugsContent.style.display="block";
+      }catch(err){
+        console.error(err);
+        bugsLoading.style.display="none";
+        bugsError.style.display="block";
+      }
+    }
+
+    async function loadTips(){
+      try{
+        // raw[6] = A6
+        const raw=await fetchCSVRaw(NEWS_CSV_URL);
+        const tipsRow=raw[6];
+        const html=(tipsRow&&tipsRow[0]?tipsRow[0]:"").trim();
+        tipsLoading.style.display="none";
+        if(!html){tipsEmpty.style.display="block";return;}
+        tipsContent.innerHTML=html;
+        tipsContent.style.display="block";
+      }catch(err){
+        console.error(err);
+        tipsLoading.style.display="none";
+        tipsError.style.display="block";
       }
     }
 
@@ -675,6 +614,8 @@
     }
 
     loadNews();
+    loadBugs();
+    loadTips();
     loadComingSoon();
   </script>
 
