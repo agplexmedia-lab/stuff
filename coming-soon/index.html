@@ -337,7 +337,6 @@
       padding: 8px 9px 10px;
     }
 
-    /* Title — Barlow bold, light colour, two-line clamp */
     .card-title {
       font-family: 'Barlow', sans-serif;
       font-size: 13px;
@@ -351,7 +350,6 @@
       overflow: hidden;
     }
 
-    /* Bottom row: date left, tag right — matches newsletter */
     .card-meta {
       display: flex;
       align-items: center;
@@ -359,17 +357,15 @@
       gap: 6px;
     }
 
-    /* Date: bright blue, bold Barlow — matches .coming-date in newsletter */
     .card-date {
       font-family: 'Barlow', sans-serif;
       font-size: 13px;
       font-weight: 700;
       line-height: 1;
-      color: var(--blue-lt);   /* #4d8fdf */
+      color: var(--blue-lt);
       letter-spacing: .3px;
     }
 
-    /* Post-it sticker — exact match to newsletter .tag */
     .tag {
       display: inline-flex;
       align-items: center;
@@ -589,7 +585,7 @@
   })();
   </script>
 
-  <!-- APP LOGIC — unchanged from original -->
+  <!-- APP LOGIC -->
   <script>
     const SHEET_CSV_URL =
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vTtK9WGWZSlSJi58mOOBA01RBJ3OKeXeY9VyT4nnWFAKNL8C6SeoD8nz_srBPHupiqFr3_0Na53Y4Za/pub?gid=1263928559&single=true&output=csv";
@@ -632,12 +628,14 @@
       return parsed.data.map(lcRow);
     }
 
-    async function tmdbExternalIds(movieId) {
-      return await fetch(`https://api.themoviedb.org/3/movie/${movieId}/external_ids?api_key=${TMDB_API_KEY}`).then(r => r.json());
-    }
-
     async function tmdbDetails(movieId) {
       return await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${TMDB_API_KEY}`).then(r => r.json());
+    }
+
+    function buildLink(title, year) {
+      const query = year ? `${title} ${year}` : title;
+      const encoded = query.trim().replace(/\s+/g, '+');
+      return `https://letterboxd.com/search/films/${encoded}/`;
     }
 
     function escapeHtml(s) {
@@ -646,18 +644,10 @@
         .replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;");
     }
 
-    async function buildLink(tmdbId) {
-      if (!tmdbId || !/^\d+$/.test(tmdbId)) return "#";
-      try {
-        const ext = await tmdbExternalIds(tmdbId);
-        if (ext.imdb_id) return `https://www.imdb.com/title/${ext.imdb_id}/`;
-        return `https://www.themoviedb.org/movie/${tmdbId}`;
-      } catch { return `https://www.themoviedb.org/movie/${tmdbId}`; }
-    }
-
     function addCard({ title, year, href, poster, dateText, est, sortKey }) {
       const a = document.createElement("a");
       a.href = href || "#";
+      a.target = "_blank";
       a.rel = "noopener";
       a.className = "card";
 
@@ -705,7 +695,7 @@
       const estFromSheet = (r.milestonesource || "").toLowerCase().startsWith("estimate");
       const est = estFromSheet || !hasFutureDate;
       const tmdbId = r.tmdb_id;
-      const href = await buildLink(tmdbId);
+      const href = buildLink(title, year);
       let poster = "https://placehold.co/342x513?text=No+Poster";
       if (tmdbId && /^\d+$/.test(tmdbId)) {
         try {
