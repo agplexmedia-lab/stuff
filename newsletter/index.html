@@ -510,9 +510,8 @@
 
     async function loadNews(){
       try{
-        // raw[1] = A2 (row 1 is "NEWS" label, no CSV header)
         const raw=await fetchCSVRaw(NEWS_CSV_URL);
-        const html=(raw[1]&&raw[1][0]?raw[1][0]:"").trim();
+        const html=(raw[0]&&raw[0][0]?raw[0][0]:"").trim();
         newsLoading.style.display="none";
         if(!html){newsEmpty.style.display="block";return;}
         newsContent.innerHTML=html;
@@ -527,7 +526,7 @@
     async function loadBugs(){
       try{
         const raw=await fetchCSVRaw(NEWS_CSV_URL);
-        const bugsRow=raw[3]; // 0=NEWS, 1=A2 news, 2=BUGS header, 3=A4 bugs
+        const bugsRow=raw[1]; // A2 = Bugs
         const html=(bugsRow&&bugsRow[0]?bugsRow[0]:"").trim();
         bugsLoading.style.display="none";
         if(!html){bugsEmpty.style.display="block";return;}
@@ -542,9 +541,9 @@
 
     async function loadTips(){
       try{
-        // 0=NEWS, 1=A2 news, 2=BUGS header, 3=A4 bugs, 4=TIPS header, 5=A6 tips
+        // A3 = Tips
         const raw=await fetchCSVRaw(NEWS_CSV_URL);
-        const tipsRow=raw[5];
+        const tipsRow=raw[2];
         const html=(tipsRow&&tipsRow[0]?tipsRow[0]:"").trim();
         tipsLoading.style.display="none";
         if(!html){tipsEmpty.style.display="block";return;}
