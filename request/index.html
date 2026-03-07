@@ -50,7 +50,6 @@
       padding-bottom: 0;
     }
 
-    /* ── GRAIN ── */
     #vhs-grain {
       position: fixed;
       inset: 0;
@@ -60,7 +59,6 @@
       mix-blend-mode: screen;
     }
 
-    /* horizontal wear lines */
     body::after {
       content: "";
       position: fixed;
@@ -82,7 +80,6 @@
       );
     }
 
-    /* ── LAYOUT ── */
     .wrap {
       width: 100%;
       max-width: var(--maxw);
@@ -90,7 +87,6 @@
       padding-bottom: 30px;
     }
 
-    /* ── UNIVERSAL HEADER ── */
     .site-header {
       position: sticky;
       top: var(--banner-offset);
@@ -128,7 +124,6 @@
       opacity: .92;
     }
 
-    /* ── HERO ── */
     .hero {
       position: relative;
       overflow: hidden;
@@ -231,7 +226,6 @@
     }
     .hero-rainbow-bottom span { flex: 1; }
 
-    /* ── SEARCH BLOCK ── */
     .block {
       margin-top: 10px;
       border: 1px solid var(--border);
@@ -275,7 +269,6 @@
       padding: 16px;
     }
 
-    /* ── INPUTS ── */
     .error-message {
       display: none;
       margin: 0 0 10px;
@@ -304,7 +297,28 @@
       box-shadow: 0 0 0 3px rgba(45,107,191,.15);
     }
 
-    /* ── RESULTS ── */
+    /* Loading indicator */
+    .search-loading {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 2px;
+      font-size: 13px;
+      color: var(--muted);
+      font-family: 'Barlow', sans-serif;
+    }
+    .search-loading.visible { display: flex; }
+    .search-spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255,255,255,.1);
+      border-top-color: var(--cyan);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
     #results { margin-top: 4px; }
 
     .result-item {
@@ -366,7 +380,6 @@
 
     .buttons { flex: 0 0 auto; }
 
-    /* ── RESULT BUTTONS ── */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -415,7 +428,6 @@
       color: #80e8a8;
     }
 
-    /* ── BADGES ── */
     .badge {
       display: inline-block;
       padding: 2px 8px;
@@ -430,7 +442,6 @@
     .badge-onplex  { background: rgba(40,152,90,.2);   color: #60c888; border: 1px solid rgba(40,152,90,.3); }
     .badge-requested { background: rgba(255,255,255,.06); color: #7080a0; border: 1px solid rgba(255,255,255,.1); }
 
-    /* ── SUBMITTED STATE ── */
     .submitted-container {
       display: none;
       margin-top: 10px;
@@ -467,7 +478,6 @@
 
     .submit-another:hover { filter: brightness(1.1); }
 
-    /* ── TAPE DIVIDER ── */
     .tape-divider {
       height: 2px;
       margin-top: 14px;
@@ -485,7 +495,6 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ── UNIVERSAL FOOTER OVERRIDES ── */
     #footerMount { margin-top: 24px; }
 
     #footerMount .site-footer,
@@ -530,7 +539,6 @@
 <body>
   <canvas id="vhs-grain"></canvas>
 
-  <!-- UNIVERSAL HEADER -->
   <header class="site-header">
     <a href="https://agplexhub.com/home/" class="brand">
       <img src="../assets/favicon-180.png" alt="AG Plex Home">
@@ -540,7 +548,6 @@
 
   <div class="wrap">
 
-    <!-- HERO -->
     <div class="hero">
       <div class="hero-rainbow">
         <span style="background:#c83228"></span>
@@ -559,8 +566,8 @@
         <p class="hero-sub">
           I typically add stuff <strong>within 24 hours.</strong><br>
           Not listed? <a href="https://agplexhub.com/contact/">Submit it as a Plex problem.</a><br>
-          <strong>COMING SOON</strong> = Requested but not ready 
-          <br><strong>REQUESTED</strong> = Working on it already!
+          <strong>COMING SOON</strong> = Not available yet! Select for ETA<br>
+          <strong>REQUESTED</strong> = Actively downloading/looking!
         </p>
       </div>
       <div class="hero-rainbow-bottom">
@@ -573,7 +580,6 @@
       </div>
     </div>
 
-    <!-- SEARCH BLOCK -->
     <div class="block" id="formContainer">
       <div class="block-header blue">
         <span class="block-label">Search &amp; Request</span>
@@ -582,13 +588,16 @@
       <div class="block-body">
         <p class="error-message" id="errorMessage">⚠ Please enter your name before requesting.</p>
         <input type="text" id="requesterName" placeholder="Your Name (Required)" oninput="resetError(); saveName();">
-        <input type="text" id="searchInput" onkeyup="searchMedia()" placeholder="Search for a movie or show...">
+        <input type="text" id="searchInput" placeholder="Search for a movie or show...">
+        <div class="search-loading" id="searchLoading">
+          <div class="search-spinner"></div>
+          Searching…
+        </div>
         <div id="results"></div>
         <div class="tape-divider"></div>
       </div>
     </div>
 
-    <!-- SUBMITTED STATE -->
     <div class="submitted-container block" id="submittedContainer">
       <div class="block-header green">
         <span class="block-label">Request Submitted</span>
@@ -599,7 +608,6 @@
       </div>
     </div>
 
-    <!-- Hidden Google Form -->
     <form id="googleForm"
           action="https://docs.google.com/forms/d/e/1FAIpQLSetYfWx5aqyYwVWYwHwLQqsL6d4uNSYPcVKQ_qezFY0K5b9PQ/formResponse"
           method="POST"
@@ -611,7 +619,7 @@
     </form>
     <iframe name="hidden_iframe" style="display:none;"></iframe>
 
-  </div><!-- /.wrap -->
+  </div>
 
   <div id="footerMount"></div>
 
@@ -731,76 +739,99 @@
       })
       .catch(() => {});
 
-    async function searchMedia() {
-      const q = searchInput.value.trim();
-      const out = results;
-      if (!q) return out.innerHTML = "";
+    // ── DEBOUNCED SEARCH ──
+    let searchTimeout = null;
 
-      const m = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(q)}`).then(r => r.json());
-      const t = await fetch(`https://api.themoviedb.org/3/search/tv?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(q)}`).then(r => r.json());
+    document.getElementById("searchInput").addEventListener("input", function() {
+      clearTimeout(searchTimeout);
+      const q = this.value.trim();
+      if (!q) {
+        document.getElementById("results").innerHTML = "";
+        document.getElementById("searchLoading").classList.remove("visible");
+        return;
+      }
+      document.getElementById("searchLoading").classList.add("visible");
+      searchTimeout = setTimeout(() => searchMedia(q), 350);
+    });
 
-      out.innerHTML = "";
-      [...(m.results || []), ...(t.results || [])].forEach(item => {
-        const type = item.title ? "movie" : "tv";
-        const name = item.title || item.name;
-        const year = (item.release_date || item.first_air_date || "N/A").split("-")[0];
-        const poster = item.poster_path ? `https://image.tmdb.org/t/p/w200${item.poster_path}` : "https://placehold.co/44x66?text=?";
+    async function searchMedia(q) {
+      const out = document.getElementById("results");
+      const loading = document.getElementById("searchLoading");
+      try {
+        const [m, t] = await Promise.all([
+          fetch(`https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(q)}`).then(r => r.json()),
+          fetch(`https://api.themoviedb.org/3/search/tv?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(q)}`).then(r => r.json())
+        ]);
 
-        const isInPlex = plexTitles.includes(`${name.toLowerCase()} (${year})`) ||
-                          plexTmdbIds.has(String(item.id));
-        const key = `${type}:${item.id}`;
-        const isComingSoon = comingSoonKeys.has(key);
-        const isRequested = requestedKeys.has(key);
+        loading.classList.remove("visible");
+        out.innerHTML = "";
 
-        let button = "";
-        let badge = "";
+        [...(m.results || []), ...(t.results || [])].forEach(item => {
+          const type = item.title ? "movie" : "tv";
+          const name = item.title || item.name;
+          const year = (item.release_date || item.first_air_date || "N/A").split("-")[0];
+          const poster = item.poster_path ? `https://image.tmdb.org/t/p/w200${item.poster_path}` : "https://placehold.co/44x66?text=?";
 
-        if (isInPlex) {
-          button = `<a href="https://agplexhub.com/library/" class="btn btn-green" rel="noopener">On Plex</a>`;
-          badge = `<span class="badge badge-onplex">On Plex</span>`;
-        } else if (isComingSoon) {
-          button = `<a href="https://agplexhub.com/coming-soon/" class="btn btn-orange" rel="noopener">Coming Soon</a>`;
-          badge = `<span class="badge badge-coming">Coming Soon</span>`;
-        } else if (isRequested) {
-          button = `<button class="btn btn-grey" disabled>Requested</button>`;
-          badge = `<span class="badge badge-requested">Requested</span>`;
-        } else {
-          button = `<button class="btn request-btn"
-                      data-id="${item.id}"
-                      data-type="${type}"
-                      data-name="${encodeURIComponent(name)}"
-                      data-year="${year}">Request</button>`;
-        }
+          const isInPlex = plexTitles.includes(`${name.toLowerCase()} (${year})`) ||
+                            plexTmdbIds.has(String(item.id));
+          const key = `${type}:${item.id}`;
+          const isComingSoon = comingSoonKeys.has(key);
+          const isRequested = requestedKeys.has(key);
 
-        out.innerHTML += `
-          <div class="result-item">
-            <img src="${poster}" alt="Poster">
-            <div class="info">
-              <a href="#" class="title-link" data-type="${type}" data-tmdb="${item.id}" aria-label="Open IMDb page">
-                <strong>${name}</strong>
-              </a>
-              <div class="meta">(${year}) ${badge}</div>
-            </div>
-            <div class="buttons">${button}</div>
-          </div>`;
-      });
+          let button = "";
+          let badge = "";
 
-      document.querySelectorAll(".request-btn").forEach(btn => {
-        btn.addEventListener("click", function() {
-          submitRequest(this.dataset.id, this.dataset.type, this.dataset.name, this.dataset.year);
+          if (isInPlex) {
+            button = `<a href="https://agplexhub.com/library/" class="btn btn-green" rel="noopener">On Plex</a>`;
+            badge = `<span class="badge badge-onplex">On Plex</span>`;
+          } else if (isComingSoon) {
+            button = `<a href="https://agplexhub.com/coming-soon/" class="btn btn-orange" rel="noopener">Coming Soon</a>`;
+            badge = `<span class="badge badge-coming">Coming Soon</span>`;
+          } else if (isRequested) {
+            button = `<button class="btn btn-grey" disabled>Requested</button>`;
+            badge = `<span class="badge badge-requested">Requested</span>`;
+          } else {
+            button = `<button class="btn request-btn"
+                        data-id="${item.id}"
+                        data-type="${type}"
+                        data-name="${encodeURIComponent(name)}"
+                        data-year="${year}">Request</button>`;
+          }
+
+          out.innerHTML += `
+            <div class="result-item">
+              <img src="${poster}" alt="Poster">
+              <div class="info">
+                <a href="#" class="title-link" data-type="${type}" data-tmdb="${item.id}" aria-label="Open IMDb page">
+                  <strong>${name}</strong>
+                </a>
+                <div class="meta">(${year}) ${badge}</div>
+              </div>
+              <div class="buttons">${button}</div>
+            </div>`;
         });
-      });
 
-      document.querySelectorAll(".title-link").forEach(a => {
-        a.addEventListener("click", async (e) => {
-          e.preventDefault();
-          try {
-            const ext = await fetch(`https://api.themoviedb.org/3/${a.dataset.type}/${a.dataset.tmdb}/external_ids?api_key=${TMDB_API_KEY}`).then(r => r.json());
-            if (ext && ext.imdb_id) { window.open(`https://www.imdb.com/title/${ext.imdb_id}/`, "_blank", "noopener"); return; }
-          } catch {}
-          window.open(`https://www.themoviedb.org/${a.dataset.type}/${a.dataset.tmdb}`, "_blank", "noopener");
+        document.querySelectorAll(".request-btn").forEach(btn => {
+          btn.addEventListener("click", function() {
+            submitRequest(this.dataset.id, this.dataset.type, this.dataset.name, this.dataset.year);
+          });
         });
-      });
+
+        document.querySelectorAll(".title-link").forEach(a => {
+          a.addEventListener("click", async (e) => {
+            e.preventDefault();
+            try {
+              const ext = await fetch(`https://api.themoviedb.org/3/${a.dataset.type}/${a.dataset.tmdb}/external_ids?api_key=${TMDB_API_KEY}`).then(r => r.json());
+              if (ext && ext.imdb_id) { window.open(`https://www.imdb.com/title/${ext.imdb_id}/`, "_blank", "noopener"); return; }
+            } catch {}
+            window.open(`https://www.themoviedb.org/${a.dataset.type}/${a.dataset.tmdb}`, "_blank", "noopener");
+          });
+        });
+
+      } catch(err) {
+        loading.classList.remove("visible");
+        console.error(err);
+      }
     }
 
     function submitRequest(id, type, encName, year) {
