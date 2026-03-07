@@ -632,10 +632,11 @@
       return await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${TMDB_API_KEY}`).then(r => r.json());
     }
 
+    // HARDCODED SLUG TEST — There Will Be Blood
+    // Letterboxd only appends year to slug when there's a title conflict.
+    // "there-will-be-blood-2007" 404s; the real slug is just "there-will-be-blood".
     function buildLink(title, year) {
-      const query = year ? `${title} ${year}` : title;
-      const encoded = query.trim().replace(/\s+/g, '+');
-      return `https://letterboxd.com/search/films/${encoded}/`;
+      return `https://letterboxd.com/film/there-will-be-blood/`;
     }
 
     function escapeHtml(s) {
