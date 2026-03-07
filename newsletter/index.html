@@ -510,14 +510,9 @@
 
     async function loadNews(){
       try{
-        const rows=await fetchCSV(NEWS_CSV_URL);
-        let html="";
-        for(const row of rows){
-          const vals=Object.values(row).map(v=>(v||"").trim()).filter(Boolean);
-          if(!vals.length)continue;
-          if(vals.join(" ").trim().toUpperCase()==="NEWS")continue;
-          html=vals[0];break; // A1 = first data row
-        }
+        // raw[1] = A2 (row 1 is "NEWS" label, no CSV header)
+        const raw=await fetchCSVRaw(NEWS_CSV_URL);
+        const html=(raw[1]&&raw[1][0]?raw[1][0]:"").trim();
         newsLoading.style.display="none";
         if(!html){newsEmpty.style.display="block";return;}
         newsContent.innerHTML=html;
@@ -531,9 +526,9 @@
 
     async function loadBugs(){
       try{
-        // raw[4] = A4
+        // raw[3] = A4 (no header row, row 1 is "BUGS" label)
         const raw=await fetchCSVRaw(NEWS_CSV_URL);
-        const bugsRow=raw[4];
+        const bugsRow=raw[3];
         const html=(bugsRow&&bugsRow[0]?bugsRow[0]:"").trim();
         bugsLoading.style.display="none";
         if(!html){bugsEmpty.style.display="block";return;}
@@ -548,9 +543,9 @@
 
     async function loadTips(){
       try{
-        // raw[6] = A6
+        // raw[5] = A6 (no header row)
         const raw=await fetchCSVRaw(NEWS_CSV_URL);
-        const tipsRow=raw[6];
+        const tipsRow=raw[5];
         const html=(tipsRow&&tipsRow[0]?tipsRow[0]:"").trim();
         tipsLoading.style.display="none";
         if(!html){tipsEmpty.style.display="block";return;}
