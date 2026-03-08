@@ -7,7 +7,7 @@
 
   <link rel="apple-touch-icon" href="../assets/favicon-180.png">
   <link rel="icon" type="image/png" href="../assets/favicon-180.png">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee&family=Barlow:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -236,6 +236,7 @@
     }
 
     .block-header.blue  { background: var(--blue); }
+    .block-header.green { background: #1a6638; }
     .block-header.red   { background: #7a1a12; }
 
     .block-label {
@@ -271,6 +272,9 @@
       padding: 14px 16px;
     }
 
+    .faq-item.green-accent { border-left-color: var(--green); }
+    .faq-item.green-accent .qmark { background: var(--green); }
+
     .faq-item:last-child { margin-bottom: 0; }
 
     .faq-q {
@@ -288,10 +292,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Bungee', cursive;
-      font-size: 13px;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 15px;
+      font-weight: 700;
       color: #ffffff;
-      letter-spacing: .03em;
+      letter-spacing: 0;
+      line-height: 1;
     }
 
     .faq-q-text {
@@ -318,6 +324,49 @@
     }
 
     .faq-answer a:hover { color: #ffffff; }
+
+    .faq-answer ol, .faq-answer ul {
+      margin: 8px 0 4px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .faq-answer li {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #a8bccc;
+    }
+
+    .faq-answer .step-label {
+      display: inline-block;
+      background: rgba(45,107,191,.2);
+      border: 1px solid rgba(45,107,191,.3);
+      color: #7ab0e8;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 1px 7px;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    .faq-answer .step-label.green {
+      background: rgba(40,152,90,.15);
+      border-color: rgba(40,152,90,.3);
+      color: #5dc98a;
+    }
+
+    .device-note {
+      margin-top: 10px;
+      padding: 10px 12px;
+      background: rgba(255,255,255,.03);
+      border-left: 2px solid rgba(255,255,255,.1);
+      font-size: 13px;
+      color: #7080a0;
+      line-height: 1.6;
+    }
 
     /* ── TAPE DIVIDER ── */
     .tape-divider {
@@ -431,10 +480,10 @@
       </div>
     </div>
 
-    <!-- FAQ BLOCK -->
+    <!-- FAQ BLOCK: THE BASICS -->
     <div class="block">
       <div class="block-header blue">
-        <span class="block-label">Frequently Asked Questions</span>
+        <span class="block-label">The Basics</span>
         <span class="block-label-sub">AG Plex</span>
       </div>
       <div class="block-body">
@@ -500,12 +549,95 @@
           </div>
         </div>
 
-        <div class="tape-divider"></div>
+      </div>
+    </div>
 
+    <!-- FAQ BLOCK: USING PLEX ON YOUR DEVICE -->
+    <div class="block">
+      <div class="block-header green">
+        <span class="block-label">Using Plex on Your Device</span>
+        <span class="block-label-sub">How-To</span>
+      </div>
+      <div class="block-body">
+
+        <div class="faq-item green-accent">
+          <div class="faq-q">
+            <div class="qmark">Q</div>
+            <div class="faq-q-text">How do I get the AG libraries to show up on my TV (Roku, Apple TV, Android TV, Samsung)?</div>
+          </div>
+          <div class="faq-answer">
+            The first step is always to install the free Plex app from your device's app store and sign into your Plex account. Once you've been given access to AG Plex, the AG Movies and AG TV libraries should show up automatically. If they don't, sign out and back in.<br><br>
+            From there, you'll want to <strong style="color:#dce4f0;">pin</strong> the AG libraries so they show up every time you open the app without having to dig for them. See below for how to do that.
+          </div>
+        </div>
+
+        <div class="faq-item green-accent">
+          <div class="faq-q">
+            <div class="qmark">Q</div>
+            <div class="faq-q-text">How do I pin the AG libraries to my sidebar so I don't have to hunt for them?</div>
+          </div>
+          <div class="faq-answer">
+            This works basically the same on Roku, Apple TV, Android TV, and Samsung. Look for <strong style="color:#dce4f0;">More</strong> at the bottom of the left sidebar. Scroll through until you find AG Movies and AG TV. There'll be a pin or heart icon next to each one. Select it and they'll show up in your sidebar from then on.<br><br>
+            On <strong style="color:#dce4f0;">Roku</strong> specifically, once you're in the More section, highlight the library and press the <strong style="color:#dce4f0;">star button</strong> on your remote to favorite it.<br><br>
+            On <strong style="color:#dce4f0;">Apple TV</strong>, go to More, focus on the library, then move left on the trackpad to get the pin option.
+            <div class="device-note">Note: if you delete and reinstall the Plex app, you'll need to re-pin everything. The app doesn't sync that stuff to your account.</div>
+          </div>
+        </div>
+
+        <div class="faq-item green-accent">
+          <div class="faq-q">
+            <div class="qmark">Q</div>
+            <div class="faq-q-text">How do I browse and watch TV shows?</div>
+          </div>
+          <div class="faq-answer">
+            Once AG TV is pinned, select it from your sidebar. You'll land on the Recommended tab which shows recently added stuff and things you've been watching. To see everything, tap the <strong style="color:#dce4f0;">Library</strong> tab at the top of the screen. That's the full list of shows.<br><br>
+            Pick a show, then pick a season, then pick an episode and hit play. Plex keeps track of where you left off so it'll pick up where you stopped if you come back to something mid-episode or mid-season.
+          </div>
+        </div>
+
+        <div class="faq-item green-accent">
+          <div class="faq-q">
+            <div class="qmark">Q</div>
+            <div class="faq-q-text">How do I find movies or shows by genre, year, etc.?</div>
+          </div>
+          <div class="faq-answer">
+            Go into the AG Movies or AG TV library and tap the <strong style="color:#dce4f0;">Library</strong> tab. Near the top of the screen you'll see filter and sort controls. You can filter by genre (Horror, Comedy, Drama, etc.), sort by release date, rating, or title, or switch between different views. It works on all the TV apps the same way.
+          </div>
+        </div>
+
+        <div class="faq-item green-accent">
+          <div class="faq-q">
+            <div class="qmark">Q</div>
+            <div class="faq-q-text">What are Collections and how do I find them?</div>
+          </div>
+          <div class="faq-answer">
+            Collections are groups of related movies or shows bundled together, like all the films in a franchise. When you're in the Library tab of AG Movies, look for a <strong style="color:#dce4f0;">Collections</strong> tab or filter option near the top of the screen. Selecting it switches you from the full movie list to a view showing all the collections. Tap any collection to see what's in it.<br><br>
+            Some collections also appear inline in the main library view mixed in with individual movies. If you see a tile with a stack of posters on it, that's a collection.
+          </div>
+        </div>
+
+        <div class="faq-item green-accent">
+          <div class="faq-q">
+            <div class="qmark">Q</div>
+            <div class="faq-q-text">How do I get back to something I was watching?</div>
+          </div>
+          <div class="faq-answer">
+            The home screen has a <strong style="color:#dce4f0;">Continue Watching</strong> row that shows anything you started but didn't finish. Just select it and it'll jump back to where you were. If you don't see the Continue Watching row on your home screen, make sure the AG libraries are pinned in your sidebar, as that's what makes those rows appear.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SHARED BLOCK -->
+    <div class="block">
+      <div class="block-header blue">
+        <span class="block-label">Still Stuck?</span>
+      </div>
+      <div class="block-body">
         <div class="callout">
           Having an issue? &nbsp;<a href="https://agplexhub.com/contact/" rel="noopener">Report a problem here →</a>
         </div>
-
       </div>
     </div>
 
