@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>AG Plex — FAQ</title>
+  <title>AG Plex - FAQ</title>
 
   <link rel="apple-touch-icon" href="../assets/favicon-180.png">
   <link rel="icon" type="image/png" href="../assets/favicon-180.png">
@@ -16,17 +16,14 @@
       --card:      #181d28;
       --text:      #dce4f0;
       --muted:     #7080a0;
-
       --blue:      #2d6bbf;
       --blue-lt:   #4d8fdf;
-
       --red:       #c83228;
       --orange:    #d4682a;
       --yellow:    #d4a820;
       --green:     #28985a;
       --indigo:    #3848b0;
       --cyan:      #1898a8;
-
       --border:    rgba(255,255,255,.07);
       --shadow:    0 8px 28px rgba(0,0,0,.6);
       --maxw:      720px;
@@ -49,389 +46,236 @@
       padding-bottom: 0;
     }
 
-    /* ── GRAIN ── */
+    /* GRAIN */
     #vhs-grain {
-      position: fixed;
-      inset: 0;
-      z-index: 9990;
-      pointer-events: none;
-      opacity: 0.07;
-      mix-blend-mode: screen;
+      position: fixed; inset: 0; z-index: 9990;
+      pointer-events: none; opacity: 0.07; mix-blend-mode: screen;
     }
-
     body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: 9989;
-      pointer-events: none;
-      background: repeating-linear-gradient(
-        180deg,
-        transparent              0px,
-        transparent              60px,
-        rgba(255,255,255,.012)   60px,
-        rgba(255,255,255,.012)   61px,
-        transparent              61px,
-        transparent              120px,
-        rgba(255,255,255,.008)   120px,
-        rgba(255,255,255,.008)   121px,
-        transparent              121px,
-        transparent              200px
-      );
+      content: ""; position: fixed; inset: 0; z-index: 9989; pointer-events: none;
+      background: repeating-linear-gradient(180deg,
+        transparent 0px, transparent 60px,
+        rgba(255,255,255,.012) 60px, rgba(255,255,255,.012) 61px,
+        transparent 61px, transparent 120px,
+        rgba(255,255,255,.008) 120px, rgba(255,255,255,.008) 121px,
+        transparent 121px, transparent 200px);
     }
 
-    /* ── LAYOUT ── */
-    .wrap {
-      width: 100%;
-      max-width: var(--maxw);
-      margin: 0 auto;
-      padding-bottom: 30px;
-    }
+    /* LAYOUT */
+    .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding-bottom: 30px; }
 
-    /* ── HEADER ── */
+    /* HEADER */
     .site-header {
-      position: sticky;
-      top: var(--banner-offset);
-      z-index: 100;
+      position: sticky; top: var(--banner-offset); z-index: 100;
       padding: calc(10px + env(safe-area-inset-top)) 0 10px;
-      display: flex;
-      justify-content: center;
-      margin-bottom: 12px;
+      display: flex; justify-content: center; margin-bottom: 12px;
     }
-
     .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 9px 18px;
-      background: #ffffff;
-      border: 2px solid #dce4f0;
-      border-right-color: #8090b0;
-      border-bottom-color: #8090b0;
-      border-radius: 4px;
-      text-decoration: none;
-      color: #0e1420;
-      font-family: 'Bungee', cursive;
-      font-size: 16px;
-      letter-spacing: 2px;
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 18px; background: #ffffff;
+      border: 2px solid #dce4f0; border-right-color: #8090b0; border-bottom-color: #8090b0;
+      border-radius: 4px; text-decoration: none; color: #0e1420;
+      font-family: 'Bungee', cursive; font-size: 16px; letter-spacing: 2px;
       box-shadow: 0 4px 18px rgba(0,0,0,.7);
     }
+    .brand img { width: 28px; height: 28px; border-radius: 3px; opacity: .92; }
 
-    .brand img {
-      width: 28px;
-      height: 28px;
-      border-radius: 3px;
-      opacity: .92;
-    }
-
-    /* ── HERO ── */
+    /* HERO */
     .hero {
-      position: relative;
-      overflow: hidden;
-      background: #0d1220;
-      border: 1px solid rgba(255,255,255,.09);
-      border-radius: 4px;
-      box-shadow: var(--shadow);
-      margin-bottom: 10px;
+      position: relative; overflow: hidden; background: #0d1220;
+      border: 1px solid rgba(255,255,255,.09); border-radius: 4px;
+      box-shadow: var(--shadow); margin-bottom: 10px;
     }
-
-    .hero-rainbow {
-      display: flex;
-      height: 10px;
-      width: 100%;
-    }
-    .hero-rainbow span { flex: 1; }
-
-    .hero-body {
-      padding: 20px 20px 16px;
-      position: relative;
-    }
-
+    .hero-rainbow { display: flex; height: 10px; width: 100%; }
+    .hero-rainbow span, .hero-rainbow-bottom span { flex: 1; }
+    .hero-body { padding: 20px 20px 16px; position: relative; }
     .hero-body::after {
-      content: "";
-      position: absolute;
-      top: 0; right: 0;
-      width: 50%;
-      height: 100%;
-      pointer-events: none;
-      background: repeating-linear-gradient(
-        -52deg,
-        transparent          0px,
-        transparent          28px,
-        rgba(45,107,191,.07) 28px,
-        rgba(45,107,191,.07) 34px,
-        transparent          34px,
-        transparent          62px
-      );
+      content: ""; position: absolute; top: 0; right: 0;
+      width: 50%; height: 100%; pointer-events: none;
+      background: repeating-linear-gradient(-52deg,
+        transparent 0px, transparent 28px,
+        rgba(45,107,191,.07) 28px, rgba(45,107,191,.07) 34px,
+        transparent 34px, transparent 62px);
     }
-
     .hero-brand {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
+      position: relative; z-index: 1;
+      display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
     }
-
-    .hero-brand img {
-      width: 40px;
-      height: 40px;
-      border-radius: 4px;
-      opacity: .92;
-    }
-
+    .hero-brand img { width: 40px; height: 40px; border-radius: 4px; opacity: .92; }
     .eyebrow {
-      font-family: 'Barlow', sans-serif;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 2.5px;
-      color: var(--cyan);
-      text-transform: uppercase;
+      font-family: 'Barlow', sans-serif; font-size: 11px; font-weight: 600;
+      letter-spacing: 2.5px; color: var(--cyan); text-transform: uppercase;
     }
-
     .hero h1 {
-      position: relative;
-      z-index: 1;
-      font-family: 'Bungee', cursive;
-      font-size: 34px;
-      line-height: 1.04;
-      color: #ffffff;
-      margin-bottom: 10px;
+      position: relative; z-index: 1; font-family: 'Bungee', cursive;
+      font-size: 34px; line-height: 1.04; color: #ffffff; margin-bottom: 10px;
       text-shadow: 1px 1px 0 rgba(0,0,0,.8);
     }
-
     .hero-sub {
-      position: relative;
-      z-index: 1;
-      font-family: 'Barlow', sans-serif;
-      font-size: 14px;
-      line-height: 1.7;
-      color: #8898b8;
-      margin-bottom: 4px;
+      position: relative; z-index: 1; font-family: 'Barlow', sans-serif;
+      font-size: 14px; line-height: 1.7; color: #8898b8; margin-bottom: 4px;
     }
+    .hero-rainbow-bottom { display: flex; height: 7px; width: 100%; }
 
-    .hero-rainbow-bottom {
-      display: flex;
-      height: 7px;
-      width: 100%;
-    }
-    .hero-rainbow-bottom span { flex: 1; }
-
-    /* ── BLOCK ── */
+    /* BLOCK */
     .block {
-      margin-top: 10px;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      overflow: hidden;
-      box-shadow: 0 4px 16px rgba(0,0,0,.45);
+      margin-top: 10px; border: 1px solid var(--border); border-radius: 4px;
+      overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,.45);
     }
-
     .block-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 9px 14px;
+      display: flex; align-items: center; gap: 10px; padding: 9px 14px;
       border-bottom: 1px solid rgba(255,255,255,.06);
     }
-
     .block-header.blue  { background: var(--blue); }
     .block-header.green { background: #1a6638; }
-    .block-header.red   { background: #7a1a12; }
-
     .block-label {
-      font-family: 'Bungee', cursive;
-      font-size: 15px;
-      letter-spacing: .5px;
-      text-transform: uppercase;
-      color: #ffffff;
-      line-height: 1;
+      font-family: 'Bungee', cursive; font-size: 15px; letter-spacing: .5px;
+      text-transform: uppercase; color: #ffffff; line-height: 1;
     }
-
     .block-label-sub {
-      font-family: 'Barlow', sans-serif;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      color: rgba(255,255,255,.5);
-      text-transform: uppercase;
+      font-family: 'Barlow', sans-serif; font-size: 11px; font-weight: 600;
+      letter-spacing: 1px; color: rgba(255,255,255,.5); text-transform: uppercase;
       margin-left: auto;
     }
+    .block-body { background: var(--card); padding: 10px 12px; }
 
-    .block-body {
-      background: var(--card);
-      padding: 16px;
-    }
-
-    /* ── FAQ ITEMS ── */
+    /* ACCORDION ITEMS */
     .faq-item {
       background: #111825;
       border: 1px solid rgba(255,255,255,.07);
       border-left: 3px solid var(--blue);
-      margin-bottom: 10px;
-      padding: 14px 16px;
+      margin-bottom: 6px;
+      border-radius: 2px;
+      overflow: hidden;
     }
-
+    .faq-item:last-child { margin-bottom: 0; }
     .faq-item.green-accent { border-left-color: var(--green); }
     .faq-item.green-accent .qmark { background: var(--green); }
 
-    .faq-item:last-child { margin-bottom: 0; }
-
-    .faq-q {
+    /* trigger button */
+    .faq-trigger {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       gap: 10px;
-      margin-bottom: 10px;
+      padding: 13px 14px;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      transition: background 0.15s;
     }
+    .faq-trigger:hover  { background: rgba(255,255,255,.03); }
+    .faq-trigger:active { background: rgba(255,255,255,.06); }
 
     .qmark {
       flex: 0 0 auto;
-      width: 24px;
-      height: 24px;
+      width: 24px; height: 24px;
       background: var(--blue);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: 15px;
-      font-weight: 700;
-      color: #ffffff;
-      letter-spacing: 0;
-      line-height: 1;
+      font-size: 15px; font-weight: 700;
+      color: #ffffff; line-height: 1;
+      border-radius: 2px;
+    }
+
+    .faq-q-text-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
 
     .faq-q-text {
       font-family: 'Barlow', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      color: #dce4f0;
-      line-height: 1.4;
-      padding-top: 3px;
+      font-size: 15px; font-weight: 700;
+      color: #dce4f0; line-height: 1.4;
     }
+
+    .faq-hint {
+      display: block;
+      font-family: 'Barlow', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 3px;
+      transition: opacity 0.2s;
+    }
+    .faq-item.open .faq-hint { opacity: 0; }
+
+    .faq-chevron {
+      flex: 0 0 auto;
+      width: 18px; height: 18px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted);
+      transition: transform 0.25s ease, color 0.15s;
+    }
+    .faq-chevron svg { display: block; }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); color: var(--blue-lt); }
+    .faq-item.green-accent.open .faq-chevron { color: #5dc98a; }
+
+    /* per-device open chevron colors applied via inline style fallback - handled by JS */
+
+    /* smooth expand */
+    .faq-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.32s ease;
+    }
+    .faq-item.open .faq-panel { max-height: 900px; }
 
     .faq-answer {
       font-family: 'Barlow', sans-serif;
-      font-size: 14px;
-      line-height: 1.75;
+      font-size: 14px; line-height: 1.75;
       color: #a8bccc;
-      padding-left: 34px;
+      padding: 12px 14px 14px 48px;
+      border-top: 1px solid rgba(255,255,255,.05);
     }
-
     .faq-answer a {
-      color: var(--blue-lt);
-      text-decoration: none;
+      color: var(--blue-lt); text-decoration: none;
       border-bottom: 1px solid rgba(77,143,223,.35);
     }
-
     .faq-answer a:hover { color: #ffffff; }
 
-    .faq-answer ol, .faq-answer ul {
-      margin: 8px 0 4px 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .faq-answer li {
-      font-size: 14px;
-      line-height: 1.6;
-      color: #a8bccc;
-    }
-
-    .faq-answer .step-label {
-      display: inline-block;
-      background: rgba(45,107,191,.2);
-      border: 1px solid rgba(45,107,191,.3);
-      color: #7ab0e8;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      padding: 1px 7px;
-      margin-right: 6px;
-      vertical-align: middle;
-    }
-
-    .faq-answer .step-label.green {
-      background: rgba(40,152,90,.15);
-      border-color: rgba(40,152,90,.3);
-      color: #5dc98a;
-    }
-
     .device-note {
-      margin-top: 10px;
-      padding: 10px 12px;
+      margin-top: 10px; padding: 10px 12px;
       background: rgba(255,255,255,.03);
       border-left: 2px solid rgba(255,255,255,.1);
-      font-size: 13px;
-      color: #7080a0;
-      line-height: 1.6;
+      font-size: 13px; color: #7080a0; line-height: 1.6;
     }
 
-    /* ── TAPE DIVIDER ── */
-    .tape-divider {
-      height: 2px;
-      margin: 14px 0 0;
-      background: repeating-linear-gradient(
-        90deg,
-        rgba(255,255,255,.06) 0px,
-        rgba(255,255,255,.06) 3px,
-        transparent           3px,
-        transparent           6px
-      );
-    }
-
-    /* ── CALLOUT ── */
+    /* CALLOUT */
     .callout {
-      margin-top: 14px;
       padding: 14px 16px;
       background: rgba(45,107,191,.1);
       border: 1px solid rgba(45,107,191,.25);
       font-family: 'Barlow', sans-serif;
-      font-size: 14px;
-      font-weight: 700;
-      color: #a8bccc;
-      line-height: 1.6;
+      font-size: 14px; font-weight: 700;
+      color: #a8bccc; line-height: 1.6;
     }
-
     .callout a {
-      color: var(--blue-lt);
-      text-decoration: none;
+      color: var(--blue-lt); text-decoration: none;
       border-bottom: 1px solid rgba(77,143,223,.35);
     }
 
-    /* ── FOOTER OVERRIDES ── */
+    /* FOOTER */
     #footerMount { margin-top: 24px; }
-
-    #footerMount .site-footer,
-    #footerMount footer,
-    #footerMount [class*="footer"] {
-      background: #0e1119 !important;
-      border-top: 1px solid rgba(255,255,255,.08) !important;
-      color: #7080a0 !important;
-      text-align: center !important;
-      padding: 20px 18px 32px !important;
+    #footerMount .site-footer, #footerMount footer, #footerMount [class*="footer"] {
+      background: #0e1119 !important; border-top: 1px solid rgba(255,255,255,.08) !important;
+      color: #7080a0 !important; text-align: center !important; padding: 20px 18px 32px !important;
     }
-
     #footerMount a { color: #4d8fdf !important; text-decoration: none !important; }
     #footerMount a:hover { color: #7aacdc !important; text-decoration: underline !important; }
-
     #footerMount * {
-      color: inherit;
-      font-family: 'Barlow', sans-serif !important;
-      font-size: 14px !important;
-      letter-spacing: .3px !important;
-      text-align: center !important;
+      color: inherit; font-family: 'Barlow', sans-serif !important;
+      font-size: 14px !important; letter-spacing: .3px !important; text-align: center !important;
     }
-
     #footerMount nav, #footerMount ul, #footerMount ol {
-      display: flex !important;
-      flex-wrap: wrap !important;
-      justify-content: center !important;
-      gap: 6px 14px !important;
-      list-style: none !important;
-      padding: 0 !important;
-      margin: 0 auto !important;
+      display: flex !important; flex-wrap: wrap !important; justify-content: center !important;
+      gap: 6px 14px !important; list-style: none !important; padding: 0 !important; margin: 0 auto !important;
     }
 
     @media (min-width: 600px) {
@@ -455,12 +299,9 @@
     <!-- HERO -->
     <div class="hero">
       <div class="hero-rainbow">
-        <span style="background:#c83228"></span>
-        <span style="background:#d4682a"></span>
-        <span style="background:#d4a820"></span>
-        <span style="background:#28985a"></span>
-        <span style="background:#3848b0"></span>
-        <span style="background:#1898a8"></span>
+        <span style="background:#c83228"></span><span style="background:#d4682a"></span>
+        <span style="background:#d4a820"></span><span style="background:#28985a"></span>
+        <span style="background:#3848b0"></span><span style="background:#1898a8"></span>
       </div>
       <div class="hero-body">
         <div class="hero-brand">
@@ -471,16 +312,13 @@
         <p class="hero-sub">Quick answers for new AG Plex people.</p>
       </div>
       <div class="hero-rainbow-bottom">
-        <span style="background:#c83228"></span>
-        <span style="background:#d4682a"></span>
-        <span style="background:#d4a820"></span>
-        <span style="background:#28985a"></span>
-        <span style="background:#3848b0"></span>
-        <span style="background:#1898a8"></span>
+        <span style="background:#c83228"></span><span style="background:#d4682a"></span>
+        <span style="background:#d4a820"></span><span style="background:#28985a"></span>
+        <span style="background:#3848b0"></span><span style="background:#1898a8"></span>
       </div>
     </div>
 
-    <!-- FAQ BLOCK: THE BASICS -->
+    <!-- THE BASICS -->
     <div class="block">
       <div class="block-header blue">
         <span class="block-label">The Basics</span>
@@ -489,152 +327,334 @@
       <div class="block-body">
 
         <div class="faq-item">
-          <div class="faq-q">
+          <button class="faq-trigger" aria-expanded="false">
             <div class="qmark">Q</div>
-            <div class="faq-q-text">What is Plex?</div>
-          </div>
-          <div class="faq-answer">
-            Plex is a popular app amongst media nerds and non-nerds alike. It lets someone (me, Andrew) organize and stream their own collection of movies and TV shows from a central location (my home desktop computer). Anyone I invite can stream my personal collection anywhere in the world for free. You can add Plex on any smart device just like Netflix, Prime Video, etc. Plex also has its own free content, but that's not the fun part and that stuff has ads.
+            <div class="faq-q-text-wrap"><div class="faq-q-text">What is Plex?</div><span class="faq-hint">Tap to expand</span></div>
+            <div class="faq-chevron"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-answer">Plex is a popular app amongst media nerds and non-nerds alike. It lets someone (me, Andrew) organize and stream their own collection of movies and TV shows from a central location (my home desktop computer). Anyone I invite can stream my personal collection anywhere in the world for free. You can add Plex on any smart device just like Netflix, Prime Video, etc. Plex also has its own free content, but that's not the fun part and that stuff has ads.</div>
           </div>
         </div>
 
         <div class="faq-item">
-          <div class="faq-q">
+          <button class="faq-trigger" aria-expanded="false">
             <div class="qmark">Q</div>
-            <div class="faq-q-text">Where do you get your movies and shows?</div>
-          </div>
-          <div class="faq-answer">
-            Everywhere! It's my main hobby to find and collect movies and TV shows. They're stored on my own computer, which streams them back to you on demand.
+            <div class="faq-q-text-wrap"><div class="faq-q-text">Where do you get your movies and shows?</div><span class="faq-hint">Tap to expand</span></div>
+            <div class="faq-chevron"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-answer">Everywhere! It's my main hobby to find and collect movies and TV shows. They're stored on my own computer, which streams them back to you on demand.</div>
           </div>
         </div>
 
         <div class="faq-item">
-          <div class="faq-q">
+          <button class="faq-trigger" aria-expanded="false">
             <div class="qmark">Q</div>
-            <div class="faq-q-text">Is access to AG Media on Plex free?</div>
-          </div>
-          <div class="faq-answer">
-            Yup! I share my libraries (AG Movies and AG TV) completely free. Doesn't cost me anything beyond my own server and Wi-Fi. Make a free Plex account, then request access to my library <a href="https://agplexhub.com/join/" rel="noopener">here :)</a>
+            <div class="faq-q-text-wrap"><div class="faq-q-text">Is access to AG Media on Plex free?</div><span class="faq-hint">Tap to expand</span></div>
+            <div class="faq-chevron"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-answer">Yup! I share my libraries (AG Movies and AG TV) completely free. Doesn't cost me anything beyond my own server and Wi-Fi. Make a free Plex account, then request access to my library <a href="https://agplexhub.com/join/" rel="noopener">here :)</a></div>
           </div>
         </div>
 
         <div class="faq-item">
-          <div class="faq-q">
+          <button class="faq-trigger" aria-expanded="false">
             <div class="qmark">Q</div>
-            <div class="faq-q-text">I signed into Plex but only see their free junk. Where's the AG stuff?</div>
-          </div>
-          <div class="faq-answer">
-            If you've already followed the steps to <a href="https://agplexhub.com/join/" rel="noopener">get access to my AG Media library</a> and still don't see it, try signing out of the app and back in. That should prompt AG Movies and AG TV to appear on your homepage. On a computer, you may need to click <strong style="color:#dce4f0;">More</strong> on the left sidebar.
+            <div class="faq-q-text-wrap"><div class="faq-q-text">I signed into Plex but only see their free junk. Where's the AG stuff?</div><span class="faq-hint">Tap to expand</span></div>
+            <div class="faq-chevron"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-answer">If you've already followed the steps to <a href="https://agplexhub.com/join/" rel="noopener">get access to my AG Media library</a> and still don't see it, try signing out of the app and back in. That should prompt AG Movies and AG TV to appear on your homepage. On a computer, you may need to click <strong style="color:#dce4f0;">More</strong> on the left sidebar.</div>
           </div>
         </div>
 
         <div class="faq-item">
-          <div class="faq-q">
+          <button class="faq-trigger" aria-expanded="false">
             <div class="qmark">Q</div>
-            <div class="faq-q-text">So you'll just add whatever I want?</div>
-          </div>
-          <div class="faq-answer">
-            Absolutely! I love finding stuff and expanding the collection, especially things you can only find via online rental or on an app you don't have. Just <a href="https://agplexhub.com/request/" rel="noopener">submit a request</a> and I'll find it. Usually within a day!
+            <div class="faq-q-text-wrap"><div class="faq-q-text">So you'll just add whatever I want?</div><span class="faq-hint">Tap to expand</span></div>
+            <div class="faq-chevron"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-answer">Absolutely! I love finding stuff and expanding the collection, especially things you can only find via online rental or on an app you don't have. Just <a href="https://agplexhub.com/request/" rel="noopener">submit a request</a> and I'll find it. Usually within a day!</div>
           </div>
         </div>
 
         <div class="faq-item">
-          <div class="faq-q">
+          <button class="faq-trigger" aria-expanded="false">
             <div class="qmark">Q</div>
-            <div class="faq-q-text">Woah, is this legal?</div>
-          </div>
-          <div class="faq-answer">
-            Lol, 100%. All content is legally sourced. Plex is totally legit.<br><br>
-            But why did you ask? Are you a COP?!?!!
+            <div class="faq-q-text-wrap"><div class="faq-q-text">Woah, is this legal?</div><span class="faq-hint">Tap to expand</span></div>
+            <div class="faq-chevron"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-answer">Lol, 100%. All content is legally sourced. Plex is totally legit.<br><br>But why did you ask? Are you a COP?!?!!</div>
           </div>
         </div>
 
       </div>
     </div>
 
-    <!-- FAQ BLOCK: USING PLEX ON YOUR DEVICE -->
+    <!-- ROKU -->
     <div class="block">
-      <div class="block-header green">
-        <span class="block-label">Using Plex on Your Device</span>
-        <span class="block-label-sub">How-To</span>
+      <div class="block-header" style="background:#5b3a9e;">
+        <span class="block-label">📺 Roku</span>
+        <span class="block-label-sub">Roku</span>
       </div>
       <div class="block-body">
 
-        <div class="faq-item green-accent">
-          <div class="faq-q">
-            <div class="qmark">Q</div>
-            <div class="faq-q-text">How do I get the AG libraries to show up on my TV (Roku, Apple TV, Android TV, Samsung)?</div>
-          </div>
-          <div class="faq-answer">
-            The first step is always to install the free Plex app from your device's app store and sign into your Plex account. Once you've been given access to AG Plex, the AG Movies and AG TV libraries should show up automatically. If they don't, sign out and back in.<br><br>
-            From there, you'll want to <strong style="color:#dce4f0;">pin</strong> the AG libraries so they show up every time you open the app without having to dig for them. See below for how to do that.
-          </div>
-        </div>
-
-        <div class="faq-item green-accent">
-          <div class="faq-q">
-            <div class="qmark">Q</div>
-            <div class="faq-q-text">How do I pin the AG libraries to my sidebar so I don't have to hunt for them?</div>
-          </div>
-          <div class="faq-answer">
-            This works basically the same on Roku, Apple TV, Android TV, and Samsung. Look for <strong style="color:#dce4f0;">More</strong> at the bottom of the left sidebar. Scroll through until you find AG Movies and AG TV. There'll be a pin or heart icon next to each one. Select it and they'll show up in your sidebar from then on.<br><br>
-            On <strong style="color:#dce4f0;">Roku</strong> specifically, once you're in the More section, highlight the library and press the <strong style="color:#dce4f0;">star button</strong> on your remote to favorite it.<br><br>
-            On <strong style="color:#dce4f0;">Apple TV</strong>, go to More, focus on the library, then move left on the trackpad to get the pin option.
-            <div class="device-note">Note: if you delete and reinstall the Plex app, you'll need to re-pin everything. The app doesn't sync that stuff to your account.</div>
+        <div class="faq-item" style="border-left-color:#7c52c8;">
+          <button class="faq-trigger" aria-expanded="false">
+            <div class="qmark" style="background:#7c52c8;">Q</div>
+            <div class="faq-q-text-wrap"><div class="faq-q-text">How do I find the AG libraries on Roku?</div><span class="faq-hint">Tap to expand</span></div>
+            <div class="faq-chevron"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-answer">Navigate to <strong style="color:#dce4f0;">Libraries</strong> in the top bar, then scroll down to the row of libraries and move all the way to the right to the <strong style="color:#dce4f0;">ellipsis (...)</strong> menu. From there you can see everything including AG Movies and AG TV.</div>
           </div>
         </div>
 
-        <div class="faq-item green-accent">
-          <div class="faq-q">
-            <div class="qmark">Q</div>
-            <div class="faq-q-text">How do I browse and watch TV shows?</div>
-          </div>
-          <div class="faq-answer">
-            Once AG TV is pinned, select it from your sidebar. You'll land on the Recommended tab which shows recently added stuff and things you've been watching. To see everything, tap the <strong style="color:#dce4f0;">Library</strong> tab at the top of the screen. That's the full list of shows.<br><br>
-            Pick a show, then pick a season, then pick an episode and hit play. Plex keeps track of where you left off so it'll pick up where you stopped if you come back to something mid-episode or mid-season.
-          </div>
-        </div>
-
-        <div class="faq-item green-accent">
-          <div class="faq-q">
-            <div class="qmark">Q</div>
-            <div class="faq-q-text">How do I find movies or shows by genre, year, etc.?</div>
-          </div>
-          <div class="faq-answer">
-            Go into the AG Movies or AG TV library and tap the <strong style="color:#dce4f0;">Library</strong> tab. Near the top of the screen you'll see filter and sort controls. You can filter by genre (Horror, Comedy, Drama, etc.), sort by release date, rating, or title, or switch between different views. It works on all the TV apps the same way.
+        <div class="faq-item" style="border-left-color:#7c52c8;">
+          <button class="faq-trigger" aria-expanded="false">
+            <div class="qmark" style="background:#7c52c8;">Q</div>
+            <div class="faq-q-text-wrap"><div class="faq-q-text">How do I favorite the AG libraries so they're easier to access?</div><span class="faq-hint">Tap to expand</span></div>
+            <div class="faq-chevron"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-answer">In the Libraries ellipsis (...) menu, tap the <strong style="color:#dce4f0;">heart icon</strong> next to AG Movies and AG TV. Once favorited, they show up directly in the Libraries row at the top of the screen without digging into menus each time.<br><br>To <strong style="color:#dce4f0;">reorder</strong> your favorites (e.g. put AG TV before AG Movies), go to the Libraries row, highlight the library you want to move, and press the <strong style="color:#dce4f0;">star button</strong> on your remote. Arrows will appear. Use left/right to move it into position, then press select to confirm.<div class="device-note">Note: if you delete and reinstall Plex, you'll need to re-favorite everything. It doesn't sync back.</div></div>
           </div>
         </div>
 
-        <div class="faq-item green-accent">
-          <div class="faq-q">
-            <div class="qmark">Q</div>
-            <div class="faq-q-text">What are Collections and how do I find them?</div>
-          </div>
-          <div class="faq-answer">
-            Collections are groups of related movies or shows bundled together, like all the films in a franchise. When you're in the Library tab of AG Movies, look for a <strong style="color:#dce4f0;">Collections</strong> tab or filter option near the top of the screen. Selecting it switches you from the full movie list to a view showing all the collections. Tap any collection to see what's in it.<br><br>
-            Some collections also appear inline in the main library view mixed in with individual movies. If you see a tile with a stack of posters on it, that's a collection.
-          </div>
-        </div>
-
-        <div class="faq-item green-accent">
-          <div class="faq-q">
-            <div class="qmark">Q</div>
-            <div class="faq-q-text">How do I get back to something I was watching?</div>
-          </div>
-          <div class="faq-answer">
-            The home screen has a <strong style="color:#dce4f0;">Continue Watching</strong> row that shows anything you started but didn't finish. Just select it and it'll jump back to where you were. If you don't see the Continue Watching row on your home screen, make sure the AG libraries are pinned in your sidebar, as that's what makes those rows appear.
+        <div class="faq-item" style="border-left-color:#7c52c8;">
+          <button class="faq-trigger" aria-expanded="false">
+            <div class="qmark" style="background:#7c52c8;">Q</div>
+            <div class="faq-q-text-wrap"><div class="faq-q-text">How do I browse and watch content on Roku?</div><span class="faq-hint">Tap to expand</span></div>
+            <div class="faq-chevron"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-answer">Once your libraries are favorited, select one from the Libraries row. You'll land on a Recommended screen. To see everything, navigate up to the tabs at the top and select <strong style="color:#dce4f0;">Library</strong> (or <strong style="color:#dce4f0;">Browse</strong> depending on app version). For Collections, look for a Collections tab in the same row of tabs.<br><br>For TV shows: pick a show, then a season, then an episode. Plex remembers where you left off. The <strong style="color:#dce4f0;">Continue Watching</strong> row on the home screen only shows up once you've favorited your libraries, so do that first.</div>
           </div>
         </div>
 
       </div>
     </div>
 
-    <!-- SHARED BLOCK -->
+    <!-- APPLE TV -->
+    <div class="block">
+      <div class="block-header" style="background:#1c6b8a;">
+        <span class="block-label">📺 Apple TV</span>
+        <span class="block-label-sub">tvOS</span>
+      </div>
+      <div class="block-body">
+
+        <div class="faq-item" style="border-left-color:#1898a8;">
+          <button class="faq-trigger" aria-expanded="false">
+            <div class="qmark" style="background:#1898a8;">Q</div>
+            <div class="faq-q-text-wrap"><div class="faq-q-text">How do I find and favorite the AG libraries on Apple TV?</div><span class="faq-hint">Tap to expand</span></div>
+            <div class="faq-chevron"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-answer">In the sidebar, scroll down to <strong style="color:#dce4f0;">More</strong>, find AG Movies and AG TV, then swipe left on the trackpad to get the pin/heart option. Once pinned they'll appear directly in the sidebar.<br><br>To reorder, highlight a pinned library in the sidebar, then press and hold the select button. Move it up or down with the trackpad, then click to confirm.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" style="border-left-color:#1898a8;">
+          <button class="faq-trigger" aria-expanded="false">
+            <div class="qmark" style="background:#1898a8;">Q</div>
+            <div class="faq-q-text-wrap"><div class="faq-q-text">How do I browse TV shows and Collections on Apple TV?</div><span class="faq-hint">Tap to expand</span></div>
+            <div class="faq-chevron"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-answer">Select a library from the sidebar. You'll land on Recommended. Swipe up to reach the tabs at the top of the screen and select <strong style="color:#dce4f0;">Library</strong> to browse everything, or <strong style="color:#dce4f0;">Collections</strong> to browse by franchise/series.<br><br>You can also go to <strong style="color:#dce4f0;">Settings</strong> (your avatar at the top of the sidebar) and turn on "Remember Last Tab" so it drops you straight into Library view every time instead of Recommended.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ANDROID TV -->
+    <div class="block">
+      <div class="block-header" style="background:#2a7a3b;">
+        <span class="block-label">📺 Android TV / Google TV</span>
+        <span class="block-label-sub">Nvidia Shield, Chromecast, etc.</span>
+      </div>
+      <div class="block-body">
+
+        <div class="faq-item" style="border-left-color:#28985a;">
+          <button class="faq-trigger" aria-expanded="false">
+            <div class="qmark" style="background:#28985a;">Q</div>
+            <div class="faq-q-text-wrap"><div class="faq-q-text">How do I find and favorite the AG libraries on Android TV?</div><span class="faq-hint">Tap to expand</span></div>
+            <div class="faq-chevron"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-answer">Navigate to <strong style="color:#dce4f0;">Libraries</strong> in the top nav bar. Scroll down to see the libraries row, then move right to the <strong style="color:#dce4f0;">ellipsis (...)</strong> to see all available libraries. Tap the <strong style="color:#dce4f0;">heart icon</strong> next to AG Movies and AG TV to favorite them and they'll appear directly in the Libraries row.<br><br>To reorder, go to the Libraries row, highlight a library, hold the select button on your remote until arrows appear, then move left or right to reposition it.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" style="border-left-color:#28985a;">
+          <button class="faq-trigger" aria-expanded="false">
+            <div class="qmark" style="background:#28985a;">Q</div>
+            <div class="faq-q-text-wrap"><div class="faq-q-text">The library shows "No Content"? What's going on?</div><span class="faq-hint">Tap to expand</span></div>
+            <div class="faq-chevron"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-answer">This is a known and pretty common bug on Android TV (and Fire TV). The library loads but shows as empty even though the content is there. The fix is simple: go back to the home screen, then navigate back into the library. It should load correctly the second time.<br><br>If it keeps happening, a full app restart (force close and reopen Plex) usually clears it up.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- FIRE TV -->
+    <div class="block">
+      <div class="block-header" style="background:#b05a10;">
+        <span class="block-label">📺 Amazon Fire TV</span>
+        <span class="block-label-sub">Fire Stick, Fire TV Cube</span>
+      </div>
+      <div class="block-body">
+
+        <div class="faq-item" style="border-left-color:#d4682a;">
+          <button class="faq-trigger" aria-expanded="false">
+            <div class="qmark" style="background:#d4682a;">Q</div>
+            <div class="faq-q-text-wrap"><div class="faq-q-text">How do I find and favorite the AG libraries on Fire TV?</div><span class="faq-hint">Tap to expand</span></div>
+            <div class="faq-chevron"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-answer">Go to <strong style="color:#dce4f0;">Libraries</strong> in the top nav, scroll down to the libraries row, move right to the <strong style="color:#dce4f0;">ellipsis (...)</strong>, and heart AG Movies and AG TV. Once favorited they'll be right there in the Libraries row without the extra steps.<br><br>Reordering works the same way: highlight a library in the row, hold select until arrows appear, then move it left or right.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" style="border-left-color:#d4682a;">
+          <button class="faq-trigger" aria-expanded="false">
+            <div class="qmark" style="background:#d4682a;">Q</div>
+            <div class="faq-q-text-wrap"><div class="faq-q-text">The library shows "No Content" on Fire TV. Same fix?</div><span class="faq-hint">Tap to expand</span></div>
+            <div class="faq-chevron"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-answer">Go back to the home screen and navigate back into the library. It'll load on the second try. If it keeps happening, force-close Plex and reopen it.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SAMSUNG TV -->
+    <div class="block">
+      <div class="block-header" style="background:#8a2020;">
+        <span class="block-label">📺 Samsung Smart TV</span>
+        <span class="block-label-sub">Tizen OS · 2016+</span>
+      </div>
+      <div class="block-body">
+
+        <div class="faq-item" style="border-left-color:#c83228;">
+          <button class="faq-trigger" aria-expanded="false">
+            <div class="qmark" style="background:#c83228;">Q</div>
+            <div class="faq-q-text-wrap"><div class="faq-q-text">How do I find the AG libraries on my Samsung TV?</div><span class="faq-hint">Tap to expand</span></div>
+            <div class="faq-chevron"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-answer">Sign in and scroll down the left sidebar to <strong style="color:#dce4f0;">More</strong>. AG Movies and AG TV should appear in that list. Select the heart or pin icon to add them to your sidebar. They'll show up directly from then on.<br><br>To reorder, highlight a library in the sidebar, select the <strong style="color:#dce4f0;">...</strong> menu next to it, and choose Reorder. Use up/down to move it, then confirm.<div class="device-note">Samsung Plex only works on 2016 or newer models running Tizen OS. If your TV is older than that, a Fire Stick or Roku plugged into an HDMI port is the way to go.</div></div>
+          </div>
+        </div>
+
+        <div class="faq-item" style="border-left-color:#c83228;">
+          <button class="faq-trigger" aria-expanded="false">
+            <div class="qmark" style="background:#c83228;">Q</div>
+            <div class="faq-q-text-wrap"><div class="faq-q-text">Plex won't connect to the AG server on my Samsung TV!</div><span class="faq-hint">Tap to expand</span></div>
+            <div class="faq-chevron"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-answer">Samsung TVs have a known issue with secure connections to personal Plex servers due to how their Tizen OS handles certificates. If you're seeing a connection error or the server just won't show up, try this:<br><br>Open the Plex app on your Samsung TV and go to <strong style="color:#dce4f0;">Settings &rarr; Advanced &rarr; Allow Insecure Connections</strong> and set it to <strong style="color:#dce4f0;">Always</strong>. That usually fixes it.<br><br>If the app itself is out of date, press the Smart Hub button on your remote, find Plex, press Enter, then choose Update App.<div class="device-note">This is a Samsung OS limitation, not a Plex bug. It affects most Samsung models regardless of how new they are.</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- LG TV -->
+    <div class="block">
+      <div class="block-header" style="background:#7a6b10;">
+        <span class="block-label">📺 LG Smart TV</span>
+        <span class="block-label-sub">webOS</span>
+      </div>
+      <div class="block-body">
+
+        <div class="faq-item" style="border-left-color:#d4a820;">
+          <button class="faq-trigger" aria-expanded="false">
+            <div class="qmark" style="background:#d4a820; color:#12161f;">Q</div>
+            <div class="faq-q-text-wrap"><div class="faq-q-text">How do I find and favorite the AG libraries on my LG TV?</div><span class="faq-hint">Tap to expand</span></div>
+            <div class="faq-chevron"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-answer">Once you're signed in, scroll down the sidebar to <strong style="color:#dce4f0;">More</strong> and you'll find all the libraries you have access to. Select the <strong style="color:#dce4f0;">heart/pin icon</strong> next to AG Movies and AG TV to add them to your sidebar directly.<br><br>To reorder, highlight a pinned library in the sidebar, open the <strong style="color:#dce4f0;">...</strong> options, and choose Reorder. Use up/down on your remote to move it, then confirm.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" style="border-left-color:#d4a820;">
+          <button class="faq-trigger" aria-expanded="false">
+            <div class="qmark" style="background:#d4a820; color:#12161f;">Q</div>
+            <div class="faq-q-text-wrap"><div class="faq-q-text">How do I browse TV shows and Collections on LG?</div><span class="faq-hint">Tap to expand</span></div>
+            <div class="faq-chevron"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-answer">Select a library from the sidebar. You'll land on the Recommended screen. Navigate to the tabs at the top of the content area and select <strong style="color:#dce4f0;">Library</strong> to see everything, or <strong style="color:#dce4f0;">Collections</strong> to browse by franchise or series.<br><br>For TV shows: pick a show, then a season, then an episode. Plex tracks your progress so Continue Watching on the home screen will show anything you've started. If you don't see Continue Watching, make sure you've favorited the AG libraries first.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- WEB BROWSER -->
+    <div class="block">
+      <div class="block-header" style="background:#2a5a2a;">
+        <span class="block-label">💻 Web Browser</span>
+        <span class="block-label-sub">app.plex.tv</span>
+      </div>
+      <div class="block-body">
+
+        <div class="faq-item" style="border-left-color:#3ab03a;">
+          <button class="faq-trigger" aria-expanded="false">
+            <div class="qmark" style="background:#3ab03a;">Q</div>
+            <div class="faq-q-text-wrap"><div class="faq-q-text">How do I find the AG libraries in the web app?</div><span class="faq-hint">Tap to expand</span></div>
+            <div class="faq-chevron"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-answer">Go to <a href="https://app.plex.tv" target="_blank" rel="noopener">app.plex.tv</a> and sign in. The left sidebar shows your pinned sources. If AG Movies and AG TV aren't there yet, scroll down the sidebar to <strong style="color:#dce4f0;">More</strong>. Hover over a library and click the <strong style="color:#dce4f0;">pin icon</strong> (or the three dots next to it) to pin it to your sidebar.<br><br>Once pinned, they'll show up every time you visit without scrolling to More.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" style="border-left-color:#3ab03a;">
+          <button class="faq-trigger" aria-expanded="false">
+            <div class="qmark" style="background:#3ab03a;">Q</div>
+            <div class="faq-q-text-wrap"><div class="faq-q-text">How do I browse and filter in the web app?</div><span class="faq-hint">Tap to expand</span></div>
+            <div class="faq-chevron"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-answer">Click a library in the sidebar then hit the <strong style="color:#dce4f0;">Library</strong> tab across the top. From there you can sort by title, year, or rating, and filter by genre using the controls near the top right. To browse Collections, click the <strong style="color:#dce4f0;">Collections</strong> tab in the same row.<br><br>The web app is the most fully featured version of Plex. If something isn't working right on your TV device, trying it in a browser first is a good way to check if the issue is the device or the content itself.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" style="border-left-color:#3ab03a;">
+          <button class="faq-trigger" aria-expanded="false">
+            <div class="qmark" style="background:#3ab03a;">Q</div>
+            <div class="faq-q-text-wrap"><div class="faq-q-text">Can I reorder my libraries in the web app?</div><span class="faq-hint">Tap to expand</span></div>
+            <div class="faq-chevron"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 5L7 9.5L11.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-answer">Yes. In the sidebar, hover over any pinned library and click the <strong style="color:#dce4f0;">three dots (...)</strong> that appear. Choose <strong style="color:#dce4f0;">Reorder</strong> and then drag them into whatever order you want. Your favorites order syncs across devices too, so if you set it up on the web it'll carry over to your phone and TV apps.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- STILL STUCK -->
     <div class="block">
       <div class="block-header blue">
         <span class="block-label">Still Stuck?</span>
       </div>
-      <div class="block-body">
+      <div class="block-body" style="padding:0;">
         <div class="callout">
           Having an issue? &nbsp;<a href="https://agplexhub.com/contact/" rel="noopener">Report a problem here →</a>
         </div>
@@ -644,6 +664,26 @@
   </div>
 
   <div id="footerMount"></div>
+
+  <!-- ACCORDION -->
+  <script>
+  document.querySelectorAll('.faq-trigger').forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const item = trigger.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      // close all siblings in same block
+      item.closest('.block-body').querySelectorAll('.faq-item.open').forEach(el => {
+        el.classList.remove('open');
+        el.querySelector('.faq-trigger').setAttribute('aria-expanded', 'false');
+      });
+      // toggle this one
+      if (!isOpen) {
+        item.classList.add('open');
+        trigger.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+  </script>
 
   <!-- GLOBAL BANNER LOADER -->
   <script>
