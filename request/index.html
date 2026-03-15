@@ -777,16 +777,13 @@
       const out = document.getElementById("results");
       const loading = document.getElementById("searchLoading");
       try {
-        const [m, t] = await Promise.all([
-          fetch(`https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(q)}`).then(r => r.json()),
-          fetch(`https://api.themoviedb.org/3/search/tv?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(q)}`).then(r => r.json())
-        ]);
+        const multi = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(q)}`).then(r => r.json());
 
-        loading.classList.remove("visible");
-        out.innerHTML = "";
+loading.classList.remove("visible");
+out.innerHTML = "";
 
-        [...(m.results || []), ...(t.results || [])].forEach(item => {
-          const type = item.title ? "movie" : "tv";
+(multi.results || []).filter(item => item.media_type === "movie" || item.media_type === "tv").forEach(item => {
+  const type = item.media_type;
           const name = item.title || item.name;
           const year = (item.release_date || item.first_air_date || "N/A").split("-")[0];
           const poster = item.poster_path ? `https://image.tmdb.org/t/p/w200${item.poster_path}` : "https://placehold.co/44x66?text=?";
