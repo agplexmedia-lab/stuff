@@ -481,7 +481,7 @@
         <h1>Coming Soon</h1>
         <p class="hero-sub">
           These titles are already queued in AG Plex. The date shown is when they're expected to appear.<br>
-          <strong>??</strong> with an <strong>Est.</strong> tag means the date is unknown.
+          An <strong>Est.</strong> tag means the month is an estimate; <strong>??</strong> means even that's unknown.
         </p>
       </div>
       <div class="hero-rainbow-bottom">
@@ -689,11 +689,15 @@
       const d     = parseISODate(r.nextmilestone);
       const hasFutureDate = !!(d && d > today);
       const sortKey  = hasFutureDate ? d.getTime() : Infinity;
-      const dateText = hasFutureDate
-        ? new Date(r.nextmilestone + "T00:00:00").toLocaleDateString("en-US")
-        : "??";
       const estFromSheet = (r.milestonesource || "").toLowerCase().startsWith("estimate");
       const est = estFromSheet || !hasFutureDate;
+      // EST rows show month + year only (no false-precision day); confirmed
+      // dates keep the full date; unknown/undated rows stay "??".
+      const dateText = !hasFutureDate
+        ? "??"
+        : est
+          ? d.toLocaleDateString("en-US", { month: "short", year: "numeric" })
+          : d.toLocaleDateString("en-US");
       const tmdbId = r.tmdb_id;
       const href = buildLink(title, year);
       let poster = "https://placehold.co/342x513?text=No+Poster";
