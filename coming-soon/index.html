@@ -696,7 +696,7 @@
       const dateText = !hasFutureDate
         ? "??"
         : est
-          ? d.toLocaleDateString("en-US", { month: "short", year: "numeric" })
+          ? d.toLocaleDateString("en-US", { month: "short" })
           : d.toLocaleDateString("en-US");
       const tmdbId = r.tmdb_id;
       const href = buildLink(title, year);
