@@ -691,13 +691,21 @@
       const sortKey  = hasFutureDate ? d.getTime() : Infinity;
       const estFromSheet = (r.milestonesource || "").toLowerCase().startsWith("estimate");
       const est = estFromSheet || !hasFutureDate;
-      // EST rows show month + year only (no false-precision day); confirmed
-      // dates keep the full date; unknown/undated rows stay "??".
-      const dateText = !hasFutureDate
-        ? "??"
-        : est
-          ? d.toLocaleDateString("en-US", { month: "short" })
-          : d.toLocaleDateString("en-US");
+      const src = (r.milestonesource || "").toLowerCase();
+      // Real estimates (estimate_45d) get an Early/Late qualifier by day-of-month
+      // (before the 15th = Early). Rollforward placeholders are always dated the
+      // 1st, so they stay bare month. Confirmed dates keep the full date; "??" else.
+      let dateText;
+      if (!hasFutureDate) {
+        dateText = "??";
+      } else if (!est) {
+        dateText = d.toLocaleDateString("en-US");
+      } else if (src.includes("rollforward")) {
+        dateText = d.toLocaleDateString("en-US", { month: "long" });
+      } else {
+        const mon = d.toLocaleDateString("en-US", { month: "short" });
+        dateText = `${d.getDate() < 15 ? "Early" : "Late"} ${mon}`;
+      }
       const tmdbId = r.tmdb_id;
       const href = buildLink(title, year);
       let poster = "https://placehold.co/342x513?text=No+Poster";
