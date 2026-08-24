@@ -41,9 +41,7 @@
       -webkit-text-size-adjust: 100%;
     }
 
-    body {
-      padding: var(--banner-offset) 14px calc(28px + env(safe-area-inset-bottom));
-    }
+    body { padding: var(--banner-offset) 14px calc(28px + env(safe-area-inset-bottom)); }
 
     #vhs-grain {
       position: fixed;
@@ -78,8 +76,59 @@
     .top a.home img { width: 22px; height: 22px; border-radius: 3px; opacity: .9; }
 
     .steps { margin-left: auto; display: flex; gap: 5px; }
-    .steps i { width: 18px; height: 3px; background: rgba(255,255,255,.12); display: block; }
+    .steps i { width: 16px; height: 3px; background: rgba(255,255,255,.12); display: block; }
     .steps i.on { background: var(--red); }
+
+    /* ── Hero ── */
+    .hero {
+      background: #0d1220;
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0,0,0,.5);
+      margin-bottom: 10px;
+    }
+
+    .hero-body { padding: 16px 16px 14px; }
+
+    .hero-brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 9px;
+    }
+
+    .hero-brand img { width: 26px; height: 26px; border-radius: 3px; opacity: .92; }
+
+    .eyebrow {
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 2.2px;
+      color: var(--cyan);
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-family: 'Bungee', cursive;
+      font-size: 27px;
+      line-height: 1.06;
+      color: #fff;
+      margin-bottom: 8px;
+      text-shadow: 1px 1px 0 rgba(0,0,0,.8);
+    }
+
+    .hero p {
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: #8898b8;
+    }
+
+    .hero p a { color: var(--blue-lt); text-decoration: none; border-bottom: 1px solid rgba(77,143,223,.3); }
+    .hero p strong { color: #c8d8e8; font-weight: 700; }
+
+    @media (min-width: 420px) {
+      .hero h1 { font-size: 31px; }
+    }
 
     /* ── Card ── */
     .card {
@@ -106,27 +155,6 @@
 
     .sub { font-size: 14px; line-height: 1.55; color: var(--muted); margin-bottom: 16px; }
     .sub a { color: var(--blue-lt); text-decoration: none; border-bottom: 1px solid rgba(77,143,223,.3); }
-
-    .anon {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11.5px;
-      font-weight: 600;
-      letter-spacing: .8px;
-      text-transform: uppercase;
-      color: var(--dim);
-      margin-bottom: 12px;
-    }
-
-    .anon::before {
-      content: "";
-      width: 6px;
-      height: 6px;
-      background: var(--green);
-      opacity: .7;
-      flex: 0 0 auto;
-    }
 
     .back {
       background: none;
@@ -166,6 +194,42 @@
 
     .err { display: none; margin-top: 10px; color: #e05050; font-size: 13.5px; font-weight: 600; }
     .err.show { display: block; }
+
+    /* ── Season / episode pair ── */
+    .se { display: flex; gap: 10px; }
+    .se > div { flex: 1; }
+
+    .se label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 6px;
+    }
+
+    .se input {
+      text-align: center;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      padding: 12px 8px;
+    }
+
+    .skip {
+      display: block;
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 14px 0 0;
+      color: var(--muted);
+      font-family: 'Barlow', sans-serif;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: underline;
+    }
 
     /* ── Big tap options ── */
     .opts { display: flex; flex-direction: column; gap: 8px; }
@@ -254,6 +318,7 @@
     .chosen img { width: 34px; height: 51px; object-fit: cover; flex: 0 0 auto; background: #0d1825; }
     .chosen .t { font-size: 14px; font-weight: 700; line-height: 1.25; }
     .chosen .m { margin-top: 2px; font-size: 12px; color: var(--muted); }
+    .chosen .m b { color: #b8c6dc; font-weight: 700; }
 
     /* ── Primary button ── */
     .btn {
@@ -332,12 +397,10 @@
       <a class="home" href="https://agplexhub.com/home/">
         <img src="../assets/favicon-180.png" alt="">AG PLEX
       </a>
-      <div class="steps" id="steps">
-        <i class="on"></i><i></i><i></i>
-      </div>
+      <div class="steps" id="steps"></div>
     </div>
 
-    <div class="card">
+    <div class="hero">
       <div class="rainbow">
         <span style="background:#c83228"></span>
         <span style="background:#d4682a"></span>
@@ -346,10 +409,32 @@
         <span style="background:#3848b0"></span>
         <span style="background:#1898a8"></span>
       </div>
+      <div class="hero-body">
+        <div class="hero-brand">
+          <img src="../assets/favicon-180.png" alt="">
+          <span class="eyebrow">AG Plex</span>
+        </div>
+        <h1>Report an Issue</h1>
+        <p>
+          Something not playing right? Pick the title, tell me what's wrong.<br>
+          Most fixes go out <strong>within 24 hours.</strong><br>
+          Not in the library? <a href="https://agplexhub.com/request/">Make a Request.</a>
+        </p>
+      </div>
+      <div class="rainbow" style="height:4px">
+        <span style="background:#c83228"></span>
+        <span style="background:#d4682a"></span>
+        <span style="background:#d4a820"></span>
+        <span style="background:#28985a"></span>
+        <span style="background:#3848b0"></span>
+        <span style="background:#1898a8"></span>
+      </div>
+    </div>
 
-      <!-- ── STEP 1: pick the title ── -->
+    <div class="card">
+
+      <!-- ── STEP: pick the title ── -->
       <div class="card-body hidden" id="s1">
-        <div class="anon">Anonymous — no name, no login</div>
         <h1>Which title?</h1>
         <p class="sub">Search what's on the server.</p>
         <input type="text" id="searchInput" placeholder="Search…" autocomplete="off" enterkeyhint="search">
@@ -360,26 +445,59 @@
         </p>
       </div>
 
-      <!-- ── STEP 2: pick the problem ── -->
+      <!-- ── STEP: TV scope ── -->
+      <div class="card-body hidden" id="sTv">
+        <button class="back" data-back="s1">← Change title</button>
+        <div class="chosen chosen-strip"></div>
+        <h1>Where's the problem?</h1>
+        <p class="sub">Helps me scan the right files.</p>
+        <div class="opts">
+          <button class="opt" data-scope="EPISODE">One episode<span class="chev">›</span></button>
+          <button class="opt" data-scope="SHOW">The whole show or season<span class="chev">›</span></button>
+        </div>
+      </div>
+
+      <!-- ── STEP: which episode ── -->
+      <div class="card-body hidden" id="sEp">
+        <button class="back" data-back="sTv">← Back</button>
+        <div class="chosen chosen-strip"></div>
+        <h1>Which episode?</h1>
+        <p class="sub">Numbers only.</p>
+        <div class="se">
+          <div>
+            <label for="seasonInput">Season</label>
+            <input type="text" id="seasonInput" inputmode="numeric" pattern="[0-9]*" maxlength="2" placeholder="1" enterkeyhint="next">
+          </div>
+          <div>
+            <label for="episodeInput">Episode</label>
+            <input type="text" id="episodeInput" inputmode="numeric" pattern="[0-9]*" maxlength="3" placeholder="1" enterkeyhint="next">
+          </div>
+        </div>
+        <p class="err" id="epErr">⚠ Enter a season and episode, or tap "not sure" below.</p>
+        <button class="btn btn-blue" id="epNext">Continue</button>
+        <button class="skip" id="epSkip">I'm not sure which one</button>
+      </div>
+
+      <!-- ── STEP: pick the problem ── -->
       <div class="card-body hidden" id="s2">
-        <button class="back" id="back2">← Change title</button>
-        <div class="chosen" id="chosen2"></div>
+        <button class="back" id="back2">← Back</button>
+        <div class="chosen chosen-strip"></div>
         <h1>What's wrong?</h1>
         <p class="sub">Pick the closest match.</p>
         <div class="opts" id="issueOpts"></div>
       </div>
 
-      <!-- ── STEP 3: note? ── -->
+      <!-- ── STEP: note? ── -->
       <div class="card-body hidden" id="s3">
-        <button class="back" id="back3">← Change problem</button>
-        <div class="chosen" id="chosen3"></div>
+        <button class="back" data-back="s2">← Change problem</button>
+        <div class="chosen chosen-strip"></div>
         <h1>Anything to add?</h1>
         <p class="sub" id="s3sub">Optional — send it as is, or add a note.</p>
         <div class="opts" id="descOpts">
-          <button class="opt" id="descYes">Add a note<span class="chev">›</span></button>
+          <button class="opt" id="descYes">Add a note or your name<span class="chev">›</span></button>
         </div>
         <div class="hidden" id="descBox">
-          <textarea id="detailsInput" placeholder="e.g. subtitles run about 2 seconds early after the halfway point"></textarea>
+          <textarea id="detailsInput" placeholder="What's happening — and your name, if you want me to follow up."></textarea>
           <p class="err" id="descErr">⚠ Add a short note, or go back and pick a different problem.</p>
         </div>
         <button class="btn" id="sendBtn">Send Report</button>
@@ -482,12 +600,16 @@
     year:    "entry.PASTE_YEAR_ID",
     tmdb:    "entry.PASTE_TMDB_ID",
     type:    "entry.PASTE_TYPE_ID",     // movie | tv
+    scope:   "entry.PASTE_SCOPE_ID",    // MOVIE | SHOW | EPISODE
+    season:  "entry.PASTE_SEASON_ID",   // "" unless scope=EPISODE
+    episode: "entry.PASTE_EPISODE_ID",  // "" unless scope=EPISODE
     issue:   "entry.PASTE_ISSUE_ID",    // stable code, see ISSUES below
     details: "entry.PASTE_DETAILS_ID",
-    ticket:  "entry.PASTE_TICKET_ID"    // random per-report id, not a person — set "" to drop
+    ticket:  "entry.PASTE_TICKET_ID"    // random per-report id — set "" to drop
   };
 
-  // Google Forms itself: turn OFF "Collect email addresses" or reports aren't anonymous.
+  // In Google Forms, turn OFF "Collect email addresses" — otherwise every response
+  // silently carries the submitter's Google account.
 
   const TMDB_API_KEY = "5bbfc2b05c0d49eea2032b35324ebc81";
   const MAX_RESULTS = 8;
@@ -498,11 +620,14 @@
   ];
 
   // code = what lands in the sheet for the scanner to switch on.
+  // MISSING is offered for TV only; its label changes with scope.
   const ISSUES = [
     { code: "SUBTITLES", label: "Subtitles" },
     { code: "BUFFERING", label: "Buffering" },
     { code: "VIDEO",     label: "Video quality" },
     { code: "AUDIO",     label: "Audio quality or wrong language" },
+    { code: "MISSING",   label: "Missing episodes",
+      scopes: { SHOW: "Missing episodes or seasons", EPISODE: "Episode is missing or is the wrong one" } },
     { code: "OTHER",     label: "Something else" }
   ];
 
@@ -511,20 +636,39 @@
 
   let library = [];
   let chosen = null;
+  let scope = "MOVIE";       // MOVIE | SHOW | EPISODE
+  let season = "";
+  let episode = "";
   let issue = null;
+  let flow = ["s1", "s2", "s3"];
   const posterCache = new Map();
 
-  /* ── Steps ── */
-  const ORDER = ["s1", "s2", "s3", "s4"];
+  /* ── Step plumbing ── */
+  const ALL = ["s1", "sTv", "sEp", "s2", "s3", "s4"];
+
+  function setFlow(steps) {
+    flow = steps;
+    $("steps").innerHTML = steps.map(() => "<i></i>").join("");
+  }
+
   function show(id) {
-    ORDER.forEach(s => $(s).classList.toggle("hidden", s !== id));
-    const idx = { s1: 0, s2: 1, s3: 2, s4: 2 }[id];
+    ALL.forEach(s => $(s).classList.toggle("hidden", s !== id));
+    const idx = id === "s4" ? flow.length - 1 : flow.indexOf(id);
     [...$("steps").children].forEach((d, i) => d.classList.toggle("on", i <= idx));
     window.scrollTo({ top: 0 });
   }
 
+  // "← Back" buttons with a fixed target
+  document.querySelectorAll(".back[data-back]").forEach(b =>
+    b.addEventListener("click", () => show(b.dataset.back)));
+
+  // Issue step's back target depends on the flow
+  $("back2").addEventListener("click", () => {
+    show(scope === "EPISODE" ? "sEp" : scope === "SHOW" ? "sTv" : "s1");
+  });
+
   /* ── Boot ── */
-  buildIssues();
+  setFlow(["s1", "s2", "s3"]);
   loadLibrary();
   show("s1");
 
@@ -551,7 +695,7 @@
     )).then(sets => { library = sets.flat().filter(i => i.title); });
   }
 
-  /* ── Step 1: search ── */
+  /* ── Search ── */
   let timer = null;
   $("searchInput").addEventListener("input", function () {
     clearTimeout(timer);
@@ -627,49 +771,129 @@
     return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
   }
 
-  /* ── Step 2: issue ── */
-  function buildIssues() {
-    $("issueOpts").innerHTML = ISSUES.map(i =>
-      `<button class="opt" data-code="${i.code}" data-label="${escapeHtml(i.label)}">${escapeHtml(i.label)}<span class="chev">›</span></button>`
-    ).join("");
+  /* ── Chosen-title strip (rendered into every step that shows it) ── */
+  function epLabel() {
+    if (scope !== "EPISODE" || (!season && !episode)) return "";
+    const s = season ? "S" + String(season).padStart(2, "0") : "S??";
+    const e = episode ? "E" + String(episode).padStart(2, "0") : "E??";
+    return ` · <b>${s}${e}</b>`;
+  }
 
-    $("issueOpts").addEventListener("click", e => {
-      const b = e.target.closest(".opt");
-      if (!b) return;
-      issue = { code: b.dataset.code, label: b.dataset.label };
-      openNoteStep();
-    });
+  function renderStrips() {
+    if (!chosen) return;
+    const kind = chosen.type === "tv" ? "TV" : "Movie";
+    const html = `
+      <img src="${chosen.poster || placeholder(chosen.title)}" alt="">
+      <span>
+        <span class="t">${escapeHtml(chosen.title)}</span>
+        <span class="m">${chosen.year || "—"} · ${kind}${epLabel()}</span>
+      </span>`;
+    document.querySelectorAll(".chosen-strip").forEach(el => { el.innerHTML = html; });
   }
 
   function pickTitle(item) {
     chosen = item;
-    const strip = `
-      <img src="${item.poster || placeholder(item.title)}" alt="">
-      <span>
-        <span class="t">${escapeHtml(item.title)}</span>
-        <span class="m">${item.year || "—"} · ${item.type === "tv" ? "TV" : "Movie"}</span>
-      </span>`;
-    $("chosen2").innerHTML = strip;
-    $("chosen3").innerHTML = strip;
+    season = "";
+    episode = "";
+    issue = null;
+
+    if (item.type === "tv") {
+      scope = "";                       // decided on the next step
+      setFlow(["s1", "sTv", "s2", "s3"]);
+      renderStrips();
+      show("sTv");
+    } else {
+      scope = "MOVIE";
+      setFlow(["s1", "s2", "s3"]);
+      renderStrips();
+      buildIssues();
+      show("s2");
+    }
+
     if (!item.poster && item.tmdb) {
       fetchPoster(item).then(u => {
         if (!u) return;
-        $("chosen2").querySelector("img").src = u;
-        $("chosen3").querySelector("img").src = u;
+        chosen.poster = u;
+        renderStrips();
       });
     }
-    show("s2");
   }
 
-  /* ── Step 3: note ── */
+  /* ── TV scope ── */
+  $("sTv").querySelectorAll(".opt").forEach(b => {
+    b.addEventListener("click", () => {
+      scope = b.dataset.scope;
+      if (scope === "EPISODE") {
+        setFlow(["s1", "sTv", "sEp", "s2", "s3"]);
+        $("epErr").classList.remove("show");
+        renderStrips();
+        show("sEp");
+        setTimeout(() => $("seasonInput").focus(), 150);
+      } else {
+        setFlow(["s1", "sTv", "s2", "s3"]);
+        renderStrips();
+        buildIssues();
+        show("s2");
+      }
+    });
+  });
+
+  /* ── Episode numbers ── */
+  ["seasonInput", "episodeInput"].forEach(id => {
+    const el = $(id);
+    el.addEventListener("input", () => {
+      el.value = el.value.replace(/\D/g, "");
+      $("epErr").classList.remove("show");
+      if (id === "seasonInput" && el.value.length === 2) $("episodeInput").focus();
+    });
+    el.addEventListener("keydown", e => { if (e.key === "Enter") $("epNext").click(); });
+  });
+
+  $("epNext").addEventListener("click", () => {
+    const s = $("seasonInput").value.trim();
+    const e = $("episodeInput").value.trim();
+    if (!s || !e) { $("epErr").classList.add("show"); return; }
+    season = s;
+    episode = e;
+    renderStrips();
+    buildIssues();
+    show("s2");
+  });
+
+  $("epSkip").addEventListener("click", () => {
+    season = "";
+    episode = "";
+    renderStrips();
+    buildIssues();
+    show("s2");
+  });
+
+  /* ── Issues (list depends on scope) ── */
+  function buildIssues() {
+    const list = ISSUES.filter(i => i.code !== "MISSING" || chosen.type === "tv");
+    $("issueOpts").innerHTML = list.map(i => {
+      const label = (i.scopes && i.scopes[scope]) || i.label;
+      return `<button class="opt" data-code="${i.code}" data-label="${escapeHtml(label)}">${escapeHtml(label)}<span class="chev">›</span></button>`;
+    }).join("");
+  }
+
+  $("issueOpts").addEventListener("click", e => {
+    const b = e.target.closest(".opt");
+    if (!b) return;
+    issue = { code: b.dataset.code, label: b.dataset.label };
+    openNoteStep();
+  });
+
+  /* ── Note ── */
   function openNoteStep() {
     const needed = issue.code === "OTHER";
     $("s3sub").textContent = needed
-      ? "Tell me what's happening so I know what to look for."
-      : `Reporting: ${issue.label}. Add a note only if there's more to say.`;
+      ? "Tell me what's happening so I know what to look for. Your name is optional."
+      : `Reporting: ${issue.label}. Optional — a note, or your name for a follow-up.`;
     $("descOpts").classList.toggle("hidden", needed);
     $("descBox").classList.toggle("hidden", !needed);
     $("descErr").classList.remove("show");
+    renderStrips();
     show("s3");
     if (needed) setTimeout(() => $("detailsInput").focus(), 150);
   }
@@ -681,9 +905,6 @@
   });
 
   $("detailsInput").addEventListener("input", () => $("descErr").classList.remove("show"));
-
-  $("back2").addEventListener("click", () => show("s1"));
-  $("back3").addEventListener("click", () => show("s2"));
 
   /* ── Send ── */
   function ticketId() {
@@ -705,6 +926,9 @@
       year:    chosen.year,
       tmdb:    chosen.tmdb,
       type:    chosen.type,
+      scope:   scope || (chosen.type === "tv" ? "SHOW" : "MOVIE"),
+      season:  scope === "EPISODE" ? season : "",
+      episode: scope === "EPISODE" ? episode : "",
       issue:   issue.code,
       details: details,
       ticket:  ticketId()
@@ -731,12 +955,18 @@
   $("againBtn").addEventListener("click", () => {
     chosen = null;
     issue = null;
+    scope = "MOVIE";
+    season = "";
+    episode = "";
     $("searchInput").value = "";
     $("results").innerHTML = "";
     $("detailsInput").value = "";
+    $("seasonInput").value = "";
+    $("episodeInput").value = "";
     $("descOpts").classList.remove("hidden");
     $("descBox").classList.add("hidden");
     $("emptyNote").classList.remove("show");
+    setFlow(["s1", "s2", "s3"]);
     show("s1");
   });
   </script>
