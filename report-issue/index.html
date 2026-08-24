@@ -592,20 +592,20 @@
   /* ══════════════════════════════════════════════════════════════
      CONFIG — replace before going live
      ══════════════════════════════════════════════════════════════ */
-  const FORM_ACTION = "https://docs.google.com/forms/d/e/PASTE_FORM_ID_HERE/formResponse";
+  const FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSfk2Mt660lR3gKITt1lFKoiDUqg3TI3r_aAfWGXK0b4sGbgdA/formResponse";
 
   // Leave any value as "" and that column simply isn't sent.
   const FORM_ENTRIES = {
-    title:   "entry.PASTE_TITLE_ID",    // "Alien (1979)"
-    year:    "entry.PASTE_YEAR_ID",
-    tmdb:    "entry.PASTE_TMDB_ID",
-    type:    "entry.PASTE_TYPE_ID",     // movie | tv
-    scope:   "entry.PASTE_SCOPE_ID",    // MOVIE | SHOW | EPISODE
-    season:  "entry.PASTE_SEASON_ID",   // "" unless scope=EPISODE
-    episode: "entry.PASTE_EPISODE_ID",  // "" unless scope=EPISODE
-    issue:   "entry.PASTE_ISSUE_ID",    // stable code, see ISSUES below
-    details: "entry.PASTE_DETAILS_ID",
-    ticket:  "entry.PASTE_TICKET_ID"    // random per-report id — set "" to drop
+    title:   "entry.1137128154",   // "Alien (1979)"
+    year:    "entry.264336961",
+    tmdb:    "entry.1525231893",
+    type:    "entry.893781466",    // movie | tv
+    scope:   "entry.1789031341",   // MOVIE | SHOW | EPISODE
+    season:  "entry.658464782",    // "" unless scope=EPISODE
+    episode: "entry.18301733",     // "" unless scope=EPISODE
+    issue:   "entry.1980633264",   // stable code, see ISSUES below
+    details: "entry.550403243",
+    ticket:  ""                    // no Ticket question on the form — not sent
   };
 
   // In Google Forms, turn OFF "Collect email addresses" — otherwise every response
