@@ -7,47 +7,42 @@
 
   <link rel="apple-touch-icon" href="../assets/favicon-180.png">
   <link rel="icon" type="image/png" href="../assets/favicon-180.png">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg:        #12161f;
-      --bg-2:      #0e1119;
-      --card:      #181d28;
-      --text:      #dce4f0;
-      --muted:     #7080a0;
+      --bg:      #12161f;
+      --card:    #181d28;
+      --sunk:    #0e1420;
+      --text:    #dce4f0;
+      --muted:   #7080a0;
+      --dim:     #48566e;
 
-      --blue:      #2d6bbf;
-      --blue-lt:   #4d8fdf;
+      --blue:    #2d6bbf;
+      --blue-lt: #4d8fdf;
+      --red:     #c83228;
+      --green:   #28985a;
+      --cyan:    #1898a8;
 
-      --red:       #c83228;
-      --orange:    #d4682a;
-      --yellow:    #d4a820;
-      --green:     #28985a;
-      --indigo:    #3848b0;
-      --cyan:      #1898a8;
-
-      --border:    rgba(255,255,255,.07);
-      --shadow:    0 8px 28px rgba(0,0,0,.6);
-      --maxw:      720px;
+      --border:  rgba(255,255,255,.08);
+      --maxw:    480px;
 
       --banner-offset: 0px;
+      --tap: 54px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
     html, body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'Barlow', system-ui, sans-serif;
-      min-height: 100vh;
+      font-family: 'Barlow', system-ui, -apple-system, sans-serif;
+      min-height: 100%;
+      -webkit-text-size-adjust: 100%;
     }
 
     body {
-      padding-top: var(--banner-offset);
-      padding-left: 12px;
-      padding-right: 12px;
-      padding-bottom: 0;
+      padding: var(--banner-offset) 14px calc(28px + env(safe-area-inset-bottom));
     }
 
     #vhs-grain {
@@ -55,579 +50,301 @@
       inset: 0;
       z-index: 9990;
       pointer-events: none;
-      opacity: 0.07;
+      opacity: .05;
       mix-blend-mode: screen;
-    }
-
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: 9989;
-      pointer-events: none;
-      background: repeating-linear-gradient(
-        180deg,
-        transparent              0px,
-        transparent              60px,
-        rgba(255,255,255,.012)   60px,
-        rgba(255,255,255,.012)   61px,
-        transparent              61px,
-        transparent              120px,
-        rgba(255,255,255,.008)   120px,
-        rgba(255,255,255,.008)   121px,
-        transparent              121px,
-        transparent              200px
-      );
     }
 
     .wrap {
       width: 100%;
       max-width: var(--maxw);
       margin: 0 auto;
-      padding-bottom: 30px;
     }
 
-    .site-header {
-      position: sticky;
-      top: var(--banner-offset);
-      z-index: 100;
-      padding: calc(10px + env(safe-area-inset-top)) 0 10px;
-      display: flex;
-      justify-content: center;
-      margin-bottom: 12px;
-    }
-
-    .brand {
+    /* ── Header ── */
+    .top {
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 9px 18px;
-      background: #ffffff;
-      border: 2px solid #dce4f0;
-      border-right-color: #8090b0;
-      border-bottom-color: #8090b0;
-      border-radius: 4px;
-      text-decoration: none;
-      color: #0e1420;
-      font-family: 'Bungee', cursive;
-      font-size: 16px;
-      letter-spacing: 2px;
-      box-shadow: 0 4px 18px rgba(0,0,0,.7);
-      position: relative;
-      overflow: hidden;
+      padding: calc(14px + env(safe-area-inset-top)) 0 14px;
     }
 
-    .brand img {
-      width: 28px;
-      height: 28px;
-      border-radius: 3px;
-      opacity: .92;
-    }
-
-    .hero {
-      position: relative;
-      overflow: hidden;
-      background: #0d1220;
-      border: 1px solid rgba(255,255,255,.09);
-      border-radius: 4px;
-      padding: 0;
-      box-shadow: var(--shadow);
-      margin-bottom: 10px;
-    }
-
-    .hero-rainbow { display: flex; height: 10px; width: 100%; }
-    .hero-rainbow span { flex: 1; }
-
-    .hero-body { padding: 20px 20px 16px; position: relative; }
-
-    .hero-body::after {
-      content: "";
-      position: absolute;
-      top: 0; right: 0;
-      width: 50%;
-      height: 100%;
-      pointer-events: none;
-      background: repeating-linear-gradient(
-        -52deg,
-        transparent          0px,
-        transparent          28px,
-        rgba(200,50,40,.07)  28px,
-        rgba(200,50,40,.07)  34px,
-        transparent          34px,
-        transparent          62px
-      );
-    }
-
-    .hero-brand {
-      position: relative;
-      z-index: 1;
+    .top a.home {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .hero-brand img { width: 40px; height: 40px; border-radius: 4px; opacity: .92; }
-
-    .eyebrow {
-      font-family: 'Barlow', sans-serif;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 2.5px;
-      color: var(--cyan);
-      text-transform: uppercase;
-    }
-
-    .hero h1 {
-      position: relative;
-      z-index: 1;
-      font-family: 'Bungee', cursive;
-      font-size: 34px;
-      line-height: 1.04;
-      color: #ffffff;
-      margin-bottom: 10px;
-      text-shadow: 1px 1px 0 rgba(0,0,0,.8);
-    }
-
-    .hero-sub {
-      position: relative;
-      z-index: 1;
-      font-family: 'Barlow', sans-serif;
-      font-size: 14px;
-      line-height: 1.7;
-      color: #8898b8;
-      margin-bottom: 4px;
-    }
-
-    .hero-sub a {
-      color: var(--blue-lt);
+      gap: 8px;
       text-decoration: none;
-      border-bottom: 1px solid rgba(77,143,223,.3);
+      color: #9aa9c4;
+      font-family: 'Bungee', cursive;
+      font-size: 13px;
+      letter-spacing: 1.6px;
     }
 
-    .hero-sub strong { color: #c8d8e8; font-weight: 700; }
+    .top a.home img { width: 22px; height: 22px; border-radius: 3px; opacity: .9; }
 
-    .hero-rainbow-bottom { display: flex; height: 7px; width: 100%; }
-    .hero-rainbow-bottom span { flex: 1; }
+    .steps {
+      margin-left: auto;
+      display: flex;
+      gap: 5px;
+    }
 
-    .block {
-      margin-top: 10px;
+    .steps i {
+      width: 18px;
+      height: 3px;
+      background: rgba(255,255,255,.12);
+      display: block;
+    }
+
+    .steps i.on { background: var(--red); }
+
+    /* ── Card ── */
+    .card {
+      background: var(--card);
       border: 1px solid var(--border);
       border-radius: 4px;
       overflow: hidden;
-      box-shadow: 0 4px 16px rgba(0,0,0,.45);
+      box-shadow: 0 6px 20px rgba(0,0,0,.5);
+      animation: rise .18s ease-out;
     }
 
-    .block-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 9px 14px;
-      border-bottom: 1px solid rgba(255,255,255,.06);
-    }
+    .rainbow { display: flex; height: 5px; }
+    .rainbow span { flex: 1; }
 
-    .block-header.blue   { background: var(--blue); }
-    .block-header.green  { background: #1a5830; }
-    .block-header.red    { background: #a02820; }
+    .card-body { padding: 18px 16px 20px; }
 
-    .block-label {
+    h1 {
       font-family: 'Bungee', cursive;
-      font-size: 15px;
-      letter-spacing: .5px;
-      text-transform: uppercase;
-      color: #ffffff;
-      line-height: 1;
+      font-size: 21px;
+      line-height: 1.15;
+      color: #fff;
+      margin-bottom: 6px;
+      letter-spacing: .02em;
     }
 
-    .block-label-sub {
-      font-family: 'Barlow', sans-serif;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      color: rgba(255,255,255,.5);
-      text-transform: uppercase;
-      margin-left: auto;
-    }
-
-    .block-body { background: var(--card); padding: 16px; }
-
-    .error-message {
-      display: none;
-      margin: 0 0 10px;
-      color: #e05050;
+    .sub {
       font-size: 14px;
-      font-weight: 600;
+      line-height: 1.55;
+      color: var(--muted);
+      margin-bottom: 16px;
     }
 
+    .sub a { color: var(--blue-lt); text-decoration: none; border-bottom: 1px solid rgba(77,143,223,.3); }
+
+    .back {
+      background: none;
+      border: none;
+      padding: 0 0 12px;
+      color: var(--muted);
+      font-family: 'Barlow', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .4px;
+      cursor: pointer;
+    }
+
+    .back:active { color: var(--text); }
+
+    /* ── Inputs ── */
     input[type="text"], textarea {
       width: 100%;
-      padding: 12px 14px;
-      margin: 0 0 10px;
+      padding: 14px 14px;
       border: 1px solid rgba(255,255,255,.1);
       border-radius: 0;
-      font-size: 15px;
+      font-size: 16px;               /* 16px stops iOS zoom-on-focus */
       font-family: 'Barlow', sans-serif;
-      background: #0e1420;
+      background: var(--sunk);
       color: var(--text);
       outline: none;
     }
 
-    textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
+    textarea { resize: none; min-height: 120px; line-height: 1.55; }
 
-    input[type="text"]::placeholder,
-    textarea::placeholder { color: #3a4a60; }
+    input::placeholder, textarea::placeholder { color: #3a4a60; }
 
-    input[type="text"]:focus,
-    textarea:focus {
+    input:focus, textarea:focus {
       border-color: rgba(45,107,191,.6);
-      box-shadow: 0 0 0 3px rgba(45,107,191,.15);
+      box-shadow: 0 0 0 3px rgba(45,107,191,.14);
     }
 
-    .field-label {
-      display: block;
-      font-family: 'Barlow', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin: 4px 0 8px;
-    }
-
-    .field-label .opt {
-      color: #48566e;
+    .err {
+      display: none;
+      margin-top: 10px;
+      color: #e05050;
+      font-size: 13.5px;
       font-weight: 600;
-      letter-spacing: .5px;
-      text-transform: none;
     }
 
-    /* Loading indicator */
-    .search-loading {
-      display: none;
+    .err.show { display: block; }
+
+    /* ── Big tap options ── */
+    .opts { display: flex; flex-direction: column; gap: 8px; }
+
+    .opt {
+      appearance: none;
+      display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 10px 2px;
-      font-size: 13px;
-      color: var(--muted);
+      gap: 12px;
+      width: 100%;
+      min-height: var(--tap);
+      background: #111825;
+      border: 1px solid rgba(255,255,255,.1);
+      border-left: 3px solid rgba(255,255,255,.12);
+      border-radius: 0;
+      color: var(--text);
       font-family: 'Barlow', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: .2px;
+      padding: 14px;
+      text-align: left;
+      cursor: pointer;
     }
-    .search-loading.visible { display: flex; }
-    .search-spinner {
-      width: 14px;
-      height: 14px;
-      border: 2px solid rgba(255,255,255,.1);
-      border-top-color: var(--cyan);
-      border-radius: 50%;
-      animation: spin .7s linear infinite;
-      flex-shrink: 0;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
 
-    .empty-note {
+    .opt:active {
+      background: rgba(200,50,40,.14);
+      border-left-color: var(--red);
+    }
+
+    .opt .chev { margin-left: auto; color: var(--dim); font-size: 18px; line-height: 1; }
+
+    /* ── Results ── */
+    #results { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+
+    .result {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      background: #111825;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 0;
+      padding: 8px 10px;
+      cursor: pointer;
+      text-align: left;
+      color: var(--text);
+      font-family: 'Barlow', sans-serif;
+      animation: rise .15s ease-out;
+    }
+
+    .result:active { border-color: rgba(212,72,58,.6); }
+
+    .result img {
+      width: 40px;
+      height: 60px;
+      object-fit: cover;
+      flex: 0 0 auto;
+      background: #0d1825;
+      filter: saturate(.85) contrast(1.05);
+    }
+
+    .result .t {
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.25;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+    }
+
+    .result .m { margin-top: 3px; font-size: 12.5px; color: var(--muted); }
+
+    .loading, .note {
       display: none;
-      padding: 12px 2px 4px;
+      padding: 12px 2px 0;
       font-size: 13.5px;
       line-height: 1.6;
       color: var(--muted);
     }
-    .empty-note.visible { display: block; }
-    .empty-note a { color: var(--blue-lt); text-decoration: none; border-bottom: 1px solid rgba(77,143,223,.3); }
+    .loading.show, .note.show { display: block; }
+    .note a { color: var(--blue-lt); text-decoration: none; border-bottom: 1px solid rgba(77,143,223,.3); }
 
-    #results { margin-top: 4px; }
-
-    .result-item {
+    /* ── Chosen title strip ── */
+    .chosen {
       display: flex;
       align-items: center;
-      gap: 12px;
-      background: #111825;
-      border: 1px solid rgba(255,255,255,.07);
-      border-radius: 0;
-      padding: 10px 12px;
-      margin: 6px 0;
-      animation: fadeIn .2s ease-in;
+      gap: 11px;
+      background: var(--sunk);
+      border-left: 3px solid var(--red);
+      padding: 9px 11px;
+      margin-bottom: 16px;
     }
 
-    .result-item img {
-      width: 44px;
-      height: 66px;
+    .chosen img {
+      width: 34px;
+      height: 51px;
       object-fit: cover;
       flex: 0 0 auto;
       background: #0d1825;
-      filter: saturate(.85) contrast(1.05);
     }
 
-    .info {
-      flex: 1;
-      min-width: 0;
-      font-size: 14px;
-      line-height: 1.3;
-      color: #c8d8e8;
-    }
+    .chosen .t { font-size: 14px; font-weight: 700; line-height: 1.25; }
+    .chosen .m { margin-top: 2px; font-size: 12px; color: var(--muted); }
 
-    .info strong {
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
-      white-space: normal;
-      overflow: hidden;
-      font-weight: 700;
-      font-family: 'Barlow', sans-serif;
-    }
-
-    .info .meta {
-      margin-top: 4px;
-      font-size: 12px;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      flex-wrap: wrap;
-      font-family: 'Barlow', sans-serif;
-    }
-
-    .buttons { flex: 0 0 auto; }
-
+    /* ── Primary button ── */
     .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 9px 12px;
-      border: 2px solid #4888d8;
-      border-right-color: #1a3a78;
-      border-bottom-color: #1a3a78;
-      border-radius: 0;
-      background: #2d6bbf;
-      color: #ffffff;
-      font-family: 'Bungee', cursive;
-      font-size: 13px;
-      letter-spacing: .04em;
-      cursor: pointer;
-      text-decoration: none;
-      white-space: nowrap;
-      text-transform: uppercase;
-    }
-
-    .btn:hover { filter: brightness(1.1); }
-
-    .btn[disabled], .btn-grey {
-      background: #2a3040;
-      border-color: #3a4060;
-      border-right-color: #1a2030;
-      border-bottom-color: #1a2030;
-      color: #506080;
-      cursor: not-allowed;
-      filter: none;
-    }
-
-    .btn-red {
-      background: #a02820;
-      border-color: #d4483a;
-      border-right-color: #501008;
-      border-bottom-color: #501008;
-      color: #ffd0c0;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 2px 8px;
-      font-family: 'Barlow', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .5px;
-      text-transform: uppercase;
-    }
-
-    .badge-tv     { background: rgba(56,72,176,.2);  color: #8f9be8; border: 1px solid rgba(56,72,176,.35); }
-    .badge-movie  { background: rgba(24,152,168,.18); color: #5fc4d2; border: 1px solid rgba(24,152,168,.3); }
-
-    /* ── Selected title strip ── */
-    .selected-strip {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: #0e1420;
-      border: 1px solid rgba(212,72,58,.25);
-      padding: 10px 12px;
-      margin-bottom: 14px;
-    }
-
-    .selected-strip img {
-      width: 44px;
-      height: 66px;
-      object-fit: cover;
-      flex: 0 0 auto;
-      background: #0d1825;
-      filter: saturate(.85) contrast(1.05);
-    }
-
-    .change-link {
-      background: none;
-      border: none;
-      padding: 0;
-      color: var(--blue-lt);
-      font-family: 'Barlow', sans-serif;
-      font-size: 12.5px;
-      font-weight: 600;
-      letter-spacing: .3px;
-      cursor: pointer;
-      text-decoration: underline;
-      flex: 0 0 auto;
-    }
-
-    /* ── Chips ── */
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-      margin-bottom: 14px;
-    }
-
-    .chip {
       appearance: none;
-      background: #111825;
-      border: 1px solid rgba(255,255,255,.1);
-      border-radius: 0;
-      color: #9aa9c4;
-      font-family: 'Barlow', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: .3px;
-      padding: 9px 12px;
-      cursor: pointer;
-      text-align: left;
-      line-height: 1.25;
-    }
-
-    .chip:hover { border-color: rgba(255,255,255,.22); color: #c8d8e8; }
-
-    .chip.selected {
-      background: rgba(200,50,40,.16);
-      border-color: rgba(212,72,58,.65);
-      color: #ffc8bc;
-    }
-
-    .chip .chip-hint {
       display: block;
-      font-size: 11px;
-      font-weight: 500;
-      color: #56657f;
-      margin-top: 2px;
-    }
-
-    .chip.selected .chip-hint { color: rgba(255,200,188,.6); }
-
-    .chips.devices .chip { font-size: 12.5px; padding: 7px 11px; }
-    .chips.devices .chip.selected {
-      background: rgba(45,107,191,.18);
-      border-color: rgba(77,143,223,.6);
-      color: #b8d4f4;
-    }
-
-    .submit-row { display: flex; gap: 10px; align-items: center; margin-top: 4px; }
-
-    .btn-submit {
-      appearance: none;
-      flex: 1;
+      width: 100%;
+      min-height: var(--tap);
       border: 2px solid #d4483a;
       border-right-color: #501008;
       border-bottom-color: #501008;
       border-radius: 0;
-      padding: 13px 20px;
+      background: #a02820;
+      color: #fff;
       font-family: 'Bungee', cursive;
       font-size: 15px;
       letter-spacing: .06em;
-      cursor: pointer;
-      background: #a02820;
-      color: #ffffff;
       text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 12px;
     }
 
-    .btn-submit:hover { filter: brightness(1.12); }
+    .btn:active { filter: brightness(1.15); }
 
-    .submitted-container { display: none; margin-top: 10px; }
-
-    .submitted-container h2 {
-      font-family: 'Bungee', cursive;
-      font-size: 20px;
-      color: var(--green);
-      margin-bottom: 10px;
-      letter-spacing: .04em;
-    }
-
-    .submitted-container p {
-      font-size: 14px;
-      line-height: 1.7;
-      color: #8898b8;
-      margin-bottom: 16px;
-    }
-
-    .submit-another {
-      appearance: none;
-      border: 2px solid #4888d8;
+    .btn-blue {
+      border-color: #4888d8;
       border-right-color: #1a3a78;
       border-bottom-color: #1a3a78;
-      border-radius: 0;
-      padding: 12px 20px;
-      font-family: 'Bungee', cursive;
-      font-size: 15px;
-      letter-spacing: .06em;
-      cursor: pointer;
-      background: #2d6bbf;
-      color: #ffffff;
-      text-transform: uppercase;
+      background: var(--blue);
     }
 
-    .submit-another:hover { filter: brightness(1.1); }
-
-    .tape-divider {
-      height: 2px;
-      margin-top: 14px;
-      background: repeating-linear-gradient(
-        90deg,
-        rgba(255,255,255,.06)  0px,
-        rgba(255,255,255,.06)  3px,
-        transparent            3px,
-        transparent            6px
-      );
+    /* ── Done ── */
+    .done { text-align: center; padding: 30px 16px 32px; }
+    .done .check {
+      font-size: 34px;
+      color: var(--green);
+      line-height: 1;
+      margin-bottom: 12px;
     }
+    .done h1 { font-size: 19px; color: var(--green); }
+    .done .sub { margin-bottom: 20px; }
 
     .hidden { display: none !important; }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(5px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      * { animation: none !important; transition: none !important; }
+      * { animation: none !important; }
     }
 
-    #footerMount { margin-top: 24px; }
+    :focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
 
-    #footerMount .site-footer,
-    #footerMount footer,
-    #footerMount [class*="footer"] {
-      background: #0e1119 !important;
-      border-top: 1px solid rgba(255,255,255,.08) !important;
+    #footerMount { margin-top: 22px; }
+
+    #footerMount * {
       color: #7080a0 !important;
+      font-family: 'Barlow', sans-serif !important;
+      font-size: 13px !important;
       text-align: center !important;
-      padding: 20px 18px 32px !important;
     }
 
     #footerMount a { color: #4d8fdf !important; text-decoration: none !important; }
-    #footerMount a:hover { color: #7aacdc !important; text-decoration: underline !important; }
 
-    #footerMount * {
-      color: inherit;
-      font-family: 'Barlow', sans-serif !important;
-      font-size: 14px !important;
-      letter-spacing: .3px !important;
-      text-align: center !important;
-    }
-
-    #footerMount nav,
-    #footerMount ul,
-    #footerMount ol {
+    #footerMount nav, #footerMount ul, #footerMount ol {
       display: flex !important;
       flex-wrap: wrap !important;
       justify-content: center !important;
@@ -636,143 +353,89 @@
       padding: 0 !important;
       margin: 0 auto !important;
     }
-
-    @media (min-width: 600px) {
-      body { padding-left: 18px; padding-right: 18px; }
-      .hero h1 { font-size: 42px; }
-    }
   </style>
 </head>
 <body>
   <canvas id="vhs-grain"></canvas>
 
-  <header class="site-header">
-    <a href="https://agplexhub.com/home/" class="brand">
-      <img src="../assets/favicon-180.png" alt="AG Plex Home">
-      AG PLEX
-    </a>
-  </header>
-
   <div class="wrap">
 
-    <div class="hero">
-      <div class="hero-rainbow">
-        <span style="background:#c83228"></span>
-        <span style="background:#d4682a"></span>
-        <span style="background:#d4a820"></span>
-        <span style="background:#28985a"></span>
-        <span style="background:#3848b0"></span>
-        <span style="background:#1898a8"></span>
-      </div>
-      <div class="hero-body">
-        <div class="hero-brand">
-          <img src="../assets/favicon-180.png" alt="AG Plex logo">
-          <div class="eyebrow">AG Plex</div>
-        </div>
-        <h1>Report an Issue</h1>
-        <p class="hero-sub">
-          Something not playing right? Tell me which title and what's wrong.<br>
-          Most fixes go out <strong>within 24 hours.</strong><br>
-          Title not in the library yet? <a href="https://agplexhub.com/request/">Make a Request.</a>
-        </p>
-      </div>
-      <div class="hero-rainbow-bottom">
-        <span style="background:#c83228"></span>
-        <span style="background:#d4682a"></span>
-        <span style="background:#d4a820"></span>
-        <span style="background:#28985a"></span>
-        <span style="background:#3848b0"></span>
-        <span style="background:#1898a8"></span>
+    <div class="top">
+      <a class="home" href="https://agplexhub.com/home/">
+        <img src="../assets/favicon-180.png" alt="">AG PLEX
+      </a>
+      <div class="steps" id="steps">
+        <i class="on"></i><i></i><i></i>
       </div>
     </div>
 
-    <!-- STEP 1: pick the title -->
-    <div class="block" id="pickContainer">
-      <div class="block-header red">
-        <span class="block-label">Find the Title</span>
-        <span class="block-label-sub" id="librarySize">Loading library…</span>
+    <div class="card">
+      <div class="rainbow">
+        <span style="background:#c83228"></span>
+        <span style="background:#d4682a"></span>
+        <span style="background:#d4a820"></span>
+        <span style="background:#28985a"></span>
+        <span style="background:#3848b0"></span>
+        <span style="background:#1898a8"></span>
       </div>
-      <div class="block-body">
-        <p class="error-message" id="nameError">⚠ Please enter your name before reporting.</p>
-        <input type="text" id="requesterName" placeholder="Your Name (Required)" oninput="resetNameError(); saveName();">
-        <input type="text" id="searchInput" placeholder="Search your library…" autocomplete="off">
-        <div class="search-loading" id="searchLoading">
-          <div class="search-spinner"></div>
-          Searching…
-        </div>
+
+      <!-- ── STEP 0: name (only when unknown) ── -->
+      <div class="card-body hidden" id="s0">
+        <h1>Who's reporting?</h1>
+        <p class="sub">Just so I know who to follow up with.</p>
+        <input type="text" id="nameInput" placeholder="Your name" autocomplete="name" enterkeyhint="next">
+        <p class="err" id="nameErr">⚠ Enter your name to continue.</p>
+        <button class="btn btn-blue" id="nameNext">Continue</button>
+      </div>
+
+      <!-- ── STEP 1: pick the title ── -->
+      <div class="card-body hidden" id="s1">
+        <h1>Which title?</h1>
+        <p class="sub">Search what's on the server. <span id="whoLine"></span></p>
+        <input type="text" id="searchInput" placeholder="Search…" autocomplete="off" enterkeyhint="search">
+        <p class="loading" id="loadingNote">Searching…</p>
         <div id="results"></div>
-        <p class="empty-note" id="emptyNote">
-          Nothing in the library matches that. If it should be there,
-          <a href="https://agplexhub.com/contact/">send me a note</a> or
-          <a href="https://agplexhub.com/request/">request it</a>.
+        <p class="note" id="emptyNote">
+          Not in the library. <a href="https://agplexhub.com/request/">Request it instead</a>.
         </p>
-        <div class="tape-divider"></div>
+      </div>
+
+      <!-- ── STEP 2: pick the problem ── -->
+      <div class="card-body hidden" id="s2">
+        <button class="back" id="back2">← Change title</button>
+        <div class="chosen" id="chosen2"></div>
+        <h1>What's wrong?</h1>
+        <p class="sub">Pick the closest match.</p>
+        <div class="opts" id="issueOpts"></div>
+      </div>
+
+      <!-- ── STEP 3: description? ── -->
+      <div class="card-body hidden" id="s3">
+        <button class="back" id="back3">← Change problem</button>
+        <div class="chosen" id="chosen3"></div>
+        <h1>Anything to add?</h1>
+        <p class="sub" id="s3sub">Optional — send it as is, or add a note.</p>
+        <div class="opts" id="descOpts">
+          <button class="opt" id="descYes">Add a note<span class="chev">›</span></button>
+        </div>
+        <div class="hidden" id="descBox">
+          <textarea id="detailsInput" placeholder="e.g. subtitles run about 2 seconds early after the halfway point"></textarea>
+          <p class="err" id="descErr">⚠ Add a short note, or go back and pick a different problem.</p>
+        </div>
+        <button class="btn" id="sendBtn">Send Report</button>
+      </div>
+
+      <!-- ── DONE ── -->
+      <div class="card-body done hidden" id="s4">
+        <div class="check">✓</div>
+        <h1>Report Sent</h1>
+        <p class="sub">Thanks — I'll take a look, usually within 24 hours.</p>
+        <button class="btn btn-blue" id="againBtn">Report Another</button>
       </div>
     </div>
 
-    <!-- STEP 2: describe the issue -->
-    <div class="block hidden" id="issueContainer">
-      <div class="block-header red">
-        <span class="block-label">What's Wrong?</span>
-        <span class="block-label-sub">Step 2 of 2</span>
-      </div>
-      <div class="block-body">
-
-        <div class="selected-strip">
-          <img id="selPoster" src="" alt="">
-          <div class="info">
-            <strong id="selTitle"></strong>
-            <div class="meta" id="selMeta"></div>
-          </div>
-          <button class="change-link" onclick="backToSearch()">Change</button>
-        </div>
-
-        <p class="error-message" id="issueError">⚠ Pick an issue type first.</p>
-
-        <span class="field-label">Issue type</span>
-        <div class="chips" id="categoryChips"></div>
-
-        <div id="episodeWrap" class="hidden">
-          <span class="field-label">Season / Episode <span class="opt">(if it's only some episodes)</span></span>
-          <input type="text" id="episodeInput" placeholder="e.g. S02E05, or Season 3 generally">
-        </div>
-
-        <span class="field-label">What are you watching on? <span class="opt">(optional)</span></span>
-        <div class="chips devices" id="deviceChips"></div>
-
-        <span class="field-label" id="detailsLabel">Details <span class="opt">(optional, but helps a lot)</span></span>
-        <textarea id="detailsInput" placeholder="Roughly when it happens, what it looks like, anything you already tried…"></textarea>
-
-        <div class="submit-row">
-          <button class="btn-submit" onclick="submitReport()">Send Report</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- STEP 3: done -->
-    <div class="submitted-container block" id="submittedContainer">
-      <div class="block-header green">
-        <span class="block-label">Report Sent</span>
-      </div>
-      <div class="block-body" style="text-align:center; padding: 24px 16px;">
-        <h2>✓ Got it — thanks!</h2>
-        <p>I'll take a look and fix it, usually within 24 hours.</p>
-        <button class="submit-another" onclick="resetAll()">Report Another</button>
-      </div>
-    </div>
-
-    <!-- Google Form target -->
-    <form id="googleForm" method="POST" target="hidden_iframe">
-      <input type="hidden" name="ENTRY_TITLE"    id="fTitle">
-      <input type="hidden" name="ENTRY_NAME"     id="fName">
-      <input type="hidden" name="ENTRY_TMDB"     id="fTmdb">
-      <input type="hidden" name="ENTRY_TYPE"     id="fType">
-      <input type="hidden" name="ENTRY_CATEGORY" id="fCategory">
-      <input type="hidden" name="ENTRY_EPISODE"  id="fEpisode">
-      <input type="hidden" name="ENTRY_DEVICE"   id="fDevice">
-      <input type="hidden" name="ENTRY_DETAILS"  id="fDetails">
-    </form>
-    <iframe name="hidden_iframe" style="display:none;"></iframe>
+    <form id="gform" method="POST" target="hidden_iframe"></form>
+    <iframe name="hidden_iframe" style="display:none;" title="hidden"></iframe>
 
   </div>
 
@@ -825,344 +488,328 @@
   })();
   </script>
 
-  <!-- GRAIN -->
+  <!-- STATIC GRAIN (drawn once + on resize — no rAF loop, easy on phone batteries) -->
   <script>
   (function(){
     const canvas = document.getElementById("vhs-grain");
     const ctx = canvas.getContext("2d");
-    function resize(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    resize();
-    window.addEventListener("resize", resize);
+    let t = null;
     function draw(){
-      const w=canvas.width, h=canvas.height, img=ctx.createImageData(w,h), d=img.data;
-      for(let i=0;i<d.length;i+=4){
-        const v=Math.random()*255|0;
-        d[i]=d[i+1]=d[i+2]=v; d[i+3]=18;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const img = ctx.createImageData(canvas.width, canvas.height), d = img.data;
+      for (let i = 0; i < d.length; i += 4) {
+        const v = Math.random() * 255 | 0;
+        d[i] = d[i+1] = d[i+2] = v; d[i+3] = 20;
       }
-      ctx.putImageData(img,0,0);
-      requestAnimationFrame(draw);
+      ctx.putImageData(img, 0, 0);
     }
     draw();
+    window.addEventListener("resize", () => { clearTimeout(t); t = setTimeout(draw, 200); });
   })();
   </script>
 
-  <!-- APP LOGIC -->
+  <!-- APP -->
   <script>
-    /* ══════════════════════════════════════════════════════════
-       CONFIG — replace before going live
-       ══════════════════════════════════════════════════════════ */
-    const FORM_ACTION = "https://docs.google.com/forms/d/e/PASTE_FORM_ID_HERE/formResponse";
+  /* ══════════════════════════════════════════════════════════════
+     CONFIG — replace before going live
+     ══════════════════════════════════════════════════════════════ */
+  const FORM_ACTION = "https://docs.google.com/forms/d/e/PASTE_FORM_ID_HERE/formResponse";
 
-    // Field name -> Google Form entry ID (view-source of the live form, look for "entry.NNNNNNN")
-    const FORM_ENTRIES = {
-      title:    "entry.PASTE_TITLE_ID",
-      name:     "entry.PASTE_NAME_ID",
-      tmdb:     "entry.PASTE_TMDB_ID",
-      type:     "entry.PASTE_TYPE_ID",
-      category: "entry.PASTE_CATEGORY_ID",
-      episode:  "entry.PASTE_EPISODE_ID",
-      device:   "entry.PASTE_DEVICE_ID",
-      details:  "entry.PASTE_DETAILS_ID"
+  // Leave any value as "" to simply not send that column.
+  const FORM_ENTRIES = {
+    name:    "entry.PASTE_NAME_ID",
+    title:   "entry.PASTE_TITLE_ID",   // "Alien (1979)"
+    year:    "entry.PASTE_YEAR_ID",
+    tmdb:    "entry.PASTE_TMDB_ID",
+    type:    "entry.PASTE_TYPE_ID",    // movie | tv
+    issue:   "entry.PASTE_ISSUE_ID",   // stable code, see ISSUES below
+    details: "entry.PASTE_DETAILS_ID"
+  };
+
+  const TMDB_API_KEY = "5bbfc2b05c0d49eea2032b35324ebc81";
+  const NAME_KEY = "agplex_requester_name";
+  const MAX_RESULTS = 8;
+
+  const LIBRARY_SOURCES = [
+    { url: "https://apag104.github.io/ag-json/recently_added_movies.json", type: "movie" },
+    { url: "https://apag104.github.io/ag-json/recently_added_tv.json",     type: "tv"    }
+  ];
+
+  // code = what lands in the sheet for the scanner to switch on.
+  const ISSUES = [
+    { code: "SUBTITLES",   label: "Subtitles" },
+    { code: "BUFFERING",   label: "Buffering" },
+    { code: "VIDEO",       label: "Video quality" },
+    { code: "AUDIO",       label: "Audio quality or wrong language" },
+    { code: "OTHER",       label: "Something else" }
+  ];
+
+  /* ══════════════════════════════════════════════════════════════ */
+  const $ = id => document.getElementById(id);
+
+  let library = [];
+  let chosen = null;
+  let issue = null;
+  const posterCache = new Map();
+
+  /* ── Steps ── */
+  const ORDER = ["s0", "s1", "s2", "s3", "s4"];
+  function show(id) {
+    ORDER.forEach(s => $(s).classList.toggle("hidden", s !== id));
+    const dots = { s0: 0, s1: 0, s2: 1, s3: 2, s4: 2 }[id];
+    [...$("steps").children].forEach((d, i) => d.classList.toggle("on", i <= dots));
+    window.scrollTo({ top: 0 });
+  }
+
+  /* ── Boot ── */
+  const savedName = localStorage.getItem(NAME_KEY) || "";
+  buildIssues();
+  loadLibrary();
+
+  if (savedName) {
+    $("whoLine").innerHTML = `Reporting as <strong>${escapeHtml(savedName)}</strong> · <a href="#" id="notMe">not you?</a>`;
+    show("s1");
+    bindNotMe();
+  } else {
+    show("s0");
+    setTimeout(() => $("nameInput").focus(), 150);
+  }
+
+  function bindNotMe() {
+    const el = $("notMe");
+    if (!el) return;
+    el.addEventListener("click", e => {
+      e.preventDefault();
+      $("nameInput").value = localStorage.getItem(NAME_KEY) || "";
+      show("s0");
+      $("nameInput").focus();
+    });
+  }
+
+  /* ── Step 0: name ── */
+  $("nameNext").addEventListener("click", saveName);
+  $("nameInput").addEventListener("keydown", e => { if (e.key === "Enter") saveName(); });
+  $("nameInput").addEventListener("input", () => $("nameErr").classList.remove("show"));
+
+  function saveName() {
+    const v = $("nameInput").value.trim();
+    if (!v) { $("nameErr").classList.add("show"); return; }
+    localStorage.setItem(NAME_KEY, v);
+    $("whoLine").innerHTML = `Reporting as <strong>${escapeHtml(v)}</strong> · <a href="#" id="notMe">not you?</a>`;
+    bindNotMe();
+    show("s1");
+    setTimeout(() => $("searchInput").focus(), 150);
+  }
+
+  /* ── Library ── */
+  function pickField(obj, keys) {
+    for (const k of keys) if (obj[k] !== undefined && obj[k] !== null && obj[k] !== "") return obj[k];
+    return "";
+  }
+
+  function normalize(item, type) {
+    const title = String(pickField(item, ["title", "name", "Title"]) || "");
+    const year  = String(pickField(item, ["year", "Year", "release_date", "first_air_date", "originallyAvailableAt"])).slice(0, 4);
+    const tmdb  = String(pickField(item, ["tmdb_id", "tmdbId", "tmdb", "TMDB_ID"]) || "");
+    const p     = String(pickField(item, ["poster", "poster_url", "poster_path", "thumb", "image"]) || "");
+    const poster = p.startsWith("http") ? p : (p.startsWith("/") ? "https://image.tmdb.org/t/p/w200" + p : "");
+    return { title, year, tmdb, poster, type, search: (title + " " + year).toLowerCase() };
+  }
+
+  function loadLibrary() {
+    Promise.all(LIBRARY_SOURCES.map(src =>
+      fetch(src.url).then(r => r.json())
+        .then(rows => (Array.isArray(rows) ? rows : []).map(i => normalize(i, src.type)))
+        .catch(() => [])
+    )).then(sets => { library = sets.flat().filter(i => i.title); });
+  }
+
+  /* ── Step 1: search ── */
+  let timer = null;
+  $("searchInput").addEventListener("input", function () {
+    clearTimeout(timer);
+    const q = this.value.trim();
+    $("emptyNote").classList.remove("show");
+    if (!q) {
+      $("results").innerHTML = "";
+      $("loadingNote").classList.remove("show");
+      return;
+    }
+    $("loadingNote").classList.add("show");
+    timer = setTimeout(() => search(q), 180);
+  });
+
+  function search(q) {
+    const n = q.toLowerCase();
+    const hits = library
+      .filter(i => i.search.includes(n))
+      .sort((a, b) => {
+        const as = a.title.toLowerCase().startsWith(n) ? 0 : 1;
+        const bs = b.title.toLowerCase().startsWith(n) ? 0 : 1;
+        return as !== bs ? as - bs : a.title.localeCompare(b.title);
+      })
+      .slice(0, MAX_RESULTS);
+
+    $("loadingNote").classList.remove("show");
+    const out = $("results");
+
+    if (!hits.length) {
+      out.innerHTML = "";
+      $("emptyNote").classList.add("show");
+      return;
+    }
+
+    out.innerHTML = hits.map((i, idx) => `
+      <button class="result" data-idx="${idx}">
+        <img src="${i.poster || placeholder(i.title)}" alt="" data-p="${idx}">
+        <span>
+          <span class="t">${escapeHtml(i.title)}</span>
+          <span class="m">${i.year || "—"} · ${i.type === "tv" ? "TV" : "Movie"}</span>
+        </span>
+      </button>`).join("");
+
+    out.querySelectorAll(".result").forEach(b =>
+      b.addEventListener("click", () => pickTitle(hits[+b.dataset.idx])));
+
+    hits.forEach((i, idx) => {
+      if (i.poster || !i.tmdb) return;
+      fetchPoster(i).then(u => {
+        if (!u) return;
+        const img = out.querySelector(`img[data-p="${idx}"]`);
+        if (img) img.src = u;
+      });
+    });
+  }
+
+  async function fetchPoster(item) {
+    const key = item.type + ":" + item.tmdb;
+    if (posterCache.has(key)) return posterCache.get(key);
+    try {
+      const d = await fetch(`https://api.themoviedb.org/3/${item.type}/${item.tmdb}?api_key=${TMDB_API_KEY}`).then(r => r.json());
+      const u = d && d.poster_path ? "https://image.tmdb.org/t/p/w200" + d.poster_path : "";
+      posterCache.set(key, u);
+      return u;
+    } catch { posterCache.set(key, ""); return ""; }
+  }
+
+  function placeholder(t) {
+    return "https://placehold.co/40x60/0d1825/3a4a60?text=" + encodeURIComponent((t[0] || "?").toUpperCase());
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+  }
+
+  /* ── Step 2: issue ── */
+  function buildIssues() {
+    $("issueOpts").innerHTML = ISSUES.map(i =>
+      `<button class="opt" data-code="${i.code}" data-label="${escapeHtml(i.label)}">${escapeHtml(i.label)}<span class="chev">›</span></button>`
+    ).join("");
+
+    $("issueOpts").addEventListener("click", e => {
+      const b = e.target.closest(".opt");
+      if (!b) return;
+      issue = { code: b.dataset.code, label: b.dataset.label };
+      openDetailsStep();
+    });
+  }
+
+  function pickTitle(item) {
+    chosen = item;
+    const strip = `
+      <img src="${item.poster || placeholder(item.title)}" alt="">
+      <span>
+        <span class="t">${escapeHtml(item.title)}</span>
+        <span class="m">${item.year || "—"} · ${item.type === "tv" ? "TV" : "Movie"}</span>
+      </span>`;
+    $("chosen2").innerHTML = strip;
+    $("chosen3").innerHTML = strip;
+    if (!item.poster && item.tmdb) {
+      fetchPoster(item).then(u => {
+        if (!u) return;
+        $("chosen2").querySelector("img").src = u;
+        $("chosen3").querySelector("img").src = u;
+      });
+    }
+    show("s2");
+  }
+
+  /* ── Step 3: details ── */
+  function openDetailsStep() {
+    const needed = issue.code === "OTHER";
+    $("s3sub").textContent = needed
+      ? "Tell me what's happening so I know what to look for."
+      : `Reporting: ${issue.label}. Add a note only if there's more to say.`;
+    $("descOpts").classList.toggle("hidden", needed);
+    $("descBox").classList.toggle("hidden", !needed);
+    $("descErr").classList.remove("show");
+    $("sendBtn").textContent = needed ? "Send Report" : "Send Report";
+    show("s3");
+    if (needed) setTimeout(() => $("detailsInput").focus(), 150);
+  }
+
+  $("descYes").addEventListener("click", () => {
+    $("descOpts").classList.add("hidden");
+    $("descBox").classList.remove("hidden");
+    $("detailsInput").focus();
+  });
+
+  $("detailsInput").addEventListener("input", () => $("descErr").classList.remove("show"));
+
+  $("back2").addEventListener("click", () => show("s1"));
+  $("back3").addEventListener("click", () => show("s2"));
+
+  /* ── Send ── */
+  $("sendBtn").addEventListener("click", () => {
+    if (!chosen || !issue) return show("s1");
+
+    const details = $("detailsInput").value.trim();
+    if (issue.code === "OTHER" && !details) {
+      $("descErr").classList.add("show");
+      $("detailsInput").focus();
+      return;
+    }
+
+    const payload = {
+      name:    localStorage.getItem(NAME_KEY) || "",
+      title:   chosen.title + (chosen.year ? ` (${chosen.year})` : ""),
+      year:    chosen.year,
+      tmdb:    chosen.tmdb,
+      type:    chosen.type,
+      issue:   issue.code,
+      details: details
     };
 
-    const TMDB_API_KEY = "5bbfc2b05c0d49eea2032b35324ebc81";
-    const NAME_STORAGE_KEY = "agplex_requester_name";
-    const MAX_RESULTS = 12;
-
-    const LIBRARY_SOURCES = [
-      { url: "https://apag104.github.io/ag-json/recently_added_movies.json", type: "movie" },
-      { url: "https://apag104.github.io/ag-json/recently_added_tv.json",     type: "tv"    }
-    ];
-
-    const CATEGORIES = [
-      { id: "subtitles",  label: "Subtitles",        hint: "Missing, out of sync, wrong language" },
-      { id: "audio",      label: "Audio",            hint: "No sound, out of sync, too quiet" },
-      { id: "buffering",  label: "Buffering",        hint: "Stalls, spins, keeps stopping" },
-      { id: "video",      label: "Video quality",    hint: "Blurry, pixelated, wrong aspect" },
-      { id: "wrongfile",  label: "Wrong or broken file", hint: "Wrong title, cuts off, won't play" },
-      { id: "missing",    label: "Missing episodes", hint: "Gaps in a season, wrong order" },
-      { id: "other",      label: "Something else",   hint: "Tell me in the details box" }
-    ];
-
-    const DEVICES = ["Roku", "Fire TV", "Apple TV", "Smart TV", "Phone / Tablet", "Computer", "Game console", "Other"];
-
-    /* ══════════════════════════════════════════════════════════
-       STATE
-       ══════════════════════════════════════════════════════════ */
-    let library = [];          // normalized library index
-    let selected = null;       // chosen library item
-    let selectedCategory = "";
-    let selectedDevice = "";
-    const posterCache = new Map();
-
-    const $ = id => document.getElementById(id);
-
-    /* ── Boot ── */
-    document.addEventListener("DOMContentLoaded", () => {
-      const saved = localStorage.getItem(NAME_STORAGE_KEY);
-      if (saved) $("requesterName").value = saved;
-      buildChips();
-      loadLibrary();
+    const form = $("gform");
+    form.action = FORM_ACTION;
+    form.innerHTML = "";
+    Object.entries(payload).forEach(([k, v]) => {
+      const entry = FORM_ENTRIES[k];
+      if (!entry) return;
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = entry;
+      input.value = v;
+      form.appendChild(input);
     });
+    form.submit();
 
-    function saveName() {
-      localStorage.setItem(NAME_STORAGE_KEY, $("requesterName").value);
-    }
+    show("s4");
+  });
 
-    /* ── Library load + normalize (tolerant of field-name differences) ── */
-    function pick(obj, keys) {
-      for (const k of keys) {
-        if (obj[k] !== undefined && obj[k] !== null && obj[k] !== "") return obj[k];
-      }
-      return "";
-    }
-
-    function normalize(item, type) {
-      const title = String(pick(item, ["title", "name", "Title"]) || "");
-      const yearRaw = pick(item, ["year", "Year", "release_date", "first_air_date", "originallyAvailableAt"]);
-      const year = String(yearRaw).slice(0, 4) || "";
-      const tmdb = String(pick(item, ["tmdb_id", "tmdbId", "tmdb", "TMDB_ID"]) || "");
-      const posterRaw = String(pick(item, ["poster", "poster_url", "poster_path", "thumb", "image"]) || "");
-      let poster = "";
-      if (posterRaw.startsWith("http")) poster = posterRaw;
-      else if (posterRaw.startsWith("/")) poster = "https://image.tmdb.org/t/p/w200" + posterRaw;
-      return {
-        title, year, tmdb, poster,
-        type: String(pick(item, ["type", "media_type"]) || type) === "show" ? "tv" : type,
-        search: (title + " " + year).toLowerCase()
-      };
-    }
-
-    function loadLibrary() {
-      Promise.all(LIBRARY_SOURCES.map(src =>
-        fetch(src.url).then(r => r.json()).then(rows =>
-          (Array.isArray(rows) ? rows : []).map(i => normalize(i, src.type))
-        ).catch(() => [])
-      )).then(sets => {
-        library = sets.flat().filter(i => i.title);
-        $("librarySize").textContent = library.length
-          ? library.length.toLocaleString() + " titles"
-          : "Library unavailable";
-      });
-    }
-
-    /* ── Chips ── */
-    function buildChips() {
-      $("categoryChips").innerHTML = CATEGORIES.map(c =>
-        `<button type="button" class="chip" data-cat="${c.id}" data-label="${c.label}">
-           ${c.label}<span class="chip-hint">${c.hint}</span>
-         </button>`).join("");
-
-      $("deviceChips").innerHTML = DEVICES.map(d =>
-        `<button type="button" class="chip" data-device="${d}">${d}</button>`).join("");
-
-      $("categoryChips").addEventListener("click", e => {
-        const chip = e.target.closest(".chip");
-        if (!chip) return;
-        [...$("categoryChips").children].forEach(c => c.classList.remove("selected"));
-        chip.classList.add("selected");
-        selectedCategory = chip.dataset.label;
-        $("issueError").style.display = "none";
-        const needsText = chip.dataset.cat === "other";
-        $("detailsLabel").innerHTML = needsText
-          ? `Details <span class="opt">(required for this one)</span>`
-          : `Details <span class="opt">(optional, but helps a lot)</span>`;
-      });
-
-      $("deviceChips").addEventListener("click", e => {
-        const chip = e.target.closest(".chip");
-        if (!chip) return;
-        const already = chip.classList.contains("selected");
-        [...$("deviceChips").children].forEach(c => c.classList.remove("selected"));
-        if (already) { selectedDevice = ""; return; }
-        chip.classList.add("selected");
-        selectedDevice = chip.dataset.device;
-      });
-    }
-
-    /* ── Search (local, debounced) ── */
-    let searchTimeout = null;
-
-    $("searchInput").addEventListener("input", function() {
-      clearTimeout(searchTimeout);
-      const q = this.value.trim();
-      $("emptyNote").classList.remove("visible");
-      if (!q) {
-        $("results").innerHTML = "";
-        $("searchLoading").classList.remove("visible");
-        return;
-      }
-      $("searchLoading").classList.add("visible");
-      searchTimeout = setTimeout(() => runSearch(q), 200);
-    });
-
-    function runSearch(q) {
-      const needle = q.toLowerCase();
-      const hits = library
-        .filter(i => i.search.includes(needle))
-        .sort((a, b) => {
-          const aStarts = a.title.toLowerCase().startsWith(needle) ? 0 : 1;
-          const bStarts = b.title.toLowerCase().startsWith(needle) ? 0 : 1;
-          if (aStarts !== bStarts) return aStarts - bStarts;
-          return a.title.localeCompare(b.title);
-        })
-        .slice(0, MAX_RESULTS);
-
-      $("searchLoading").classList.remove("visible");
-      const out = $("results");
-
-      if (!hits.length) {
-        out.innerHTML = "";
-        $("emptyNote").classList.add("visible");
-        return;
-      }
-
-      out.innerHTML = hits.map((i, idx) => `
-        <div class="result-item">
-          <img src="${i.poster || placeholder(i.title)}" alt="" data-poster-idx="${idx}">
-          <div class="info">
-            <strong>${escapeHtml(i.title)}</strong>
-            <div class="meta">
-              (${i.year || "N/A"})
-              <span class="badge ${i.type === "tv" ? "badge-tv" : "badge-movie"}">${i.type === "tv" ? "TV" : "Movie"}</span>
-            </div>
-          </div>
-          <div class="buttons">
-            <button class="btn btn-red" data-idx="${idx}">Report</button>
-          </div>
-        </div>`).join("");
-
-      out.querySelectorAll("button[data-idx]").forEach(btn => {
-        btn.addEventListener("click", () => chooseTitle(hits[+btn.dataset.idx]));
-      });
-
-      // Fill in missing posters from TMDB, one lookup per title, cached.
-      hits.forEach((i, idx) => {
-        if (i.poster || !i.tmdb) return;
-        fetchPoster(i).then(url => {
-          if (!url) return;
-          const img = out.querySelector(`img[data-poster-idx="${idx}"]`);
-          if (img) img.src = url;
-        });
-      });
-    }
-
-    async function fetchPoster(item) {
-      const key = `${item.type}:${item.tmdb}`;
-      if (posterCache.has(key)) return posterCache.get(key);
-      try {
-        const d = await fetch(`https://api.themoviedb.org/3/${item.type}/${item.tmdb}?api_key=${TMDB_API_KEY}`).then(r => r.json());
-        const url = d && d.poster_path ? `https://image.tmdb.org/t/p/w200${d.poster_path}` : "";
-        posterCache.set(key, url);
-        return url;
-      } catch {
-        posterCache.set(key, "");
-        return "";
-      }
-    }
-
-    function placeholder(title) {
-      return "https://placehold.co/44x66/0d1825/3a4a60?text=" + encodeURIComponent((title[0] || "?").toUpperCase());
-    }
-
-    function escapeHtml(s) {
-      return s.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-    }
-
-    /* ── Step 2 ── */
-    function chooseTitle(item) {
-      const name = $("requesterName").value.trim();
-      if (!name) {
-        $("nameError").style.display = "block";
-        $("requesterName").focus();
-        return;
-      }
-      saveName();
-      selected = item;
-
-      $("selPoster").src = item.poster || placeholder(item.title);
-      if (!item.poster && item.tmdb) fetchPoster(item).then(u => { if (u) $("selPoster").src = u; });
-      $("selTitle").textContent = item.title;
-      $("selMeta").innerHTML = `(${item.year || "N/A"}) <span class="badge ${item.type === "tv" ? "badge-tv" : "badge-movie"}">${item.type === "tv" ? "TV" : "Movie"}</span>`;
-
-      $("episodeWrap").classList.toggle("hidden", item.type !== "tv");
-
-      $("pickContainer").classList.add("hidden");
-      $("issueContainer").classList.remove("hidden");
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    function backToSearch() {
-      $("issueContainer").classList.add("hidden");
-      $("pickContainer").classList.remove("hidden");
-    }
-
-    function submitReport() {
-      if (!selected) return backToSearch();
-
-      if (!selectedCategory) {
-        $("issueError").textContent = "⚠ Pick an issue type first.";
-        $("issueError").style.display = "block";
-        return;
-      }
-
-      const details = $("detailsInput").value.trim();
-      const isOther = [...$("categoryChips").children].some(c => c.classList.contains("selected") && c.dataset.cat === "other");
-      if (isOther && !details) {
-        $("issueError").textContent = "⚠ Add a short description of the problem.";
-        $("issueError").style.display = "block";
-        $("detailsInput").focus();
-        return;
-      }
-
-      const form = $("googleForm");
-      form.action = FORM_ACTION;
-      $("fTitle").name    = FORM_ENTRIES.title;
-      $("fName").name     = FORM_ENTRIES.name;
-      $("fTmdb").name     = FORM_ENTRIES.tmdb;
-      $("fType").name     = FORM_ENTRIES.type;
-      $("fCategory").name = FORM_ENTRIES.category;
-      $("fEpisode").name  = FORM_ENTRIES.episode;
-      $("fDevice").name   = FORM_ENTRIES.device;
-      $("fDetails").name  = FORM_ENTRIES.details;
-
-      $("fTitle").value    = `${selected.title}${selected.year ? " (" + selected.year + ")" : ""}`;
-      $("fName").value     = $("requesterName").value.trim();
-      $("fTmdb").value     = selected.tmdb;
-      $("fType").value     = selected.type;
-      $("fCategory").value = selectedCategory;
-      $("fEpisode").value  = selected.type === "tv" ? $("episodeInput").value.trim() : "";
-      $("fDevice").value   = selectedDevice;
-      $("fDetails").value  = details;
-
-      form.submit();
-
-      $("issueContainer").classList.add("hidden");
-      $("submittedContainer").style.display = "block";
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    function resetAll() {
-      selected = null;
-      selectedCategory = "";
-      selectedDevice = "";
-      $("submittedContainer").style.display = "none";
-      $("issueContainer").classList.add("hidden");
-      $("pickContainer").classList.remove("hidden");
-      $("searchInput").value = "";
-      $("results").innerHTML = "";
-      $("detailsInput").value = "";
-      $("episodeInput").value = "";
-      $("issueError").style.display = "none";
-      $("emptyNote").classList.remove("visible");
-      [...$("categoryChips").children].forEach(c => c.classList.remove("selected"));
-      [...$("deviceChips").children].forEach(c => c.classList.remove("selected"));
-      $("detailsLabel").innerHTML = `Details <span class="opt">(optional, but helps a lot)</span>`;
-    }
-
-    function resetNameError() {
-      $("nameError").style.display = "none";
-    }
+  /* ── Reset ── */
+  $("againBtn").addEventListener("click", () => {
+    chosen = null;
+    issue = null;
+    $("searchInput").value = "";
+    $("results").innerHTML = "";
+    $("detailsInput").value = "";
+    $("descOpts").classList.remove("hidden");
+    $("descBox").classList.add("hidden");
+    $("emptyNote").classList.remove("show");
+    show("s1");
+  });
   </script>
 </body>
 </html>
