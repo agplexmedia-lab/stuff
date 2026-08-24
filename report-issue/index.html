@@ -54,11 +54,7 @@
       mix-blend-mode: screen;
     }
 
-    .wrap {
-      width: 100%;
-      max-width: var(--maxw);
-      margin: 0 auto;
-    }
+    .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; }
 
     /* ── Header ── */
     .top {
@@ -81,19 +77,8 @@
 
     .top a.home img { width: 22px; height: 22px; border-radius: 3px; opacity: .9; }
 
-    .steps {
-      margin-left: auto;
-      display: flex;
-      gap: 5px;
-    }
-
-    .steps i {
-      width: 18px;
-      height: 3px;
-      background: rgba(255,255,255,.12);
-      display: block;
-    }
-
+    .steps { margin-left: auto; display: flex; gap: 5px; }
+    .steps i { width: 18px; height: 3px; background: rgba(255,255,255,.12); display: block; }
     .steps i.on { background: var(--red); }
 
     /* ── Card ── */
@@ -103,13 +88,12 @@
       border-radius: 4px;
       overflow: hidden;
       box-shadow: 0 6px 20px rgba(0,0,0,.5);
-      animation: rise .18s ease-out;
     }
 
     .rainbow { display: flex; height: 5px; }
     .rainbow span { flex: 1; }
 
-    .card-body { padding: 18px 16px 20px; }
+    .card-body { padding: 18px 16px 20px; animation: rise .18s ease-out; }
 
     h1 {
       font-family: 'Bungee', cursive;
@@ -120,14 +104,29 @@
       letter-spacing: .02em;
     }
 
-    .sub {
-      font-size: 14px;
-      line-height: 1.55;
-      color: var(--muted);
-      margin-bottom: 16px;
+    .sub { font-size: 14px; line-height: 1.55; color: var(--muted); margin-bottom: 16px; }
+    .sub a { color: var(--blue-lt); text-decoration: none; border-bottom: 1px solid rgba(77,143,223,.3); }
+
+    .anon {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 12px;
     }
 
-    .sub a { color: var(--blue-lt); text-decoration: none; border-bottom: 1px solid rgba(77,143,223,.3); }
+    .anon::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      background: var(--green);
+      opacity: .7;
+      flex: 0 0 auto;
+    }
 
     .back {
       background: none;
@@ -146,10 +145,10 @@
     /* ── Inputs ── */
     input[type="text"], textarea {
       width: 100%;
-      padding: 14px 14px;
+      padding: 14px;
       border: 1px solid rgba(255,255,255,.1);
       border-radius: 0;
-      font-size: 16px;               /* 16px stops iOS zoom-on-focus */
+      font-size: 16px;              /* 16px stops iOS zoom-on-focus */
       font-family: 'Barlow', sans-serif;
       background: var(--sunk);
       color: var(--text);
@@ -165,14 +164,7 @@
       box-shadow: 0 0 0 3px rgba(45,107,191,.14);
     }
 
-    .err {
-      display: none;
-      margin-top: 10px;
-      color: #e05050;
-      font-size: 13.5px;
-      font-weight: 600;
-    }
-
+    .err { display: none; margin-top: 10px; color: #e05050; font-size: 13.5px; font-weight: 600; }
     .err.show { display: block; }
 
     /* ── Big tap options ── */
@@ -199,11 +191,7 @@
       cursor: pointer;
     }
 
-    .opt:active {
-      background: rgba(200,50,40,.14);
-      border-left-color: var(--red);
-    }
-
+    .opt:active { background: rgba(200,50,40,.14); border-left-color: var(--red); }
     .opt .chev { margin-left: auto; color: var(--dim); font-size: 18px; line-height: 1; }
 
     /* ── Results ── */
@@ -248,13 +236,7 @@
 
     .result .m { margin-top: 3px; font-size: 12.5px; color: var(--muted); }
 
-    .loading, .note {
-      display: none;
-      padding: 12px 2px 0;
-      font-size: 13.5px;
-      line-height: 1.6;
-      color: var(--muted);
-    }
+    .loading, .note { display: none; padding: 12px 2px 0; font-size: 13.5px; line-height: 1.6; color: var(--muted); }
     .loading.show, .note.show { display: block; }
     .note a { color: var(--blue-lt); text-decoration: none; border-bottom: 1px solid rgba(77,143,223,.3); }
 
@@ -269,14 +251,7 @@
       margin-bottom: 16px;
     }
 
-    .chosen img {
-      width: 34px;
-      height: 51px;
-      object-fit: cover;
-      flex: 0 0 auto;
-      background: #0d1825;
-    }
-
+    .chosen img { width: 34px; height: 51px; object-fit: cover; flex: 0 0 auto; background: #0d1825; }
     .chosen .t { font-size: 14px; font-weight: 700; line-height: 1.25; }
     .chosen .m { margin-top: 2px; font-size: 12px; color: var(--muted); }
 
@@ -311,12 +286,7 @@
 
     /* ── Done ── */
     .done { text-align: center; padding: 30px 16px 32px; }
-    .done .check {
-      font-size: 34px;
-      color: var(--green);
-      line-height: 1;
-      margin-bottom: 12px;
-    }
+    .done .check { font-size: 34px; color: var(--green); line-height: 1; margin-bottom: 12px; }
     .done h1 { font-size: 19px; color: var(--green); }
     .done .sub { margin-bottom: 20px; }
 
@@ -327,9 +297,7 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      * { animation: none !important; }
-    }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
 
     :focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
 
@@ -379,19 +347,11 @@
         <span style="background:#1898a8"></span>
       </div>
 
-      <!-- ── STEP 0: name (only when unknown) ── -->
-      <div class="card-body hidden" id="s0">
-        <h1>Who's reporting?</h1>
-        <p class="sub">Just so I know who to follow up with.</p>
-        <input type="text" id="nameInput" placeholder="Your name" autocomplete="name" enterkeyhint="next">
-        <p class="err" id="nameErr">⚠ Enter your name to continue.</p>
-        <button class="btn btn-blue" id="nameNext">Continue</button>
-      </div>
-
       <!-- ── STEP 1: pick the title ── -->
       <div class="card-body hidden" id="s1">
+        <div class="anon">Anonymous — no name, no login</div>
         <h1>Which title?</h1>
-        <p class="sub">Search what's on the server. <span id="whoLine"></span></p>
+        <p class="sub">Search what's on the server.</p>
         <input type="text" id="searchInput" placeholder="Search…" autocomplete="off" enterkeyhint="search">
         <p class="loading" id="loadingNote">Searching…</p>
         <div id="results"></div>
@@ -409,7 +369,7 @@
         <div class="opts" id="issueOpts"></div>
       </div>
 
-      <!-- ── STEP 3: description? ── -->
+      <!-- ── STEP 3: note? ── -->
       <div class="card-body hidden" id="s3">
         <button class="back" id="back3">← Change problem</button>
         <div class="chosen" id="chosen3"></div>
@@ -488,7 +448,7 @@
   })();
   </script>
 
-  <!-- STATIC GRAIN (drawn once + on resize — no rAF loop, easy on phone batteries) -->
+  <!-- STATIC GRAIN (drawn once + on resize — no rAF loop) -->
   <script>
   (function(){
     const canvas = document.getElementById("vhs-grain");
@@ -516,19 +476,20 @@
      ══════════════════════════════════════════════════════════════ */
   const FORM_ACTION = "https://docs.google.com/forms/d/e/PASTE_FORM_ID_HERE/formResponse";
 
-  // Leave any value as "" to simply not send that column.
+  // Leave any value as "" and that column simply isn't sent.
   const FORM_ENTRIES = {
-    name:    "entry.PASTE_NAME_ID",
-    title:   "entry.PASTE_TITLE_ID",   // "Alien (1979)"
+    title:   "entry.PASTE_TITLE_ID",    // "Alien (1979)"
     year:    "entry.PASTE_YEAR_ID",
     tmdb:    "entry.PASTE_TMDB_ID",
-    type:    "entry.PASTE_TYPE_ID",    // movie | tv
-    issue:   "entry.PASTE_ISSUE_ID",   // stable code, see ISSUES below
-    details: "entry.PASTE_DETAILS_ID"
+    type:    "entry.PASTE_TYPE_ID",     // movie | tv
+    issue:   "entry.PASTE_ISSUE_ID",    // stable code, see ISSUES below
+    details: "entry.PASTE_DETAILS_ID",
+    ticket:  "entry.PASTE_TICKET_ID"    // random per-report id, not a person — set "" to drop
   };
 
+  // Google Forms itself: turn OFF "Collect email addresses" or reports aren't anonymous.
+
   const TMDB_API_KEY = "5bbfc2b05c0d49eea2032b35324ebc81";
-  const NAME_KEY = "agplex_requester_name";
   const MAX_RESULTS = 8;
 
   const LIBRARY_SOURCES = [
@@ -538,11 +499,11 @@
 
   // code = what lands in the sheet for the scanner to switch on.
   const ISSUES = [
-    { code: "SUBTITLES",   label: "Subtitles" },
-    { code: "BUFFERING",   label: "Buffering" },
-    { code: "VIDEO",       label: "Video quality" },
-    { code: "AUDIO",       label: "Audio quality or wrong language" },
-    { code: "OTHER",       label: "Something else" }
+    { code: "SUBTITLES", label: "Subtitles" },
+    { code: "BUFFERING", label: "Buffering" },
+    { code: "VIDEO",     label: "Video quality" },
+    { code: "AUDIO",     label: "Audio quality or wrong language" },
+    { code: "OTHER",     label: "Something else" }
   ];
 
   /* ══════════════════════════════════════════════════════════════ */
@@ -554,53 +515,18 @@
   const posterCache = new Map();
 
   /* ── Steps ── */
-  const ORDER = ["s0", "s1", "s2", "s3", "s4"];
+  const ORDER = ["s1", "s2", "s3", "s4"];
   function show(id) {
     ORDER.forEach(s => $(s).classList.toggle("hidden", s !== id));
-    const dots = { s0: 0, s1: 0, s2: 1, s3: 2, s4: 2 }[id];
-    [...$("steps").children].forEach((d, i) => d.classList.toggle("on", i <= dots));
+    const idx = { s1: 0, s2: 1, s3: 2, s4: 2 }[id];
+    [...$("steps").children].forEach((d, i) => d.classList.toggle("on", i <= idx));
     window.scrollTo({ top: 0 });
   }
 
   /* ── Boot ── */
-  const savedName = localStorage.getItem(NAME_KEY) || "";
   buildIssues();
   loadLibrary();
-
-  if (savedName) {
-    $("whoLine").innerHTML = `Reporting as <strong>${escapeHtml(savedName)}</strong> · <a href="#" id="notMe">not you?</a>`;
-    show("s1");
-    bindNotMe();
-  } else {
-    show("s0");
-    setTimeout(() => $("nameInput").focus(), 150);
-  }
-
-  function bindNotMe() {
-    const el = $("notMe");
-    if (!el) return;
-    el.addEventListener("click", e => {
-      e.preventDefault();
-      $("nameInput").value = localStorage.getItem(NAME_KEY) || "";
-      show("s0");
-      $("nameInput").focus();
-    });
-  }
-
-  /* ── Step 0: name ── */
-  $("nameNext").addEventListener("click", saveName);
-  $("nameInput").addEventListener("keydown", e => { if (e.key === "Enter") saveName(); });
-  $("nameInput").addEventListener("input", () => $("nameErr").classList.remove("show"));
-
-  function saveName() {
-    const v = $("nameInput").value.trim();
-    if (!v) { $("nameErr").classList.add("show"); return; }
-    localStorage.setItem(NAME_KEY, v);
-    $("whoLine").innerHTML = `Reporting as <strong>${escapeHtml(v)}</strong> · <a href="#" id="notMe">not you?</a>`;
-    bindNotMe();
-    show("s1");
-    setTimeout(() => $("searchInput").focus(), 150);
-  }
+  show("s1");
 
   /* ── Library ── */
   function pickField(obj, keys) {
@@ -711,7 +637,7 @@
       const b = e.target.closest(".opt");
       if (!b) return;
       issue = { code: b.dataset.code, label: b.dataset.label };
-      openDetailsStep();
+      openNoteStep();
     });
   }
 
@@ -735,8 +661,8 @@
     show("s2");
   }
 
-  /* ── Step 3: details ── */
-  function openDetailsStep() {
+  /* ── Step 3: note ── */
+  function openNoteStep() {
     const needed = issue.code === "OTHER";
     $("s3sub").textContent = needed
       ? "Tell me what's happening so I know what to look for."
@@ -744,7 +670,6 @@
     $("descOpts").classList.toggle("hidden", needed);
     $("descBox").classList.toggle("hidden", !needed);
     $("descErr").classList.remove("show");
-    $("sendBtn").textContent = needed ? "Send Report" : "Send Report";
     show("s3");
     if (needed) setTimeout(() => $("detailsInput").focus(), 150);
   }
@@ -761,6 +686,10 @@
   $("back3").addEventListener("click", () => show("s2"));
 
   /* ── Send ── */
+  function ticketId() {
+    return "AG-" + Math.random().toString(36).slice(2, 8).toUpperCase();
+  }
+
   $("sendBtn").addEventListener("click", () => {
     if (!chosen || !issue) return show("s1");
 
@@ -772,13 +701,13 @@
     }
 
     const payload = {
-      name:    localStorage.getItem(NAME_KEY) || "",
       title:   chosen.title + (chosen.year ? ` (${chosen.year})` : ""),
       year:    chosen.year,
       tmdb:    chosen.tmdb,
       type:    chosen.type,
       issue:   issue.code,
-      details: details
+      details: details,
+      ticket:  ticketId()
     };
 
     const form = $("gform");
