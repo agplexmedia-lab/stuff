@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>AG Plex — Mobile Download Request</title>
+
+  <link rel="apple-touch-icon" href="../assets/favicon-180.png">
+  <link rel="icon" type="image/png" href="../assets/favicon-180.png">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bungee&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:       #12161f;
+      --card:     #181d28;
+      --text:     #dce4f0;
+      --muted:    #7080a0;
+      --blue:     #2d6bbf;
+      --blue-lt:  #4d8fdf;
+      --green:    #28985a;
+      --yellow:   #d4a820;
+      --cyan:     #1898a8;
+      --border:   rgba(255,255,255,.07);
+      --shadow:   0 8px 28px rgba(0,0,0,.6);
+      --maxw:     620px;
+      --banner-offset: 0px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Barlow', system-ui, sans-serif;
+      min-height: 100vh;
+    }
+
+    body {
+      padding-top: var(--banner-offset);
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+
+    /* ── GRAIN ── */
+    #vhs-grain {
+      position: fixed; inset: 0; z-index: 9990;
+      pointer-events: none; opacity: 0.07; mix-blend-mode: screen;
+    }
+
+    body::after {
+      content: ""; position: fixed; inset: 0; z-index: 9989; pointer-events: none;
+      background: repeating-linear-gradient(180deg,
+        transparent 0px, transparent 60px,
+        rgba(255,255,255,.012) 60px, rgba(255,255,255,.012) 61px,
+        transparent 61px, transparent 120px,
+        rgba(255,255,255,.008) 120px, rgba(255,255,255,.008) 121px,
+        transparent 121px, transparent 200px);
+    }
+
+    .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding-bottom: 40px; }
+
+    /* ── HEADER ── */
+    .site-header {
+      position: sticky; top: var(--banner-offset); z-index: 100;
+      padding: calc(10px + env(safe-area-inset-top)) 0 10px;
+      display: flex; justify-content: center; margin-bottom: 12px;
+    }
+
+    .brand {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 18px; background: #ffffff;
+      border: 2px solid #dce4f0; border-right-color: #8090b0; border-bottom-color: #8090b0;
+      border-radius: 4px; text-decoration: none; color: #0e1420;
+      font-family: 'Bungee', cursive; font-size: 16px; letter-spacing: 2px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.7);
+    }
+    .brand img { width: 28px; height: 28px; border-radius: 3px; opacity: .92; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; overflow: hidden; background: #0d1220;
+      border: 1px solid rgba(255,255,255,.09); border-radius: 4px;
+      box-shadow: var(--shadow); margin-bottom: 10px;
+    }
+    .rainbow { display: flex; height: 10px; width: 100%; }
+    .rainbow.thin { height: 7px; }
+    .rainbow span { flex: 1; }
+    .hero-body { padding: 20px 20px 16px; position: relative; }
+    .hero-body::after {
+      content: ""; position: absolute; top: 0; right: 0; width: 50%; height: 100%;
+      pointer-events: none;
+      background: repeating-linear-gradient(-52deg,
+        transparent 0px, transparent 28px,
+        rgba(45,107,191,.07) 28px, rgba(45,107,191,.07) 34px,
+        transparent 34px, transparent 62px);
+    }
+    .hero-brand { position: relative; z-index: 1; display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .hero-brand img { width: 40px; height: 40px; border-radius: 4px; opacity: .92; }
+    .eyebrow {
+      font-size: 11px; font-weight: 600; letter-spacing: 2.5px;
+      color: var(--cyan); text-transform: uppercase;
+    }
+    .hero h1 {
+      position: relative; z-index: 1;
+      font-family: 'Bungee', cursive; font-size: 30px; line-height: 1.04;
+      color: #ffffff; margin-bottom: 6px; text-shadow: 1px 1px 0 rgba(0,0,0,.8);
+    }
+    .hero-sub { position: relative; z-index: 1; font-size: 14px; line-height: 1.7; color: #8898b8; }
+    .hero-sub strong { color: #c8d8e8; }
+
+    /* ── STEP BLOCK ── */
+    .step-block {
+      border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,.45);
+    }
+    .step-header {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 14px; background: var(--blue);
+    }
+    .block-label {
+      font-family: 'Bungee', cursive; font-size: 15px; letter-spacing: .5px;
+      text-transform: uppercase; color: #fff; line-height: 1;
+    }
+    .dots { margin-left: auto; display: flex; gap: 5px; }
+    .dots span { width: 8px; height: 8px; background: rgba(255,255,255,.25); }
+    .dots span.on { background: #fff; }
+
+    .step-body { background: var(--card); padding: 16px; }
+    .step { display: none; animation: fadeIn .2s ease-in; }
+    .step.active { display: block; }
+
+    .q {
+      font-family: 'Bungee', cursive; font-size: 18px; line-height: 1.2;
+      color: #fff; margin-bottom: 4px;
+    }
+    .q-sub { font-size: 13px; color: var(--muted); margin-bottom: 14px; line-height: 1.5; }
+
+    /* chosen-title strip shown on later steps */
+    .picked {
+      display: flex; gap: 10px; align-items: center;
+      padding: 8px 10px; margin-bottom: 14px;
+      background: #111825; border: 1px solid var(--border);
+    }
+    .picked img { width: 32px; height: 48px; object-fit: cover; background: #0d1825; flex: 0 0 32px; }
+    .picked .t { font-weight: 700; font-size: 14px; color: #c8d8e8; line-height: 1.3; }
+    .picked .m { font-size: 12px; color: var(--muted); }
+
+    /* ── SEARCH ── */
+    .search-wrap { position: relative; }
+    .search-wrap svg {
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      color: var(--muted); pointer-events: none;
+    }
+    input[type="text"] {
+      width: 100%; padding: 12px 14px 12px 38px;
+      border: 1px solid rgba(255,255,255,.1); border-radius: 0;
+      font-size: 16px; font-family: 'Barlow', sans-serif;
+      background: #0e1420; color: var(--text); outline: none;
+    }
+    input[type="text"]::placeholder { color: #3a4a60; }
+    input[type="text"]:focus { border-color: rgba(45,107,191,.6); box-shadow: 0 0 0 3px rgba(45,107,191,.15); }
+
+    .results { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+    .result {
+      display: flex; gap: 10px; align-items: center; width: 100%;
+      padding: 8px 10px; text-align: left; cursor: pointer;
+      background: #111825; border: 1px solid rgba(255,255,255,.07);
+      color: var(--text); font-family: 'Barlow', sans-serif;
+      transition: background .15s, border-color .15s;
+    }
+    .result:hover, .result:focus-visible { background: #161e2e; border-color: rgba(45,107,191,.4); outline: none; }
+    .result img { width: 36px; height: 54px; object-fit: cover; background: #0d1825; flex: 0 0 36px; }
+    .result .t { font-weight: 700; font-size: 14px; color: #c8d8e8; }
+    .result .m { font-size: 12px; color: var(--muted); }
+    .hint { font-size: 13px; color: var(--muted); padding: 12px 2px; }
+
+    /* ── OPTION BUTTONS ── */
+    .options { display: flex; flex-direction: column; gap: 6px; }
+    .opt {
+      display: flex; align-items: center; gap: 12px; width: 100%;
+      padding: 12px 14px; text-align: left; cursor: pointer;
+      background: #111825; border: 1px solid rgba(255,255,255,.08);
+      color: var(--text); font-family: 'Barlow', sans-serif;
+      transition: background .15s, border-color .15s;
+      position: relative;
+    }
+    .opt:hover, .opt:focus-visible { background: #161e2e; border-color: rgba(45,107,191,.45); outline: none; }
+    .opt .main { flex: 1; min-width: 0; }
+    .opt .t { font-weight: 700; font-size: 15px; color: #dce4f0; }
+    .opt .d { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .opt .size {
+      font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: .5px;
+      color: var(--blue-lt); white-space: nowrap;
+    }
+    .tag {
+      display: inline-block; margin-left: 6px; padding: 1px 6px;
+      font-size: 10px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase;
+      background: rgba(40,152,90,.18); border: 1px solid rgba(40,152,90,.4); color: #5cc890;
+      vertical-align: 2px;
+    }
+
+    .codec-note {
+      font-size: 12px; line-height: 1.5; color: #b8a060;
+      background: rgba(212,168,32,.08); border: 1px solid rgba(212,168,32,.25);
+      padding: 8px 10px; margin-bottom: 12px;
+    }
+
+    /* ── REVIEW ── */
+    .review { border: 1px solid var(--border); background: #111825; margin-bottom: 14px; }
+    .review-row { display: flex; justify-content: space-between; gap: 12px; padding: 10px 12px; font-size: 14px; }
+    .review-row + .review-row { border-top: 1px solid var(--border); }
+    .review-row .k { color: var(--muted); font-weight: 600; }
+    .review-row .v { color: #dce4f0; font-weight: 700; text-align: right; }
+
+    /* ── BUTTONS ── */
+    .actions { display: flex; gap: 8px; margin-top: 14px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 11px 16px; border: 2px solid #4888d8;
+      border-right-color: #1a3a78; border-bottom-color: #1a3a78;
+      background: #2d6bbf; color: #fff;
+      font-family: 'Bungee', cursive; font-size: 13px; letter-spacing: .04em;
+      cursor: pointer; text-decoration: none; text-transform: uppercase;
+    }
+    .btn:hover { filter: brightness(1.1); }
+    .btn:disabled { opacity: .5; cursor: default; filter: none; }
+    .btn.grow { flex: 1; }
+    .btn-muted {
+      background: #1a2438; border-color: #2a3858;
+      border-right-color: #0e1828; border-bottom-color: #0e1828; color: var(--muted);
+    }
+
+    /* ── SENT ── */
+    .sent { text-align: center; padding: 18px 4px 6px; }
+    .sent .big { font-family: 'Bungee', cursive; font-size: 24px; color: #fff; margin-bottom: 8px; }
+    .sent p { font-size: 14px; color: #8898b8; line-height: 1.7; }
+    .check {
+      width: 54px; height: 54px; margin: 0 auto 14px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--green); color: #fff; font-size: 28px;
+      border: 2px solid #48c080; border-right-color: #186038; border-bottom-color: #186038;
+    }
+    .err { color: #e07060; font-size: 13px; margin-top: 10px; display: none; }
+
+    .spinner {
+      width: 28px; height: 28px; margin: 18px auto;
+      border: 3px solid rgba(45,107,191,.2); border-top-color: var(--blue);
+      border-radius: 50%; animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+    /* ── FOOTER ── */
+    #footerMount { margin-top: 24px; }
+    #footerMount .site-footer, #footerMount footer, #footerMount [class*="footer"] {
+      background: #0e1119 !important; border-top: 1px solid rgba(255,255,255,.08) !important;
+      color: #7080a0 !important; text-align: center !important; padding: 20px 18px 32px !important;
+    }
+    #footerMount a { color: #4d8fdf !important; text-decoration: none !important; }
+    #footerMount a:hover { color: #7aacdc !important; text-decoration: underline !important; }
+    #footerMount * {
+      color: inherit; font-family: 'Barlow', sans-serif !important; font-size: 14px !important;
+      letter-spacing: .3px !important; text-align: center !important;
+    }
+    #footerMount nav, #footerMount ul, #footerMount ol {
+      display: flex !important; flex-wrap: wrap !important; justify-content: center !important;
+      gap: 6px 14px !important; list-style: none !important; padding: 0 !important; margin: 0 auto !important;
+    }
+
+    @media (min-width: 600px) {
+      body { padding-left: 18px; padding-right: 18px; }
+      .hero h1 { font-size: 38px; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="vhs-grain"></canvas>
+
+  <header class="site-header">
+    <a href="https://agplexhub.com/home/" class="brand">
+      <img src="../assets/favicon-180.png" alt="AG Plex Home">
+      AG PLEX
+    </a>
+  </header>
+
+  <div class="wrap">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="rainbow">
+        <span style="background:#c83228"></span><span style="background:#d4682a"></span>
+        <span style="background:#d4a820"></span><span style="background:#28985a"></span>
+        <span style="background:#3848b0"></span><span style="background:#1898a8"></span>
+      </div>
+      <div class="hero-body">
+        <div class="hero-brand">
+          <img src="../assets/favicon-180.png" alt="AG Plex logo">
+          <div class="eyebrow">AG Plex</div>
+        </div>
+        <h1>Mobile Downloads</h1>
+        <p class="hero-sub">Ask for a <strong>smaller copy</strong> of a movie that's easier to download to your phone or tablet. Requests are converted in batches, so give it a few days. When it's ready, pick the <strong>Mobile</strong> version when you download in Plex.</p>
+      </div>
+      <div class="rainbow thin">
+        <span style="background:#c83228"></span><span style="background:#d4682a"></span>
+        <span style="background:#d4a820"></span><span style="background:#28985a"></span>
+        <span style="background:#3848b0"></span><span style="background:#1898a8"></span>
+      </div>
+    </div>
+
+    <!-- STEPS -->
+    <div class="step-block">
+      <div class="step-header">
+        <span class="block-label" id="stepLabel">Pick a movie</span>
+        <div class="dots" id="dots"><span class="on"></span><span></span><span></span><span></span></div>
+      </div>
+      <div class="step-body">
+
+        <!-- 1: TITLE -->
+        <section class="step active" id="step-title">
+          <div class="q">Which movie?</div>
+          <div class="q-sub">Search the movies on AG Plex.</div>
+          <div class="search-wrap">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" id="searchInput" placeholder="Start typing a title…" autocomplete="off" disabled>
+          </div>
+          <div class="results" id="results"><div class="spinner"></div></div>
+        </section>
+
+        <!-- 2: DEVICE -->
+        <section class="step" id="step-device">
+          <div class="picked" id="picked-device"></div>
+          <div class="q">What will you watch it on?</div>
+          <div class="q-sub">This decides the video format so it plays smoothly.</div>
+          <div class="options" id="deviceOptions"></div>
+          <div class="actions"><button class="btn btn-muted" onclick="go('title')">Back</button></div>
+        </section>
+
+        <!-- 3: QUALITY -->
+        <section class="step" id="step-quality">
+          <div class="picked" id="picked-quality"></div>
+          <div class="q">How big should it be?</div>
+          <div class="q-sub" id="qualitySub">Smaller files download faster and use less storage.</div>
+          <div class="codec-note" id="codecNote" hidden></div>
+          <div class="options" id="qualityOptions"></div>
+          <div class="actions"><button class="btn btn-muted" onclick="go('device')">Back</button></div>
+        </section>
+
+        <!-- 4: REVIEW -->
+        <section class="step" id="step-review">
+          <div class="picked" id="picked-review"></div>
+          <div class="q">Look good?</div>
+          <div class="q-sub">Send it and it joins the conversion queue.</div>
+          <div class="review" id="reviewBox"></div>
+          <div class="actions">
+            <button class="btn btn-muted" onclick="go('quality')">Back</button>
+            <button class="btn grow" id="sendBtn" onclick="submitRequest()">Send request</button>
+          </div>
+          <div class="err" id="sendErr">Couldn't send — check your connection and try again.</div>
+        </section>
+
+        <!-- 5: SENT -->
+        <section class="step" id="step-sent">
+          <div class="sent">
+            <div class="check">✓</div>
+            <div class="big">Request sent</div>
+            <p id="sentText"></p>
+          </div>
+          <div class="actions"><button class="btn grow" onclick="resetFlow()">Request another</button></div>
+        </section>
+
+      </div>
+    </div>
+
+  </div><!-- /.wrap -->
+
+  <!-- hidden target for the Google Form post -->
+  <iframe name="gf_target" id="gf_target" style="display:none" title=""></iframe>
+
+  <div id="footerMount"></div>
+
+  <!-- GRAIN -->
+  <script>
+  (function(){
+    const canvas = document.getElementById("vhs-grain");
+    const ctx = canvas.getContext("2d");
+    function resize(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener("resize", resize);
+    function draw(){
+      const w=canvas.width, h=canvas.height, img=ctx.createImageData(w,h), d=img.data;
+      for(let i=0;i<d.length;i+=4){const v=Math.random()*255|0;d[i]=d[i+1]=d[i+2]=v;d[i+3]=18;}
+      ctx.putImageData(img,0,0);
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
+  </script>
+
+  <!-- BANNER LOADER -->
+  <script>
+  (async () => {
+    try {
+      if (document.body.dataset.noBanner === "true") return;
+      const cfgRes = await fetch("/assets/banner-config.json", { cache: "no-store" });
+      if (!cfgRes.ok) return;
+      const cfg = await cfgRes.json();
+      if (!cfg.enabled) return;
+      const bannerRes = await fetch(cfg.html_path || "/assets/banner.html", { cache: "no-store" });
+      if (!bannerRes.ok) return;
+      const html = await bannerRes.text();
+      const mount = document.createElement("div");
+      mount.innerHTML = html;
+      document.body.insertBefore(mount, document.body.firstChild);
+      function setOffset(){
+        const el = document.querySelector(".global-banner");
+        const h = el ? Math.ceil(el.getBoundingClientRect().height) : 0;
+        document.documentElement.style.setProperty("--banner-offset", h + "px");
+      }
+      setOffset();
+      window.addEventListener("resize", setOffset);
+    } catch {}
+  })();
+  </script>
+
+  <!-- FOOTER LOADER -->
+  <script>
+  (async () => {
+    try {
+      if (document.body.dataset.noFooter === "true") return;
+      const cfgRes = await fetch("/assets/footer-config.json", { cache: "no-store" });
+      if (!cfgRes.ok) return;
+      const cfg = await cfgRes.json();
+      if (!cfg.enabled) return;
+      const footerRes = await fetch(cfg.html_path || "/assets/footer.html", { cache: "no-store" });
+      if (!footerRes.ok) return;
+      const html = await footerRes.text();
+      const mount = document.getElementById("footerMount") || document.body;
+      const wrap = document.createElement("div");
+      wrap.innerHTML = html;
+      if (mount === document.body) document.body.appendChild(wrap);
+      else mount.replaceChildren(wrap);
+    } catch {}
+  })();
+  </script>
+
+  <!-- MAIN APP -->
+  <script>
+    // ═══════════════ CONFIG ═══════════════
+    // Google Form: create one with short-answer questions named exactly
+    //   Title · Year · Codec · Quality · Device · TMDB ID
+    // then use "Get pre-filled link" to read each question's entry.NNNN number.
+    const FORM_ID = "PASTE_FORM_ID_HERE";          // the 1FAIpQL… id from the form's /e/ URL
+    const ENTRY = {
+      title:   "entry.0000000001",
+      year:    "entry.0000000002",
+      codec:   "entry.0000000003",
+      quality: "entry.0000000004",
+      device:  "entry.0000000005",
+      tmdb:    "entry.0000000006",
+    };
+
+    const TMDB_KEY   = "5bbfc2b05c0d49eea2032b35324ebc81";
+    const MOVIES_URL = "https://apag104.github.io/ag-json/recently_added_movies.json";
+
+    // hevc: false → request is sent as H264 instead of HEVC
+    const DEVICES = [
+      { id: "iphone",      label: "iPhone or iPad",           desc: "Any recent model",                hevc: true  },
+      { id: "android",     label: "Android phone or tablet",  desc: "Bought in 2017 or later",         hevc: true  },
+      { id: "android-old", label: "Older Android",            desc: "Bought before 2017",              hevc: false },
+      { id: "fire",        label: "Amazon Fire tablet",       desc: "",                                hevc: false },
+      { id: "mac",         label: "Mac",                      desc: "Plex app or browser",             hevc: true  },
+      { id: "windows",     label: "Windows laptop or PC",     desc: "",                                hevc: false },
+      { id: "unsure",      label: "Not sure / something else", desc: "We'll use the most compatible format", hevc: false },
+    ];
+
+    // Mirrors PRESETS in mobile_convert.py: [height, video kbps, audio kbps]
+    const PRESETS = {
+      HEVC: { High: [720, 800, 128], Standard: [720, 600, 96], Low: [540, 350, 64], Tiny: [480, 250, 64] },
+      H264: { High: [720, 2000, 128], Standard: [720, 1000, 96], Low: [540, 800, 96], Tiny: [480, 600, 64] },
+    };
+    const QUALITIES = [
+      { key: "High",     label: "Best",     desc: "Sharpest picture",                    rec: false },
+      { key: "Standard", label: "Balanced", desc: "Looks great on a phone",              rec: true  },
+      { key: "Low",      label: "Smaller",  desc: "A little softer, good for travel",    rec: false },
+      { key: "Tiny",     label: "Smallest", desc: "Data-saver, softest picture",         rec: false },
+    ];
+    const DEFAULT_RUNTIME = 120;   // minutes, when the library export has no runtime
+    // ══════════════════════════════════════
+
+    const STEPS = ["title", "device", "quality", "review", "sent"];
+    const LABELS = { title: "Pick a movie", device: "Your device", quality: "File size", review: "Confirm", sent: "Done" };
+
+    let movies = [];
+    const state = { movie: null, device: null, quality: null };
+    const posterCache = {};
+
+    // ── LOAD LIBRARY ──
+    (async function load() {
+      const input = document.getElementById("searchInput");
+      const box = document.getElementById("results");
+      try {
+        const data = await fetch(MOVIES_URL).then(r => r.json());
+        movies = (Array.isArray(data) ? data : [])
+          .filter(m => (m.media_type || "movie") === "movie" && m.title);
+        if (!movies.length) throw new Error("empty");
+        input.disabled = false;
+        input.addEventListener("input", renderResults);
+        box.innerHTML = `<div class="hint">${movies.length.toLocaleString()} movies available.</div>`;
+        if (window.matchMedia("(hover: hover)").matches) input.focus();
+      } catch {
+        box.innerHTML = `<div class="hint">Couldn't load the library right now. Try again in a bit.</div>`;
+      }
+    })();
+
+    function norm(s) {
+      return String(s || "").toLowerCase().normalize("NFKD").replace(/[̀-ͯ]/g, "")
+        .replace(/&/g, "and").replace(/[^a-z0-9 ]+/g, "").replace(/\s+/g, " ").trim();
+    }
+
+    function renderResults() {
+      const q = norm(document.getElementById("searchInput").value);
+      const box = document.getElementById("results");
+      if (q.length < 2) {
+        box.innerHTML = `<div class="hint">${movies.length.toLocaleString()} movies available.</div>`;
+        return;
+      }
+      const hits = movies
+        .map(m => {
+          const t = norm(m.title);
+          const score = t === q ? 0 : t.startsWith(q) ? 1 : t.includes(q) ? 2
+                      : `${t} ${m.year || ""}`.includes(q) ? 3 : -1;
+          return { m, score };
+        })
+        .filter(x => x.score >= 0)
+        .sort((a, b) => a.score - b.score || a.m.title.localeCompare(b.m.title))
+        .slice(0, 8)
+        .map(x => x.m);
+
+      if (!hits.length) {
+        box.innerHTML = `<div class="hint">No movies match "${esc(document.getElementById("searchInput").value)}".</div>`;
+        return;
+      }
+      box.innerHTML = "";
+      hits.forEach(m => {
+        const b = document.createElement("button");
+        b.className = "result";
+        b.type = "button";
+        b.innerHTML = `
+          <img alt="" src="https://placehold.co/36x54/0d1825/0d1825?text=.">
+          <div><div class="t">${esc(m.title)}</div>
+          <div class="m">${m.year || ""}${m.runtime_minutes ? " · " + fmtRuntime(m.runtime_minutes) : ""}</div></div>`;
+        b.onclick = () => pickMovie(m);
+        box.appendChild(b);
+        if (m.tmdb_id) loadPoster(b.querySelector("img"), m.tmdb_id);
+      });
+    }
+
+    // ── STEP FLOW ──
+    function go(step) {
+      STEPS.forEach(s => document.getElementById(`step-${s}`).classList.toggle("active", s === step));
+      document.getElementById("stepLabel").textContent = LABELS[step];
+      const idx = Math.min(STEPS.indexOf(step), 3);
+      document.querySelectorAll("#dots span").forEach((d, i) => d.classList.toggle("on", i <= idx));
+      if (step !== "title") window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function pickMovie(m) {
+      state.movie = m;
+      renderPicked();
+      renderDevices();
+      go("device");
+    }
+
+    function renderPicked() {
+      const m = state.movie;
+      const html = `
+        <img alt="" src="${posterCache[m.tmdb_id] || "https://placehold.co/32x48/0d1825/0d1825?text=."}">
+        <div><div class="t">${esc(m.title)}</div><div class="m">${m.year || ""}</div></div>`;
+      ["device", "quality", "review"].forEach(s => {
+        const el = document.getElementById(`picked-${s}`);
+        el.innerHTML = html;
+        if (m.tmdb_id && !posterCache[m.tmdb_id]) loadPoster(el.querySelector("img"), m.tmdb_id);
+      });
+    }
+
+    function renderDevices() {
+      const box = document.getElementById("deviceOptions");
+      box.innerHTML = "";
+      DEVICES.forEach(d => {
+        const b = document.createElement("button");
+        b.className = "opt"; b.type = "button";
+        b.innerHTML = `<div class="main"><div class="t">${esc(d.label)}</div>${d.desc ? `<div class="d">${esc(d.desc)}</div>` : ""}</div>`;
+        b.onclick = () => { state.device = d; renderQualities(); go("quality"); };
+        box.appendChild(b);
+      });
+    }
+
+    function codec() { return state.device && state.device.hevc ? "HEVC" : "H264"; }
+
+    function estSize(key) {
+      const [, v, a] = PRESETS[codec()][key];
+      const mins = state.movie.runtime_minutes || DEFAULT_RUNTIME;
+      const gb = (v + a) * mins * 60 / 8 / 1e6;
+      return gb < 1 ? `${Math.max(50, Math.round(gb * 1000 / 50) * 50)} MB` : `${gb.toFixed(1)} GB`;
+    }
+
+    function renderQualities() {
+      const note = document.getElementById("codecNote");
+      if (codec() === "H264") {
+        note.hidden = false;
+        note.textContent = "Your device gets the most compatible format, so files are a bit larger than on newer phones.";
+      } else {
+        note.hidden = true;
+      }
+      const runtimeKnown = !!state.movie.runtime_minutes;
+      document.getElementById("qualitySub").textContent = runtimeKnown
+        ? `Sizes are estimates for this ${fmtRuntime(state.movie.runtime_minutes)} movie.`
+        : "Sizes are rough estimates for a 2-hour movie.";
+
+      const box = document.getElementById("qualityOptions");
+      box.innerHTML = "";
+      QUALITIES.forEach(q => {
+        const [h] = PRESETS[codec()][q.key];
+        const b = document.createElement("button");
+        b.className = "opt"; b.type = "button";
+        b.innerHTML = `
+          <div class="main">
+            <div class="t">${q.label}${q.rec ? `<span class="tag">Recommended</span>` : ""}</div>
+            <div class="d">${esc(q.desc)} · ${h}p</div>
+          </div>
+          <div class="size">~${estSize(q.key)}</div>`;
+        b.onclick = () => { state.quality = q; renderReview(); go("review"); };
+        box.appendChild(b);
+      });
+    }
+
+    function renderReview() {
+      const rows = [
+        ["Movie", `${state.movie.title}${state.movie.year ? ` (${state.movie.year})` : ""}`],
+        ["Device", state.device.label],
+        ["Size", `${state.quality.label} · ~${estSize(state.quality.key)}`],
+      ];
+      document.getElementById("reviewBox").innerHTML = rows.map(([k, v]) =>
+        `<div class="review-row"><span class="k">${k}</span><span class="v">${esc(v)}</span></div>`).join("");
+      document.getElementById("sendErr").style.display = "none";
+      const btn = document.getElementById("sendBtn");
+      btn.disabled = false; btn.textContent = "Send request";
+    }
+
+    // ── SUBMIT (hidden form → Google Form, same pattern as the issue page) ──
+    function submitRequest() {
+      const btn = document.getElementById("sendBtn");
+      btn.disabled = true; btn.textContent = "Sending…";
+
+      const fields = {
+        [ENTRY.title]:   state.movie.title,
+        [ENTRY.year]:    state.movie.year || "",
+        [ENTRY.codec]:   codec(),
+        [ENTRY.quality]: state.quality.key,
+        [ENTRY.device]:  state.device.label,
+        [ENTRY.tmdb]:    state.movie.tmdb_id || "",
+      };
+
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = `https://docs.google.com/forms/d/e/${FORM_ID}/formResponse`;
+      form.target = "gf_target";
+      form.style.display = "none";
+      Object.entries(fields).forEach(([name, value]) => {
+        const i = document.createElement("input");
+        i.type = "hidden"; i.name = name; i.value = value;
+        form.appendChild(i);
+      });
+      document.body.appendChild(form);
+
+      let done = false;
+      const frame = document.getElementById("gf_target");
+      const finish = () => {
+        if (done) return;
+        done = true;
+        form.remove();
+        document.getElementById("sentText").innerHTML =
+          `<strong style="color:#c8d8e8">${esc(state.movie.title)}</strong> is in the queue. ` +
+          `Check back in a few days — the smaller copy shows up as a <strong style="color:#c8d8e8">Mobile</strong> version when you download it in Plex.`;
+        go("sent");
+      };
+      frame.onload = finish;
+      const fail = setTimeout(() => {
+        if (done) return;
+        done = true;
+        form.remove();
+        btn.disabled = false; btn.textContent = "Send request";
+        document.getElementById("sendErr").style.display = "block";
+      }, 15000);
+      frame.addEventListener("load", () => clearTimeout(fail), { once: true });
+
+      try { form.submit(); }
+      catch { clearTimeout(fail); done = true; btn.disabled = false; btn.textContent = "Send request";
+              document.getElementById("sendErr").style.display = "block"; }
+    }
+
+    function resetFlow() {
+      state.movie = state.device = state.quality = null;
+      const input = document.getElementById("searchInput");
+      input.value = "";
+      renderResults();
+      go("title");
+      input.focus();
+    }
+
+    // ── POSTERS ──
+    async function loadPoster(img, tmdbId) {
+      if (posterCache[tmdbId]) { img.src = posterCache[tmdbId]; return; }
+      try {
+        const data = await fetch(`https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${TMDB_KEY}`).then(r => r.json());
+        if (data.poster_path) {
+          posterCache[tmdbId] = `https://image.tmdb.org/t/p/w92${data.poster_path}`;
+          img.src = posterCache[tmdbId];
+        }
+      } catch {}
+    }
+
+    // ── UTIL ──
+    function fmtRuntime(min) { return `${Math.floor(min / 60)}h ${min % 60}m`; }
+    function esc(str) {
+      if (str === null || str === undefined) return "";
+      return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+  </script>
+</body>
+</html>
