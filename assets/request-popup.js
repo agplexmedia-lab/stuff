@@ -20,7 +20,7 @@
     { name: "Paramount+", count: 1405 },
     { name: "Apple TV+",  count: 291  }
   ];
-  const COMPARE_NOTE = "AG Plex: movies only. Others: movies and shows combined (JustWatch, 2024).";
+  const COMPARE_NOTE = "Source: JustWatch, 2024.";
 
   /* ── Show once ── */
   const KEY = "agRequestPopupSeen";
@@ -113,7 +113,7 @@
         <h2 id="agpTitle">Hey! Wait a Second!</h2>
         <p>Thanks for being part of AG Plex. We just passed</p>
         <div class="agp-big"><b>${MOVIE_COUNT}</b><span>Movies</span></div>
-        <p>That's more than <strong>Disney+</strong>, <strong>Paramount+</strong> or <strong>Apple TV+</strong> have in movies <em>and</em> shows combined.</p>
+        <p>That's more than <strong>Disney+</strong>, <strong>Paramount+</strong> or <strong>Apple TV+</strong>.</p>
         <div class="agp-bars">${bars}</div>
         <p class="agp-note">${COMPARE_NOTE}</p>
         <p><strong>So keep requesting, it's fun!</strong></p>
