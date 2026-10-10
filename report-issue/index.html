@@ -150,104 +150,41 @@
 
     .hero-alert strong { color: #fff; font-weight: 700; }
 
+    .hero p.hero-links { margin-top: 8px; font-size: 13px; font-weight: 600; }
+    .hero p.hero-links span { color: var(--dim); margin: 0 6px; }
+
     @media (min-width: 420px) {
       .hero h1 { font-size: 31px; }
     }
 
-    /* ── Status colors (shared by chiron, pills, tally) ── */
+    /* ── Status colors (pills, tally) ── */
     .st-recv   { --c: #8aa4cc; --cb: rgba(138,164,204,.10); }
     .st-work   { --c: #e6be3c; --cb: rgba(212,168,32,.13); }
     .st-fixed  { --c: #5fd08f; --cb: rgba(40,152,90,.15); }
     .st-fine   { --c: #4cc4d4; --cb: rgba(24,152,168,.13); }
 
-    /* ── Chiron (news-style crawl) ── */
-    .chiron {
-      display: flex;
-      align-items: stretch;
-      height: 34px;
-      background: #0a0e17;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      overflow: hidden;
-      margin-bottom: 10px;
-      cursor: pointer;
-      box-shadow: 0 4px 14px rgba(0,0,0,.4);
-    }
-
-    .chiron .lbl {
-      flex: 0 0 auto;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 0 10px;
-      background: var(--red);
-      color: #fff;
-      font-family: 'Bungee', cursive;
-      font-size: 11px;
-      letter-spacing: 1.4px;
-      border-right: 2px solid #501008;
-    }
-
-    .chiron .track {
-      flex: 1;
-      overflow: hidden;
-      -webkit-mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent);
-              mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent);
-    }
-
-    .chiron .run {
-      display: inline-flex;
-      white-space: nowrap;
-      animation: crawl var(--dur, 40s) linear infinite;
-    }
-
-    .chiron:hover .run, .chiron:active .run { animation-play-state: paused; }
-
-    .ci {
-      display: inline-flex;
-      align-items: center;
-      padding: 0 20px 0 0;
-      line-height: 32px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #c8d4e6;
-    }
-
-    .ci::after { content: "◆"; color: var(--dim); font-size: 8px; margin-left: 20px; }
-
-    .ci b {
-      color: var(--c);
-      font-size: 10.5px;
-      font-weight: 700;
-      letter-spacing: 1.3px;
-      text-transform: uppercase;
-      margin-right: 8px;
-    }
-
-    .ci em { font-style: normal; color: var(--muted); margin-left: 7px; font-weight: 500; }
-
-    .dot {
-      display: inline-block;
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--c);
-      margin: 0 7px 0 14px;
-      flex: 0 0 auto;
-    }
-
-    .dot.st-work { animation: blink 1.2s steps(2, start) infinite; }
-
-    @keyframes crawl { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-    @keyframes blink { to { visibility: hidden; } }
-
     /* ── Card ── */
     .card {
       background: var(--card);
-      border: 1px solid var(--border);
+      border: 1px solid rgba(200,50,40,.55);
+      border-top: 4px solid var(--red);
       border-radius: 4px;
       overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0,0,0,.5);
+      box-shadow: 0 0 0 3px rgba(200,50,40,.10), 0 8px 24px rgba(0,0,0,.55);
     }
+
+    .search-box { position: relative; }
+    .search-box svg {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      width: 20px; height: 20px; color: var(--muted); pointer-events: none;
+    }
+    .search-box input[type="text"] {
+      padding: 16px 14px 16px 44px;
+      font-size: 17px;
+      border: 2px solid rgba(255,255,255,.16);
+      background: #0b101a;
+    }
+    .search-box input[type="text"]:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(200,50,40,.18); }
 
     .rainbow { display: flex; height: 5px; }
     .rainbow span { flex: 1; }
@@ -487,7 +424,7 @@
 
     /* ── Fix Log board ── */
     .board {
-      margin-top: 14px;
+      margin-top: 18px;
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 4px;
@@ -598,7 +535,6 @@
 
     @media (prefers-reduced-motion: reduce) {
       * { animation: none !important; }
-      .chiron .track { overflow-x: auto; }
     }
 
     :focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
@@ -652,16 +588,13 @@
           <span class="eyebrow">AG Plex</span>
         </div>
         <h1>Report an Issue</h1>
-        <p>
-          Something not playing right? Pick the title, tell me what's wrong.<br>
-          Not in the library? <a href="https://agplexhub.com/request/">Make a Request.</a><br>
-          Complicated Problem? <a href="https://agplexhub.com/contact/">Contact Me.</a>
+        <p>Something not playing right? Search the title below. Each report kicks off an
+          automatic fix, and if that doesn't work, <strong>AG handles it personally.</strong></p>
+        <p class="hero-links">
+          <a href="https://agplexhub.com/request/">Make a Request</a>
+          <span>·</span>
+          <a href="https://agplexhub.com/contact/">Contact Me</a>
         </p>
-        <div class="hero-alert">
-          <span class="tag">What happens next</span>
-          Sending this report automatically kicks off a <strong>fix-it job</strong> that tries to repair
-          the file on its own. If that doesn't clear it up, <strong>AG handles it personally.</strong>
-        </div>
       </div>
       <div class="rainbow" style="height:4px">
         <span style="background:#c83228"></span>
@@ -673,19 +606,16 @@
       </div>
     </div>
 
-    <!-- ── Chiron: crawl of recent report statuses (decorative; board below is the accessible version) ── -->
-    <div class="chiron hidden" id="chiron" aria-hidden="true">
-      <span class="lbl">FIX LOG</span>
-      <div class="track"><div class="run" id="chironRun"></div></div>
-    </div>
-
     <div class="card">
 
       <!-- ── STEP: pick the title ── -->
       <div class="card-body hidden" id="s1">
         <h1>Which title?</h1>
-        <p class="sub">Search what's on the server.</p>
-        <input type="text" id="searchInput" placeholder="Search…" autocomplete="off" enterkeyhint="search">
+        <p class="sub">Start typing a movie or show.</p>
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+          <input type="text" id="searchInput" placeholder="Search the library" autocomplete="off" enterkeyhint="search" aria-label="Search the library">
+        </div>
         <p class="loading" id="loadingNote">Searching…</p>
         <div id="results"></div>
         <p class="note" id="emptyNote">
@@ -740,12 +670,12 @@
         <button class="back" data-back="s2">← Change problem</button>
         <div class="chosen chosen-strip"></div>
         <h1>Anything to add?</h1>
-        <p class="sub" id="s3sub">Optional — send it as is, or add a note.</p>
+        <p class="sub" id="s3sub">Optional. Send it as is, or add a note.</p>
         <div class="opts" id="descOpts">
           <button class="opt" id="descYes">Add a note or your name<span class="chev">›</span></button>
         </div>
         <div class="hidden" id="descBox">
-          <textarea id="detailsInput" placeholder="What's happening — and your name, if you want me to follow up."></textarea>
+          <textarea id="detailsInput" placeholder="What's happening? Add your name if you want me to follow up."></textarea>
           <p class="err" id="descErr">⚠ Add a short note, or go back and pick a different problem.</p>
         </div>
         <button class="btn" id="sendBtn">Send Report</button>
@@ -882,7 +812,7 @@
   // silently carries the submitter's Google account.
 
   // Fix Log feed — the "Public" tab of the responses sheet, published to the web as CSV
-  // (File → Share → Publish to web → Public tab → CSV). "" hides the chiron + board.
+  // (File → Share → Publish to web → Public tab → CSV). "" hides the board.
   // Columns are matched by header name (case-insensitive), so order doesn't matter:
   // Timestamp, Title, Type, Scope, Season, Episode, Issue, Ticket, Status, Public Note
   const STATUS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTtK9WGWZSlSJi58mOOBA01RBJ3OKeXeY9VyT4nnWFAKNL8C6SeoD8nz_srBPHupiqFr3_0Na53Y4Za/pub?gid=1391559080&single=true&output=csv";
@@ -890,8 +820,6 @@
   const FEED_MAX_DAYS = 100;
   const FEED_MAX_ITEMS = 60;
   const BOARD_ROWS = 10;
-  const CHIRON_ITEMS = 12;
-  const CHIRON_PX_PER_SEC = 42;
 
   const TMDB_API_KEY = "5bbfc2b05c0d49eea2032b35324ebc81";
   const MAX_RESULTS = 8;
@@ -1194,7 +1122,7 @@
     const needed = issue.code === "OTHER";
     $("s3sub").textContent = needed
       ? "Tell me what's happening so I know what to look for. Your name is optional."
-      : `Reporting: ${issue.label}. Optional — a note, or your name for a follow-up.`;
+      : `Reporting: ${issue.label}. Optional: add a note, or your name for a follow-up.`;
     $("descOpts").classList.toggle("hidden", needed);
     $("descBox").classList.toggle("hidden", !needed);
     $("descErr").classList.remove("show");
@@ -1298,7 +1226,7 @@
   });
 
   /* ══════════════════════════════════════════════════════════════
-     FIX LOG — chiron + board, fed by status_feed.gs
+     FIX LOG board, fed by the published responses sheet
      ══════════════════════════════════════════════════════════════ */
   function normStatus(s) {
     const k = String(s || "").trim().toUpperCase().replace(/\s+/g, "_");
@@ -1408,11 +1336,9 @@
         .map(i => ({ ...i, status: normStatus(i.raw) }));
       feedLoadedOnce = true;
       renderBoard();
-      renderChiron();
     } catch {
       if (!feedLoadedOnce) {
         $("board").classList.add("hidden");
-        $("chiron").classList.add("hidden");
       }
     }
   }
@@ -1449,31 +1375,6 @@
     $("board").classList.remove("hidden");
   }
 
-  function renderChiron() {
-    const c = $("chiron");
-    const items = feedItems.slice(0, CHIRON_ITEMS);
-    if (!items.length) { c.classList.add("hidden"); return; }
-
-    const one = items.map(i => {
-      const st = STATUS[i.status];
-      return `<span class="ci ${st.cls}"><i class="dot ${st.cls}"></i><b>${st.label}</b>${escapeHtml(i.title)}<em>${escapeHtml(issueLabel(i.issue, i.scope))}</em></span>`;
-    }).join("");
-
-    c.classList.remove("hidden");
-    const run = $("chironRun");
-    run.innerHTML = one;
-
-    // Repeat until one "lap" is wider than the track, then double it so the -50% loop is seamless
-    const trackW = c.querySelector(".track").clientWidth || 300;
-    const oneW = run.scrollWidth || 1;
-    const reps = Math.max(1, Math.ceil(trackW / oneW));
-    const lap = one.repeat(reps);
-    run.innerHTML = lap + lap;
-    run.style.setProperty("--dur", Math.max(18, (oneW * reps) / CHIRON_PX_PER_SEC) + "s");
-  }
-
-  $("chiron").addEventListener("click", () => $("board").scrollIntoView({ behavior: "smooth", block: "start" }));
-
   $("moreBtn").addEventListener("click", () => { feedShowAll = true; renderBoard(); });
 
   /* ── Feed boot ── */
@@ -1481,8 +1382,6 @@
     loadFeed();
     setInterval(() => { if (!document.hidden) loadFeed(); }, STATUS_REFRESH_MS);
     document.addEventListener("visibilitychange", () => { if (!document.hidden) loadFeed(); });
-    let rz = null;
-    window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => feedItems.length && renderChiron(), 250); });
   }
   </script>
 </body>
