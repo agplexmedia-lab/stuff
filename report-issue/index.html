@@ -188,13 +188,6 @@
       border-right: 2px solid #501008;
     }
 
-    .chiron .lbl::before {
-      content: "";
-      width: 6px; height: 6px; border-radius: 50%;
-      background: #fff;
-      animation: blink 1.4s steps(2, start) infinite;
-    }
-
     .chiron .track {
       flex: 1;
       overflow: hidden;
@@ -667,7 +660,7 @@
         <div class="hero-alert">
           <span class="tag">What happens next</span>
           Sending this report automatically kicks off a <strong>fix-it job</strong> that tries to repair
-          the file on its own. If that doesn't clear it up, <strong>Andrew handles it personally.</strong>
+          the file on its own. If that doesn't clear it up, <strong>AG handles it personally.</strong>
         </div>
       </div>
       <div class="rainbow" style="height:4px">
@@ -762,7 +755,7 @@
       <div class="card-body done hidden" id="s4">
         <div class="check">✓</div>
         <h1>Report Sent</h1>
-        <p class="sub" id="doneSub">A fix-it job is kicking off now. If it can't repair the file, Andrew takes it from there.</p>
+        <p class="sub" id="doneSub">A fix-it job is kicking off now. If it can't repair the file, AG takes it from there.</p>
         <p class="ticket hidden" id="ticketLine">Ticket<b id="ticketId"></b></p>
         <button class="btn btn-blue" id="againBtn">Report Another</button>
       </div>
@@ -1276,7 +1269,7 @@
     $("ticketId").textContent = sentTicket;
     $("ticketLine").classList.toggle("hidden", !sentTicket);
     $("doneSub").textContent =
-      "A fix-it job is kicking off now. If it can't repair the file, Andrew takes it from there." +
+      "A fix-it job is kicking off now. If it can't repair the file, AG takes it from there." +
       (STATUS_URL ? " Track it in the Fix Log below." : "");
 
     show("s4");
