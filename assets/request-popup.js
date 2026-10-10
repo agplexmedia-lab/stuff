@@ -57,7 +57,8 @@
   .agp-body{padding:14px 20px 20px}
   .agp-keep{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:4px}
   .agp-keep p{margin:0}
-  .agp-keep img{width:52px;height:52px;flex:0 0 auto;border-radius:6px;box-shadow:0 3px 10px rgba(0,0,0,.55)}
+  .agp-keep img{width:52px;height:52px;flex:0 0 auto;border-radius:6px;box-shadow:0 3px 10px rgba(0,0,0,.55);
+    margin-right:48px;transform:translateY(-6px)}
   .agp-eye{font-size:10.5px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;color:#1898a8}
   .agp h2{font-family:'Bungee',cursive;font-weight:400;font-size:27px;line-height:1.05;color:#fff;
     margin:6px 0 12px;text-shadow:1px 1px 0 rgba(0,0,0,.8)}
@@ -77,9 +78,9 @@
   .agp-hr{height:1px;background:rgba(255,255,255,.08);margin:16px 0 14px}
   .agp-new{margin:0 -20px;padding:16px 20px 18px;background:rgba(200,50,40,.12);
     border-top:1px solid rgba(200,50,40,.35);border-bottom:1px solid rgba(200,50,40,.35);border-left:5px solid #c83228}
-  .agp-tag{display:inline-block;padding:4px 10px;background:#e6be3c;color:#1a1408;font-family:'Bungee',cursive;
+  .agp-tag{display:inline-block;padding:4px 10px;background:#5b93d8;color:#fff;font-family:'Bungee',cursive;
     font-size:12px;letter-spacing:1.6px;margin-bottom:8px;border-radius:3px;transform:rotate(-2deg);
-    box-shadow:0 2px 0 #8a6a10,0 4px 12px rgba(230,190,60,.35)}
+    box-shadow:0 2px 0 #1a3a78,0 4px 12px rgba(77,143,223,.35)}
   .agp-new h3{font-family:'Bungee',cursive;font-weight:400;font-size:26px;line-height:1.05;color:#fff;
     margin:0 0 10px;text-shadow:1px 1px 0 rgba(0,0,0,.8)}
   .agp-new p{color:#d8c4c0;margin-bottom:14px}
