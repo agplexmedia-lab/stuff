@@ -71,12 +71,18 @@
   .agp-bar em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums}
   .agp-note{font-size:11px;color:#48566e;margin:0 0 14px}
   .agp-hr{height:1px;background:rgba(255,255,255,.08);margin:16px 0 14px}
-  .agp-tag{display:inline-block;font-family:'Bungee',cursive;font-size:11.5px;letter-spacing:1.4px;
-    color:#ff8878;margin-bottom:6px}
-  .agp-link{display:flex;align-items:center;gap:10px;min-height:52px;padding:12px 14px;margin:4px 0 4px;
-    background:rgba(200,50,40,.14);border-left:4px solid #c83228;color:#fff;text-decoration:none;
-    font-weight:700;font-size:15px}
-  .agp-link span{margin-left:auto;color:#ff8878;font-size:18px}
+  .agp-new{margin:0 -20px;padding:16px 20px 18px;background:rgba(200,50,40,.12);
+    border-top:1px solid rgba(200,50,40,.35);border-bottom:1px solid rgba(200,50,40,.35);border-left:5px solid #c83228}
+  .agp-tag{display:inline-block;padding:3px 8px;background:#c83228;color:#fff;font-family:'Bungee',cursive;
+    font-size:12px;letter-spacing:1.6px;margin-bottom:8px}
+  .agp-new h3{font-family:'Bungee',cursive;font-weight:400;font-size:26px;line-height:1.05;color:#fff;
+    margin:0 0 10px;text-shadow:1px 1px 0 rgba(0,0,0,.8)}
+  .agp-new p{color:#d8c4c0;margin-bottom:14px}
+  .agp-link{display:flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:12px 14px;
+    border:2px solid #d4483a;border-right-color:#501008;border-bottom-color:#501008;background:#a02820;
+    color:#fff;text-decoration:none;font-family:'Bungee',cursive;font-size:16px;letter-spacing:.06em;text-transform:uppercase}
+  .agp-link:active{filter:brightness(1.15)}
+  .agp-link span{font-size:20px;line-height:1}
   .agp-btn{display:block;width:100%;min-height:54px;margin-top:16px;cursor:pointer;
     border:2px solid #4888d8;border-right-color:#1a3a78;border-bottom-color:#1a3a78;border-radius:0;
     background:#2d6bbf;color:#fff;font-family:'Bungee',cursive;font-size:15px;letter-spacing:.06em;
@@ -107,7 +113,7 @@
     <div class="agp" role="dialog" aria-modal="true" aria-labelledby="agpTitle">
       <div class="agp-rb">${rainbow}</div>
       <div class="agp-grab"></div>
-      <button class="agp-x" aria-label="Close">×</button>
+      <button class="agp-x" aria-label="Close">&times;</button>
       <div class="agp-body">
         <div class="agp-eye">AG Plex</div>
         <h2 id="agpTitle">Hey! Wait a Second!</h2>
@@ -120,11 +126,14 @@
 
         <div class="agp-hr"></div>
 
-        <span class="agp-tag">New: Report an Issue</span>
-        <p>More movies means more chances something won't play right. The new Report an Issue page
-        runs a few built-in fixes automatically, and you can see the status of known issues.
-        It helps the whole community.</p>
-        <a class="agp-link" href="${REPORT_URL}">Report an Issue<span>›</span></a>
+        <div class="agp-new">
+          <span class="agp-tag">NEW</span>
+          <h3>Report an Issue</h3>
+          <p>More movies means more chances something won't play right. The new Report an Issue page
+          runs a few built-in fixes automatically, and you can see the status of known issues.
+          It helps the whole community.</p>
+          <a class="agp-link" href="${REPORT_URL}">Report an Issue<span>&rsaquo;</span></a>
+        </div>
 
         <button class="agp-btn" id="agpGo">Keep Requesting</button>
         <p class="agp-sign">Thanks! Go watch something. <b>- AG</b></p>
