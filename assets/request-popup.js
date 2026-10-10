@@ -12,14 +12,15 @@
   const MOVIE_COUNT   = "2,300";
   const REPORT_URL    = "https://agplexhub.com/report-issue/";
 
-  // Approx. US movie catalogs (Reelgood, late 2023). Update when you have fresher numbers.
+  // Total titles (movies + shows), JustWatch via Quartz, June 2024.
+  // Most recent per-service counts available. AG Plex number is movies only.
   const COMPARE = [
     { name: "AG Plex",    count: 2300, you: true },
-    { name: "Disney+",    count: 1400 },
-    { name: "Paramount+", count: 830  },
-    { name: "Apple TV+",  count: 70   }
+    { name: "Disney+",    count: 2000 },
+    { name: "Paramount+", count: 1405 },
+    { name: "Apple TV+",  count: 291  }
   ];
-  const COMPARE_NOTE = "Approx. US movie catalogs";
+  const COMPARE_NOTE = "AG Plex: movies only. Others: movies and shows combined (JustWatch, 2024).";
 
   /* ── Show once ── */
   const KEY = "agRequestPopupSeen";
@@ -112,7 +113,7 @@
         <h2 id="agpTitle">Hey! Wait a Second!</h2>
         <p>Thanks for being part of AG Plex. We just passed</p>
         <div class="agp-big"><b>${MOVIE_COUNT}</b><span>Movies</span></div>
-        <p>That's more movies than <strong>Disney+</strong>, <strong>Paramount+</strong> or <strong>Apple TV+</strong>.</p>
+        <p>That's more than <strong>Disney+</strong>, <strong>Paramount+</strong> or <strong>Apple TV+</strong> have in movies <em>and</em> shows combined.</p>
         <div class="agp-bars">${bars}</div>
         <p class="agp-note">${COMPARE_NOTE}</p>
         <p><strong>So keep requesting, it's fun!</strong></p>
