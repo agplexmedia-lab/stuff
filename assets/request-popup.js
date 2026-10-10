@@ -55,10 +55,10 @@
     color:#7080a0;font-size:24px;line-height:1;cursor:pointer}
   .agp-x:active{color:#fff}
   .agp-body{padding:14px 20px 20px}
-  .agp-keep{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:4px}
+  .agp-keep{display:flex;align-items:center;justify-content:flex-start;gap:18px;margin-top:4px}
   .agp-keep p{margin:0}
-  .agp-keep img{width:52px;height:52px;flex:0 0 auto;border-radius:6px;box-shadow:0 3px 10px rgba(0,0,0,.55);
-    margin-right:48px;transform:translateY(-6px)}
+  .agp-keep img{width:52px;height:52px;flex:0 0 auto;
+    transform:translateY(-6px)}
   .agp-eye{font-size:10.5px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;color:#1898a8}
   .agp h2{font-family:'Bungee',cursive;font-weight:400;font-size:27px;line-height:1.05;color:#fff;
     margin:6px 0 12px;text-shadow:1px 1px 0 rgba(0,0,0,.8)}
