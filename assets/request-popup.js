@@ -11,6 +11,7 @@
   const POPUP_VERSION = "2026-10-2300";            // bump to re-show
   const MOVIE_COUNT   = "2,300";
   const REPORT_URL    = "https://agplexhub.com/report-issue/";
+  const FAVICON       = "/assets/favicon-180.png";
 
   // Total titles (movies + shows), JustWatch via Quartz, June 2024.
   // Most recent per-service counts available. AG Plex number is movies only.
@@ -54,6 +55,9 @@
     color:#7080a0;font-size:24px;line-height:1;cursor:pointer}
   .agp-x:active{color:#fff}
   .agp-body{padding:14px 20px 20px}
+  .agp-keep{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:4px}
+  .agp-keep p{margin:0}
+  .agp-keep img{width:52px;height:52px;flex:0 0 auto;border-radius:6px;box-shadow:0 3px 10px rgba(0,0,0,.55)}
   .agp-eye{font-size:10.5px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;color:#1898a8}
   .agp h2{font-family:'Bungee',cursive;font-weight:400;font-size:27px;line-height:1.05;color:#fff;
     margin:6px 0 12px;text-shadow:1px 1px 0 rgba(0,0,0,.8)}
@@ -73,8 +77,9 @@
   .agp-hr{height:1px;background:rgba(255,255,255,.08);margin:16px 0 14px}
   .agp-new{margin:0 -20px;padding:16px 20px 18px;background:rgba(200,50,40,.12);
     border-top:1px solid rgba(200,50,40,.35);border-bottom:1px solid rgba(200,50,40,.35);border-left:5px solid #c83228}
-  .agp-tag{display:inline-block;padding:3px 8px;background:#c83228;color:#fff;font-family:'Bungee',cursive;
-    font-size:12px;letter-spacing:1.6px;margin-bottom:8px}
+  .agp-tag{display:inline-block;padding:4px 10px;background:#e6be3c;color:#1a1408;font-family:'Bungee',cursive;
+    font-size:12px;letter-spacing:1.6px;margin-bottom:8px;border-radius:3px;transform:rotate(-2deg);
+    box-shadow:0 2px 0 #8a6a10,0 4px 12px rgba(230,190,60,.35)}
   .agp-new h3{font-family:'Bungee',cursive;font-weight:400;font-size:26px;line-height:1.05;color:#fff;
     margin:0 0 10px;text-shadow:1px 1px 0 rgba(0,0,0,.8)}
   .agp-new p{color:#d8c4c0;margin-bottom:14px}
@@ -122,12 +127,15 @@
         <p>That's more than <strong>Disney+</strong>, <strong>Paramount+</strong> or <strong>Apple TV+</strong>.</p>
         <div class="agp-bars">${bars}</div>
         <p class="agp-note">${COMPARE_NOTE}</p>
-        <p><strong>So keep requesting, it's fun!</strong></p>
+        <div class="agp-keep">
+          <p><strong>So keep requesting, it's fun!</strong></p>
+          <img src="${FAVICON}" alt="" onerror="this.remove()">
+        </div>
 
         <div class="agp-hr"></div>
 
         <div class="agp-new">
-          <span class="agp-tag">NEW</span>
+          <span class="agp-tag">&#10024; NEW</span>
           <h3>Report an Issue</h3>
           <p>More movies means more chances something won't play right. The new Report an Issue page
           runs a few built-in fixes automatically, and you can see the status of known issues.
