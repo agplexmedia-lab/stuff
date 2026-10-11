@@ -136,9 +136,9 @@
         <div class="agp-hr"></div>
 
         <div class="agp-new">
-          <span class="agp-tag">&#10024; NEW</span>
+          <span class="agp-tag">NEW &#10024;</span>
           <h3>Report an Issue</h3>
-          <p>More movies means more chances something won't play right. The new Report an Issue page
+          <p><strong>More movies means more chances something won't play right.</strong> The new Report an Issue page
           runs a few built-in fixes automatically, and you can see the status of known issues.
           It helps the whole community.</p>
           <a class="agp-link" href="${REPORT_URL}">Report an Issue<span>&rsaquo;</span></a>
