@@ -21,7 +21,7 @@
     { name: "Paramount+", count: 1405 },
     { name: "Apple TV+",  count: 291  }
   ];
-  const COMPARE_NOTE = "Source: JustWatch, 2024.";
+  const COMPARE_NOTE = "Source: JustWatch.";
 
   /* ── Show once ── */
   const KEY = "agRequestPopupSeen";
